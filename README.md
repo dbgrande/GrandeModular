@@ -64,6 +64,8 @@ Scale
 
 QuantMT
 -------
+***Updated for v1.1.0***
+
 ![QuantMT](images/QuantMT.png "QuantMT")
 
 **A 1-TET through 34-TET microtonal quantizer.**
@@ -74,11 +76,17 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 
-- **Note buttons:** Buttons between the two blue lights enable valid notes. Notes outside this range are ignored.
+- **Note buttons:** Buttons between the two blue lights (now on left for v1.1.0) enable valid notes. Notes outside this range are ignored.
 
-- **Set All:** Enables all notes.
+- **Reference lights (New for v1.1.0):** Optional lights (on right of notes) that can be set and enabled with the Ref button. Just to give a visual reference scale to help with setting and changing scales. Lights maintain state through power cycles.
 
-- **Clear All:** Disables all notes, except for root note.
+- **Set:** Enables all valid notes. (New for v1.1.0, only enables notes up to Notes/Oct – 1.)
+
+- **Clear:** Disables all notes, except for root note.
+
+- **Mode (New for v1.1.0):** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
+
+- **Ref (New for v1.1.0):** Sets and enables reference lights based on current note buttons. Reference lights stay on until Ref button is turned off.
 
 
 ***

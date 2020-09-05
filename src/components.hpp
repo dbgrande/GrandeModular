@@ -104,3 +104,10 @@ struct RoundLargeRotarySwitch : RoundLargeBlackKnob {
 		paramQuantity->setValue(roundf(paramQuantity->getValue()));
 	}
 };
+
+template <typename TBase>
+struct PetiteLight : TBase {
+	PetiteLight() {
+		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+	}
+};

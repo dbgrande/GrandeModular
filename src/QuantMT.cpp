@@ -9,6 +9,8 @@ struct QuantMT : Module {
 		SEL_ALL_PARAM,
 		CLEAR_ALL_PARAM,
 		ENUMS(NOTE_PARAMS, 34),
+		MODE_PARAM,
+		REF_PARAM,
 		NUM_PARAMS
 	};
 	enum InputIds {
@@ -23,6 +25,7 @@ struct QuantMT : Module {
 	};
 	enum LightIds {
 		ENUMS(OCTAVE_LIGHTS, 35),
+		ENUMS(REF_LIGHTS, 34),
 		NUM_LIGHTS
 	};
 
@@ -65,8 +68,12 @@ struct QuantMT : Module {
 		configParam(NOTE_PARAMS + 31, 0.0, 1.0, 0.0, "Note31", "");
 		configParam(NOTE_PARAMS + 32, 0.0, 1.0, 0.0, "Note32", "");
 		configParam(NOTE_PARAMS + 33, 0.0, 1.0, 0.0, "Note33", "");
-		configParam(SEL_ALL_PARAM, 0.0, 1.0, 0.0, "Set All", "");
-		configParam(CLEAR_ALL_PARAM, 0.0, 1.0, 0.0, "Clear All", "");
+		configParam(SEL_ALL_PARAM, 0.0, 1.0, 0.0, "Set", "");
+		configParam(CLEAR_ALL_PARAM, 0.0, 1.0, 0.0, "Clear", "");
+		configParam(MODE_PARAM, 0.0, 1.0, 0.0, "Rotate Mode", "");
+		configParam(REF_PARAM, 0.0, 1.0, 0.0, "Reference Scale", "");
+
+		onReset();
 	}
 
 	dsp::PulseGenerator pulseGenerators[16];
@@ -82,6 +89,8 @@ struct QuantMT : Module {
 	float transpose[16];
 	float cv_out[16];
 	float last_cv_out[16] = { 0.f };
+	int last_mode = 0;
+ 	bool refstate[35]; // reflight state, 0 = last_ref, 1..35 = light[0..34]
 
 	void process(const ProcessArgs &args) override {
 		if (param_timer == 0) {
@@ -95,15 +104,20 @@ struct QuantMT : Module {
 			// makes the input voltage range for each note equivalent
 			equi_likely = std::round(params[EQUI_PARAM].getValue());
 
+			// define whether to display reference scale
+			bool ref = clamp((int)(params[REF_PARAM].getValue()), 0, 1) == 1;
+
 			// equal temperament size
 			equal_temp = clamp((int)(params[SIZE_PARAM].getValue()), 1, 34);
 
-			// set all and clear all buttons
+			// set and clear buttons
 			int sel_all = clamp((int)(params[SEL_ALL_PARAM].getValue()), 0, 1);
 			int clear_all = clamp((int)(params[CLEAR_ALL_PARAM].getValue()), 0, 1);
 			if (sel_all == 1) {
-				for (int i = 0; i < 34; i++)
+				for (int i = 0; i < equal_temp; i++)  // set all up to notes/oct
 					params[NOTE_PARAMS + i].setValue(1);
+				for (int i = equal_temp; i < 34; i++)  // clear unused notes
+					params[NOTE_PARAMS + i].setValue(0);
 			}
 			else if (clear_all == 1) {  // except for root value
 				params[NOTE_PARAMS + 0].setValue(1);
@@ -112,9 +126,44 @@ struct QuantMT : Module {
 			}
 
 			// scale is set by interval buttons
-			float input_scale[35];
+			int input_scale[35];
 			for (int i = 0; i < 34; i++)
-				input_scale[i] = std::round(params[NOTE_PARAMS + i].getValue());
+				input_scale[i] = clamp((int)(params[NOTE_PARAMS + i].getValue()), 0, 1);
+
+			// capture reference scale when ref button enabled
+			if (ref && !refstate[0]) {
+				for (int i = 0; i < equal_temp; i++)
+					refstate[i+1] = input_scale[i] == 1;
+				for (int i = equal_temp; i < 34; i++)
+					refstate[i+1] = false;
+			}
+			refstate[0] = ref;
+
+			// display reference scale
+			for (int i = 0; i < 34; i++)
+				lights[REF_LIGHTS + i].setBrightness(ref && i < equal_temp && refstate[i+1]);
+
+			// rotate mode down
+			int mode = clamp((int)(params[MODE_PARAM].getValue()), 0, 1);
+			if (mode == 1 && last_mode == 0) {
+				int copy_scale[35];
+				int step;
+				for (int i = 0; i < equal_temp; i++)  // copy scale
+					copy_scale[i] = input_scale[i];
+				if (input_scale[0] == 0)  // root not selected, so rotate 1
+					step = 1;
+				else {  // root selected so figure out step to next note
+					for (step = 1 ; step < equal_temp && input_scale[step] == 0; step++)
+						;
+				}
+				if (step < equal_temp) {  // at least one other note enabled
+					for (int i = 0; i < equal_temp; i++) {
+						input_scale[i] = copy_scale[(i + step) % equal_temp];
+						params[NOTE_PARAMS + i].setValue(input_scale[i]);
+					}
+				}
+			}
+			last_mode = mode;
 
 			// lights show root and top note
 			for (int i = 0; i < 35; i++)
@@ -126,7 +175,7 @@ struct QuantMT : Module {
 			// generate scale[] with enabled notes up to equal_temp size
 			note_per_oct = 0;
 			for (int i = 0, j = 0; i < equal_temp; i++) {
-				if (input_scale[i] > 0.5f) {
+				if (input_scale[i] == 1) {
 					scale[j++] = i;
 					note_per_oct++;
 				}
@@ -248,6 +297,38 @@ struct QuantMT : Module {
 		outputs[CV_OUT_OUTPUT].setChannels(channels);
 		outputs[TRIGGER_OUTPUT].setChannels(channels);
 	}
+
+	void onReset() override {
+		for (int i = 0; i < 35; i++) {
+			refstate[i] = false;
+		}
+	}
+
+	json_t* dataToJson() override {
+		json_t* rootJ = json_object();
+
+		// refstates
+		json_t* refstatesJ = json_array();
+		for (int i = 0; i < 35; i++) {
+			json_t* refstateJ = json_boolean(refstate[i]);
+			json_array_append_new(refstatesJ, refstateJ);
+		}
+		json_object_set_new(rootJ, "refstates", refstatesJ);
+
+		return rootJ;
+	}
+
+	void dataFromJson(json_t* rootJ) override {
+		// refstates
+		json_t* refstatesJ = json_object_get(rootJ, "refstates");
+		if (refstatesJ) {
+			for (int i = 0; i < 35; i++) {
+				json_t* refstateJ = json_array_get(refstatesJ, i);
+				if (refstateJ)
+					refstate[i] = json_boolean_value(refstateJ);
+			}
+		}
+	}
 };
 
 
@@ -259,12 +340,15 @@ struct QuantMTWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(22.24, 38.50)), module, QuantMT::SIZE_PARAM));
+		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(22.24, 39.50)), module, QuantMT::SIZE_PARAM));
 
-		addParam(createParam<TL1105>(mm2px(Vec(18.5-2.709, 23.5-2.709)), module, QuantMT::SEL_ALL_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(26.0-2.709, 23.5-2.709)), module, QuantMT::CLEAR_ALL_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(18.5-2.709, 23.5-2.709-6.5)), module, QuantMT::SEL_ALL_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(26.0-2.709, 23.5-2.709-6.5)), module, QuantMT::CLEAR_ALL_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 54.0)), module, QuantMT::ROOT_INPUT));
+		addParam(createParam<TL1105>(mm2px(Vec(18.5-2.709, 23.5-2.709+2.5)), module, QuantMT::MODE_PARAM));
+		addParam(createParam<TL1105Red>(mm2px(Vec(26.0-2.709, 23.5-2.709+2.5)), module, QuantMT::REF_PARAM));
+
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 54.5)), module, QuantMT::ROOT_INPUT));
 
 		addParam(createParam<CKSSThree>(mm2px(Vec(16.25, 65.5)), module, QuantMT::ROUNDING_PARAM));
 		addParam(createParam<CKSS>(mm2px(Vec(23.75, 67.0)), module, QuantMT::EQUI_PARAM));
@@ -276,10 +360,12 @@ struct QuantMTWidget : ModuleWidget {
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.24, 115.0)), module, QuantMT::TRIGGER_OUTPUT));
 
 		for (int i = 0; i < 34; i++)
-			addParam(createParam<RectButton>(mm2px(Vec(5.2, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));
+			addParam(createParam<RectButton>(mm2px(Vec(5.2+0.25, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));
 
 		for (int i = 0; i < 35; i++)
-			addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(13.60, 122.50 + 1.6 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
+			addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(4.25+0.5, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
+		for (int i = 0; i < 34; i++)
+			addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(13.25+0.30, 122.50 - 3.50*i)), module, QuantMT::REF_LIGHTS + i));
 	}
 };
 
