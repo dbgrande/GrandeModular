@@ -111,3 +111,13 @@ struct PetiteLight : TBase {
 		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
 	}
 };
+
+struct SmallLEDButton : SvgSwitch {
+  SmallLEDButton() {
+    momentary = true;
+    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SmallLEDButton0.svg")));
+    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SmallLEDButton1.svg")));
+    fb->removeChild(shadow);
+    delete shadow;
+  }
+};

@@ -1,12 +1,6 @@
 #include "plugin.hpp"
 
-// Approximate Just scale by using a large equal temperament
-// chosen to minimize worst case error for defined intervals
-// 224  2.016¢
-// 270  1.008¢
-// 342  0.753¢
-
-#define MAX_SCALE 270
+#define MAX_SCALE 34
 
 struct QuantIntervals : Module {
 	enum ParamIds {
@@ -15,20 +9,12 @@ struct QuantIntervals : Module {
 		SIZE_PARAM,
 		ENUMS(INTERVAL_PARAMS, 67),
 		TOLERANCE_PARAM,
-		SET_ALL_PARAM,
 		CLEAR_ALL_PARAM,
-		SET_SMALL_PARAM,
 		SHOW_SMALL_PARAM,
-		CLEAR_LARGE_PARAM,
-		CLEAR_MEDIUM_PARAM,
-		ADD_11S_PARAM,
-		ADD_7S_PARAM,
-		ADD_5S_PARAM,
-		ADD_3S_PARAM,
 		SEL_ENABLED_PARAM,
 		SHOW_ALLOWED_PARAM,
-		JUST_PARAM,
-		SHOW_NOTES_PARAM,
+		ENUMS(INTERVAL_LIGHT_PARAMS, 67),
+		ENUMS(NOTE_LIGHT_PARAMS, 34),
 		NUM_PARAMS
 	};
 	enum InputIds {
@@ -43,6 +29,7 @@ struct QuantIntervals : Module {
 	};
 	enum LightIds {
 		ENUMS(INTERVAL_LIGHTS, 67),
+		ENUMS(NOTE_LIGHTS, 34),
 		NUM_LIGHTS
 	};
 
@@ -119,20 +106,14 @@ struct QuantIntervals : Module {
 		configParam(INTERVAL_PARAMS + 65, 0.0, 1.0, 0.0, "1137.0", "");
 		configParam(INTERVAL_PARAMS + 66, 0.0, 1.0, 0.0, "1151.2", "");
 		configParam(TOLERANCE_PARAM, 0.0, 50.0, 20.0, "Tolerance", "¢");
-		configParam(SET_ALL_PARAM, 0.0, 1.0, 0.0, "Set All", "");
 		configParam(CLEAR_ALL_PARAM, 0.0, 1.0, 0.0, "Clear All", "");
-		configParam(SET_SMALL_PARAM, 0.0, 1.0, 0.0, "Set Small Ratios", "");
 		configParam(SHOW_SMALL_PARAM, 0.0, 1.0, 0.0, "Show Small Valid", "");
-		configParam(CLEAR_LARGE_PARAM, 0.0, 1.0, 0.0, "Clear Large Ratios", "");
-		configParam(CLEAR_MEDIUM_PARAM, 0.0, 1.0, 0.0, "Clear Medium Ratios", "");
-		configParam(ADD_11S_PARAM, 0.0, 1.0, 0.0, "Add 11 Ratios", "");
-		configParam(ADD_7S_PARAM, 0.0, 1.0, 0.0, "Add 7 Ratios", "");
-		configParam(ADD_5S_PARAM, 0.0, 1.0, 0.0, "Add 5 Ratios", "");
-		configParam(ADD_3S_PARAM, 0.0, 1.0, 0.0, "Add 3 Ratios", "");
-		configParam(SHOW_ALLOWED_PARAM, 0.0, 1.0, 0.0, "Show Valid", "");
+		configParam(SHOW_ALLOWED_PARAM, 0.0, 1.0, 0.0, "Show All Valid", "");
 		configParam(SEL_ENABLED_PARAM, 0.0, 1.0, 0.0, "Clear Invalid", "");
-		configParam(JUST_PARAM, 0.0, 1.0, 0.0, "Just Intervals", "");
-		configParam(SHOW_NOTES_PARAM, 0.0, 1.0, 0.0, "Show Notes", "");
+		for (int i = 0; i < 67; i++)
+			configParam(INTERVAL_LIGHT_PARAMS + i, 0.0, 1.0, 0.0, "i" + std::to_string(i), "");
+		for (int i = 0; i < 34; i++)
+			configParam(NOTE_LIGHT_PARAMS + i, 0.0, 1.0, 0.0, "n" + std::to_string(i), "");
 	}
 
 	dsp::PulseGenerator pulseGenerators[16];
@@ -186,13 +167,8 @@ struct QuantIntervals : Module {
 			// makes the input voltage range for each note equivalent
 			equi_likely = std::round(params[EQUI_PARAM].getValue());
 
-			// check if using just scale, approximated with a MAX_SCALE define
-			int just = clamp((int)(params[JUST_PARAM].getValue()), 0, 1);
-
 			// equal temperament size
 			equal_temp = clamp((int)(params[SIZE_PARAM].getValue()), 1, 34);
-			if (just == 1)
-				equal_temp = MAX_SCALE;
 			step_size = 1.f / equal_temp;
 
 			// tolerance of note matching interval
@@ -208,19 +184,23 @@ struct QuantIntervals : Module {
 				interval_inputs[i] = clamp((int)(params[INTERVAL_PARAMS + i].getValue()), 0, 1);
 			interval_inputs[num_intervals] = interval_inputs[0];  // map unison to octave
 
-			int set_all = clamp((int)(params[SET_ALL_PARAM].getValue()), 0, 1);
+			// determine if any interval lights pressed
+			int interval_light_pressed = -1;
+			for (int i = 0; i < 67; i++) {
+				if (clamp((int)(params[INTERVAL_LIGHT_PARAMS + i].getValue()), 0, 1) == 1)
+					interval_light_pressed = i;
+			}
+			// determine if any note lights pressed
+			int note_light_pressed = -1;
+			for (int i = 0; i < equal_temp; i++) {
+				if (clamp((int)(params[NOTE_LIGHT_PARAMS + i].getValue()), 0, 1) == 1)
+					note_light_pressed = i;
+			}
+
 			int clear_all = clamp((int)(params[CLEAR_ALL_PARAM].getValue()), 0, 1);
-			int set_small = clamp((int)(params[SET_SMALL_PARAM].getValue()), 0, 1);
 			int show_small = clamp((int)(params[SHOW_SMALL_PARAM].getValue()), 0, 1);
-			int clear_large = clamp((int)(params[CLEAR_LARGE_PARAM].getValue()), 0, 1);
-			int clear_medium = clamp((int)(params[CLEAR_MEDIUM_PARAM].getValue()), 0, 1);
-			int add_11s = clamp((int)(params[ADD_11S_PARAM].getValue()), 0, 1);
-			int add_7s = clamp((int)(params[ADD_7S_PARAM].getValue()), 0, 1);
-			int add_5s = clamp((int)(params[ADD_5S_PARAM].getValue()), 0, 1);
-			int add_3s = clamp((int)(params[ADD_3S_PARAM].getValue()), 0, 1);
 			int sel_enabled = clamp((int)(params[SEL_ENABLED_PARAM].getValue()), 0, 1);
 			int show_allowed = clamp((int)(params[SHOW_ALLOWED_PARAM].getValue()), 0, 1);
-			int show_notes = clamp((int)(params[SHOW_NOTES_PARAM].getValue()), 0, 1);
 
 			// initialize
 			int note_used[MAX_SCALE + 1];  // include octave
@@ -259,48 +239,10 @@ struct QuantIntervals : Module {
 			}
 
 			// these will take effect next time around
-			if (set_all == 1) {
-				for (int i = 0; i < num_intervals; i++)
-					params[INTERVAL_PARAMS + i].setValue(1);
-			}
-			else if (clear_all == 1) {  // except for root value
+			if (clear_all == 1) {  // except for root value
 				params[INTERVAL_PARAMS + 0].setValue(1);
 				for (int i = 1; i < num_intervals; i++)
 					params[INTERVAL_PARAMS + i].setValue(0);
-			}
-			else if (set_small == 1) {
-				for (int i = 0; i < num_intervals; i++)
-					params[INTERVAL_PARAMS + i].setValue(ratio_size[i] == 1 ? 1 : 0);
-			}
-			else if (clear_large == 1) {
-				for (int i = 0; i < num_intervals; i++)
-					if (ratio_size[i] >= 3)
-						params[INTERVAL_PARAMS + i].setValue(0);
-			}
-			else if (clear_medium == 1) {
-				for (int i = 0; i < num_intervals; i++)
-					if (ratio_size[i] >= 2)
-						params[INTERVAL_PARAMS + i].setValue(0);
-			}
-			else if (add_11s == 1) {
-				for (int i = 1; i < num_intervals; i++)
-					if (limit_lu[i] == 11)
-						params[INTERVAL_PARAMS + i].setValue(1);
-			}
-			else if (add_7s == 1) {
-				for (int i = 1; i < num_intervals; i++)
-					if (limit_lu[i] == 7)
-						params[INTERVAL_PARAMS + i].setValue(1);
-			}
-			else if (add_5s == 1) {
-				for (int i = 1; i < num_intervals; i++)
-					if (limit_lu[i] == 5)
-						params[INTERVAL_PARAMS + i].setValue(1);
-			}
-			else if (add_3s == 1) {
-				for (int i = 1; i < num_intervals; i++)
-					if (limit_lu[i] == 3)
-						params[INTERVAL_PARAMS + i].setValue(1);
 			}
 			else if (sel_enabled == 1) {
 				for (int i = 0; i < num_intervals; i++)
@@ -316,8 +258,9 @@ struct QuantIntervals : Module {
 				input_scale[i] = (note_used[i] >= 0) ? 1 : 0;
 
 			// show all allowed intervals by simulating all intervals selected
+			// show notes allowed to be used, so can display later
+			int d_note_used[MAX_SCALE + 1];  // include octave
 			if (show_allowed == 1  || show_small == 1) {
-				int d_note_used[MAX_SCALE + 1];  // include octave
 				for (int i = 0; i < MAX_SCALE + 1; i++)
 					d_note_used[i] = -1;  // -1 == unused, 0 - 31, or 0 - 61 == pointer to interval
 
@@ -356,19 +299,52 @@ struct QuantIntervals : Module {
 						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
 				}
 			}
-			// show actual notes selected (except when using just scale)
-			else if (show_notes == 1 && equal_temp <= 34) {
-				int n;
-				for (n = 0; n < equal_temp; n++) {
-					lights[INTERVAL_LIGHTS + 2 * n].setBrightness((note_used[n] >= 0) ? 1 : 0);
-					lights[INTERVAL_LIGHTS + 2 * n + 1].setBrightness(0);
+			else if (interval_light_pressed >= 0) {
+				// first convert interval to note, could be none, if note exists repeat note_light_pressed code below
+				// convert interval to note, depending on tolerance, could be none
+				float a = interval_lu[interval_light_pressed] * equal_temp;
+				int note = (int) roundf(a);
+				float e = fabsf(a - note) / equal_temp;
+				if (note == equal_temp)  // root can round to 35:18 if error big enough
+					note = 0;
+				if (e <= tolerance) {
+					for (int i = 0; i < 67; i++) {
+						float error = fabsf(((float) note / equal_temp) - interval_lu[i]);
+						if (note == 0 && i == 66)  // root can match 35:18 if tolerance big enough.
+							error = 1.f - interval_lu[i];
+						if (error <= fminf(tolerance, 0.5f / equal_temp)) {
+							if (error < 0.005f)  // 6¢
+								lights[INTERVAL_LIGHTS + i].setBrightness(1.f);
+							else
+								lights[INTERVAL_LIGHTS + i].setBrightness(0.005f / error);
+						}
+						else
+							lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
+					}
 				}
-				for (n = 2 * n ; n < 67; n++) {
-					lights[INTERVAL_LIGHTS + n].setBrightness(0);
+				else {
+					for (int i = 0; i < 67; i++)
+						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
+				}
+			}
+			else if (note_light_pressed >= 0) {
+				// show all intervals valid for pressed note, based on set tolerance
+				for (int i = 0; i < 67; i++) {
+					float error = fabsf(((float) note_light_pressed / equal_temp) - interval_lu[i]);
+					if (note_light_pressed == 0 && i == 66)  // root can match 35:18 if tolerance big enough.
+						error = 1.f - interval_lu[i];
+					if (error <= fminf(tolerance, 0.5f / equal_temp)) {
+						if (error < 0.005f)  // 6¢
+							lights[INTERVAL_LIGHTS + i].setBrightness(1.f);
+						else
+							lights[INTERVAL_LIGHTS + i].setBrightness(0.005f / error);
+					}
+					else
+						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
 				}
 			}
 			else {
-				// show normal lights, which give error for selected intervals
+				// show normal interval lights, which give error for selected intervals
 				for (int i = 0; i < 67; i++) {
 					if (interval_used[i] > -0.5) {  //interval used
 					float error = interval_used[i] * 1200.f / 6.f;  // 6¢
@@ -381,6 +357,58 @@ struct QuantIntervals : Module {
 						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
 				}
 			}
+
+			// show note lights
+			if (note_light_pressed >= 0) {
+				for (int i = 0; i < 34; i++) {
+					// just show note pressed
+					if (i == note_light_pressed)
+						lights[NOTE_LIGHTS + i].setBrightness(1);
+					else
+						lights[NOTE_LIGHTS + i].setBrightness(0);
+				}
+			}
+			else if (interval_light_pressed >= 0) {
+				// convert interval to note, depending on tolerance, could be none
+				float a = interval_lu[interval_light_pressed] * equal_temp;
+				int note = (int) roundf(a);
+				float e = fabsf(a - note) / equal_temp;
+				if (note == equal_temp)  // 35:18 can round to 1:1 if error big enough
+					note = 0;
+				if (e <= tolerance) {
+					for (int i = 0; i < 34; i++) {
+						// just show note pressed
+						if (i == note)
+							lights[NOTE_LIGHTS + i].setBrightness(1);
+						else
+							lights[NOTE_LIGHTS + i].setBrightness(0);
+					}
+				}
+				else {
+					for (int i = 0; i < 34; i++)
+						lights[NOTE_LIGHTS + i].setBrightness(0);
+				}
+			}
+			else if (show_allowed == 1  || show_small == 1) {
+				int n;
+				for (n = 0; n < equal_temp; n++) {
+					lights[NOTE_LIGHTS + n].setBrightness((d_note_used[n] >= 0) ? 1 : 0);
+				}
+				for (n = n ; n < 34; n++) {
+					lights[NOTE_LIGHTS + n].setBrightness(0);
+				}
+			}
+			else {
+				// show normal note lights
+				int n;
+				for (n = 0; n < equal_temp; n++) {
+					lights[NOTE_LIGHTS + n].setBrightness((note_used[n] >= 0) ? 1 : 0);
+				}
+				for (n = n ; n < 34; n++) {
+					lights[NOTE_LIGHTS + n].setBrightness(0);
+				}
+			}
+
 			// generate scale[] with enabled notes up to equal_temp size
 			note_per_oct = 0;
 			for (int i = 0, j = 0; i < equal_temp; i++) {
@@ -519,27 +547,14 @@ struct QuantIntervalsWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 17.50-2.709)), module, QuantIntervals::SET_SMALL_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(62.00+0.5-2.709, 17.50-2.709)), module, QuantIntervals::SET_ALL_PARAM));
 		addParam(createParam<TL1105>(mm2px(Vec(74.00-2.709, 17.50-2.709)), module, QuantIntervals::CLEAR_ALL_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(62.00-2.709, 17.50-2.709)), module, QuantIntervals::SHOW_ALLOWED_PARAM));
 
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_SMALL_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(62.00+0.5-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_ALLOWED_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(62.00-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_SMALL_PARAM));
 		addParam(createParam<TL1105>(mm2px(Vec(74.00-2.709, 29.75-2.709)), module, QuantIntervals::SEL_ENABLED_PARAM));
-
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 42.00-2.709)), module, QuantIntervals::CLEAR_LARGE_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 54.25-2.709)), module, QuantIntervals::CLEAR_MEDIUM_PARAM));
-
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 66.50-2.709)), module, QuantIntervals::ADD_11S_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 75.25-2.709)), module, QuantIntervals::ADD_7S_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 84.00-2.709)), module, QuantIntervals::ADD_5S_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 92.75-2.709)), module, QuantIntervals::ADD_3S_PARAM));
 
 		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(68.00, 43.75)), module, QuantIntervals::TOLERANCE_PARAM));
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(68.00, 63.00)), module, QuantIntervals::SIZE_PARAM));
-
-		addParam(createParam<TL1105Red>(mm2px(Vec(51.00-2.709, 105.0-2.709)), module, QuantIntervals::JUST_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(51.00-2.709, 117.25-2.709)), module, QuantIntervals::SHOW_NOTES_PARAM));
 
 		addParam(createParam<CKSSThree>(mm2px(Vec(59.75, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
 		addParam(createParam<CKSS>(mm2px(Vec(71.75, 80.00)), module, QuantIntervals::EQUI_PARAM));
@@ -557,8 +572,20 @@ struct QuantIntervalsWidget : ModuleWidget {
 
 		for (int i = 0; i < 67; i += 2)
 			addChild(createLightCentered<SmallLight<BlueLight>>(mm2px(Vec(20.25+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHTS + i));
+		for (int i = 0; i < 67; i += 2)
+			addParam(createParam<SmallLEDButton>(mm2px(Vec(20.25+1.325-1.5, 122.50-1.5 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHT_PARAMS + i));
+
 		for (int i = 1; i < 67; i += 2)
 			addChild(createLightCentered<SmallLight<BlueLight>>(mm2px(Vec(23.75+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHTS + i));
+		for (int i = 1; i < 67; i += 2)
+			addParam(createParam<SmallLEDButton>(mm2px(Vec(23.75+1.325-1.5, 122.50-1.5 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHT_PARAMS + i));
+
+
+		for (int i = 0; i < 34; i++)
+			addChild(createLightCentered<SmallLight<BlueLight>>(mm2px(Vec(52.75, 122.50 - 3.5*i)), module, QuantIntervals::NOTE_LIGHTS + i));
+
+		for (int i = 0; i < 34; i++)
+			addParam(createParam<SmallLEDButton>(mm2px(Vec(52.75-1.5, 122.50-1.5 - 3.5*i)), module, QuantIntervals::NOTE_LIGHT_PARAMS + i));
 	}
 };
 

@@ -93,13 +93,24 @@ For this quantizer the valid notes are defined directly by number.
 
 QuantIntervals
 --------------
+***Updated for v1.2.0***
+
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
+**v1.2.0 update:** I've drastically simplified the controls for QuantIntervals. This in turn allowed me to make the mapping between intervals and notes much more direct.
+
+- Since musical scales typically have five to ten notes, the **only** way to now add notes is by individually using the interval buttons.
+
+- I've also added a separate note display so that intervals and notes can both always be seen.
+
+- And finally, I've made **all** the lights also buttons (all 101 of them). Pressing any light highlights *(if they exist)* the corresponding note on the note display, and **all** the corresponding intervals on the interval display.
+
+
 For this quantizer the valid notes are defined indirectly by pitch intervals.
 
-- The interval buttons select desired pitch intervals, which now include all 11-Limit intervals up to 36.
+- The interval buttons select desired pitch intervals, which include all 11-Limit intervals up to 36.
 
 - However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is.
 
@@ -107,41 +118,25 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - **Quantizer features:** The same as **Quant** (see above), minus the external scale input. 
 
-**Note on sizes**
-
-With so many different intervals, I needed to provide ways to select and filter out subsets of ratios.
-
-- **small** = small ratios, with denominators ≤ 10, or 16:15 (C#), which is the only 12-TET chromatic note that wouldn't qualify as small.
-- **medium** = ratios in the 10's and 20's range.
-- **large** = ratios with 30+, or with denominators ≥ 25.
-
 **Controls**
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 
 - **Tolerance:** Defines required accuracy for matching, from 0 to 50 cents (default 20 cents).
 
-- **Set Small:** Enables just the **small** intervals.
-
-- **Set All:** Enables **all** intervals.
+- **Show All:** Uses the lights to show **all** closest intervals within tolerance of a valid note. *(They will now have to be selected individually.)*
 
 - **Clear All:** Disables all intervals, except 1/1 unison.
 
-- **Show Small:** Uses the lights to show all closest **small** intervals within tolerance of a valid note.
-
-- **Show Valid:** Uses the lights to show **all** closest intervals within tolerance of a valid note.
+- **Show Small:** Uses the lights to show all closest **small-number** intervals within tolerance of a valid note. *(They will also have to be selected individually.)*
 
 - **Clear Invalid:** Disables all intervals that don't have a light showing.
 
-- **Remove Large:** Disables all **large** intervals.
+- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note.
 
-- **Remove Medium:** — Disables all **medium** (and **large**) intervals.
+- **Note lights (new for v1.2.0):** Now displays enabled notes using separate note lights.
 
-- **Add 11s/7s/5s/3s:** — Enables all intervals with the specified factor to that limit. For example, **Add 7s** will add 7:5 and 15:14, but not 11:7.
-
-- **Just:** Gives an approximation to Just temperament (independent of Notes/Oct). Current worst case error is one cent.
-
-- **Show Notes:** Displays actual notes being used on left column of blue lights (root note at bottom). Useful for understanding what this quantizer is doing, and allows converting its results to another quantizer, like **QuantMT.** However, this feature is disabled when using Just temperament.
+- **LED Buttons (new for v1.2.0):** All lights have been converted to LED buttons, both the interval lights and the note lights. Pressing any one of these highlights *(if they exist)* the corresponding note on the note display, and **all** the corresponding intervals on the interval display.
 
 
 ***
