@@ -39,70 +39,70 @@ struct QuantIntervals : Module {
 		configParam(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", "");
 		configParam(SIZE_PARAM, 1, 34, 12, "Notes per Octave", "");
 		configParam(INTERVAL_PARAMS, 0.0, 1.0, 1.0, "0.0", "");  // Unison
-		configParam(INTERVAL_PARAMS + 1, 0.0, 1.0, 0.0, "48.8", "");  // 36/35
-		configParam(INTERVAL_PARAMS + 2, 0.0, 1.0, 0.0, "53.3", "");
-		configParam(INTERVAL_PARAMS + 3, 0.0, 1.0, 0.0, "63.0", "");
-		configParam(INTERVAL_PARAMS + 4, 0.0, 1.0, 0.0, "70.7", "");
-		configParam(INTERVAL_PARAMS + 5, 0.0, 1.0, 0.0, "80.5", "");
-		configParam(INTERVAL_PARAMS + 6, 0.0, 1.0, 0.0, "84.5", "");
-		configParam(INTERVAL_PARAMS + 7, 0.0, 1.0, 0.0, "101.9", "");
-		configParam(INTERVAL_PARAMS + 8, 0.0, 1.0, 0.0, "111.7", "");
-		configParam(INTERVAL_PARAMS + 9, 0.0, 1.0, 0.0, "119.4", "");
-		configParam(INTERVAL_PARAMS + 10, 0.0, 1.0, 0.0, "133.2", "");
-		configParam(INTERVAL_PARAMS + 11, 0.0, 1.0, 0.0, "150.6", "");
-		configParam(INTERVAL_PARAMS + 12, 0.0, 1.0, 0.0, "155.1", "");
-		configParam(INTERVAL_PARAMS + 13, 0.0, 1.0, 0.0, "165.0", "");
-		configParam(INTERVAL_PARAMS + 14, 0.0, 1.0, 0.0, "182.4", "");
-		configParam(INTERVAL_PARAMS + 15, 0.0, 1.0, 0.0, "196.2", "");
-		configParam(INTERVAL_PARAMS + 16, 0.0, 1.0, 1.0, "203.9", "");
-		configParam(INTERVAL_PARAMS + 17, 0.0, 1.0, 0.0, "221.3", "");
-		configParam(INTERVAL_PARAMS + 18, 0.0, 1.0, 0.0, "231.2", "");
-		configParam(INTERVAL_PARAMS + 19, 0.0, 1.0, 0.0, "266.9", "");
-		configParam(INTERVAL_PARAMS + 20, 0.0, 1.0, 0.0, "284.4", "");
-		configParam(INTERVAL_PARAMS + 21, 0.0, 1.0, 0.0, "294.1", "");
-		configParam(INTERVAL_PARAMS + 22, 0.0, 1.0, 0.0, "301.8", "");
-		configParam(INTERVAL_PARAMS + 23, 0.0, 1.0, 0.0, "315.6", "");
-		configParam(INTERVAL_PARAMS + 24, 0.0, 1.0, 0.0, "347.4", "");
-		configParam(INTERVAL_PARAMS + 25, 0.0, 1.0, 0.0, "354.5", "");
-		configParam(INTERVAL_PARAMS + 26, 0.0, 1.0, 1.0, "386.3", "");
-		configParam(INTERVAL_PARAMS + 27, 0.0, 1.0, 0.0, "417.5", "");
-		configParam(INTERVAL_PARAMS + 28, 0.0, 1.0, 0.0, "427.4", "");
-		configParam(INTERVAL_PARAMS + 29, 0.0, 1.0, 0.0, "435.1", "");
-		configParam(INTERVAL_PARAMS + 30, 0.0, 1.0, 0.0, "449.3", "");
-		configParam(INTERVAL_PARAMS + 31, 0.0, 1.0, 0.0, "470.8", "");
-		configParam(INTERVAL_PARAMS + 32, 0.0, 1.0, 0.0, "480.6", "");
-		configParam(INTERVAL_PARAMS + 33, 0.0, 1.0, 1.0, "498.0", "");
-		configParam(INTERVAL_PARAMS + 34, 0.0, 1.0, 0.0, "519.6", "");
-		configParam(INTERVAL_PARAMS + 35, 0.0, 1.0, 0.0, "537.0", "");
-		configParam(INTERVAL_PARAMS + 36, 0.0, 1.0, 0.0, "551.3", "");
-		configParam(INTERVAL_PARAMS + 37, 0.0, 1.0, 0.0, "568.7", "");
-		configParam(INTERVAL_PARAMS + 38, 0.0, 1.0, 0.0, "582.5", "");
-		configParam(INTERVAL_PARAMS + 39, 0.0, 1.0, 0.0, "617.5", "");
-		configParam(INTERVAL_PARAMS + 40, 0.0, 1.0, 0.0, "631.3", "");  // 36/25
-		configParam(INTERVAL_PARAMS + 41, 0.0, 1.0, 0.0, "648.7", "");
-		configParam(INTERVAL_PARAMS + 42, 0.0, 1.0, 0.0, "653.2", "");
-		configParam(INTERVAL_PARAMS + 43, 0.0, 1.0, 0.0, "663.0", "");
-		configParam(INTERVAL_PARAMS + 44, 0.0, 1.0, 1.0, "702.0", "");
-		configParam(INTERVAL_PARAMS + 45, 0.0, 1.0, 0.0, "729.2", "");
-		configParam(INTERVAL_PARAMS + 46, 0.0, 1.0, 0.0, "764.9", "");
-		configParam(INTERVAL_PARAMS + 47, 0.0, 1.0, 0.0, "772.6", "");
-		configParam(INTERVAL_PARAMS + 48, 0.0, 1.0, 0.0, "782.5", "");
-		configParam(INTERVAL_PARAMS + 49, 0.0, 1.0, 0.0, "803.8", "");
-		configParam(INTERVAL_PARAMS + 50, 0.0, 1.0, 0.0, "813.7", "");
-		configParam(INTERVAL_PARAMS + 51, 0.0, 1.0, 0.0, "852.6", "");
-		configParam(INTERVAL_PARAMS + 52, 0.0, 1.0, 0.0, "867.0", "");
-		configParam(INTERVAL_PARAMS + 53, 0.0, 1.0, 1.0, "884.4", "");
-		configParam(INTERVAL_PARAMS + 54, 0.0, 1.0, 0.0, "905.9", "");
-		configParam(INTERVAL_PARAMS + 55, 0.0, 1.0, 0.0, "933.1", "");
-		configParam(INTERVAL_PARAMS + 56, 0.0, 1.0, 0.0, "968.8", "");
-		configParam(INTERVAL_PARAMS + 57, 0.0, 1.0, 0.0, "996.1", "");
-		configParam(INTERVAL_PARAMS + 58, 0.0, 1.0, 0.0, "1003.8", "");
-		configParam(INTERVAL_PARAMS + 59, 0.0, 1.0, 0.0, "1017.6", "");
-		configParam(INTERVAL_PARAMS + 60, 0.0, 1.0, 0.0, "1035.0", "");
-		configParam(INTERVAL_PARAMS + 61, 0.0, 1.0, 0.0, "1049.4", "");
-		configParam(INTERVAL_PARAMS + 62, 0.0, 1.0, 0.0, "1080.6", "");
-		configParam(INTERVAL_PARAMS + 63, 0.0, 1.0, 1.0, "1088.3", "");
-		configParam(INTERVAL_PARAMS + 64, 0.0, 1.0, 0.0, "1119.5", "");
+		configParam(INTERVAL_PARAMS + 1, 0.0, 1.0, 0.0, "48.8", "");
+		configParam(INTERVAL_PARAMS + 2, 0.0, 1.0, 0.0, "63.0", "");
+		configParam(INTERVAL_PARAMS + 3, 0.0, 1.0, 0.0, "67.9", "");
+		configParam(INTERVAL_PARAMS + 4, 0.0, 1.0, 0.0, "80.5", "");
+		configParam(INTERVAL_PARAMS + 5, 0.0, 1.0, 0.0, "111.7", "");
+		configParam(INTERVAL_PARAMS + 6, 0.0, 1.0, 0.0, "119.4", "");
+		configParam(INTERVAL_PARAMS + 7, 0.0, 1.0, 0.0, "128.3", "");
+		configParam(INTERVAL_PARAMS + 8, 0.0, 1.0, 0.0, "138.6", "");
+		configParam(INTERVAL_PARAMS + 9, 0.0, 1.0, 0.0, "150.6", "");
+		configParam(INTERVAL_PARAMS + 10, 0.0, 1.0, 0.0, "165.0", "");
+		configParam(INTERVAL_PARAMS + 11, 0.0, 1.0, 0.0, "182.4", "");
+		configParam(INTERVAL_PARAMS + 12, 0.0, 1.0, 0.0, "196.2", "");
+		configParam(INTERVAL_PARAMS + 13, 0.0, 1.0, 1.0, "203.9", ""); // 9:8
+		configParam(INTERVAL_PARAMS + 14, 0.0, 1.0, 0.0, "231.2", "");
+		configParam(INTERVAL_PARAMS + 15, 0.0, 1.0, 0.0, "247.7", "");
+		configParam(INTERVAL_PARAMS + 16, 0.0, 1.0, 0.0, "266.9", "");
+		configParam(INTERVAL_PARAMS + 17, 0.0, 1.0, 0.0, "289.2", "");
+		configParam(INTERVAL_PARAMS + 18, 0.0, 1.0, 0.0, "294.1", "");
+		configParam(INTERVAL_PARAMS + 19, 0.0, 1.0, 0.0, "315.6", "");
+		configParam(INTERVAL_PARAMS + 20, 0.0, 1.0, 0.0, "347.4", "");
+		configParam(INTERVAL_PARAMS + 21, 0.0, 1.0, 0.0, "359.5", "");
+		configParam(INTERVAL_PARAMS + 22, 0.0, 1.0, 0.0, "369.7", "");
+		configParam(INTERVAL_PARAMS + 23, 0.0, 1.0, 1.0, "386.3", ""); // 5:4
+		configParam(INTERVAL_PARAMS + 24, 0.0, 1.0, 0.0, "417.5", "");
+		configParam(INTERVAL_PARAMS + 25, 0.0, 1.0, 0.0, "427.4", "");
+		configParam(INTERVAL_PARAMS + 26, 0.0, 1.0, 0.0, "435.1", "");
+		configParam(INTERVAL_PARAMS + 27, 0.0, 1.0, 0.0, "454.2", "");
+		configParam(INTERVAL_PARAMS + 28, 0.0, 1.0, 0.0, "470.8", "");
+		configParam(INTERVAL_PARAMS + 29, 0.0, 1.0, 1.0, "498.0", "");  // 4:3
+		configParam(INTERVAL_PARAMS + 30, 0.0, 1.0, 0.0, "537.0", "");
+		configParam(INTERVAL_PARAMS + 31, 0.0, 1.0, 0.0, "551.3", "");
+		configParam(INTERVAL_PARAMS + 32, 0.0, 1.0, 0.0, "563.4", "");
+		configParam(INTERVAL_PARAMS + 33, 0.0, 1.0, 0.0, "582.5", "");
+		configParam(INTERVAL_PARAMS + 34, 0.0, 1.0, 0.0, "617.5", "");
+		configParam(INTERVAL_PARAMS + 35, 0.0, 1.0, 0.0, "636.6", "");
+		configParam(INTERVAL_PARAMS + 36, 0.0, 1.0, 0.0, "648.7", "");
+		configParam(INTERVAL_PARAMS + 37, 0.0, 1.0, 0.0, "663.0", "");
+		configParam(INTERVAL_PARAMS + 38, 0.0, 1.0, 1.0, "702.0", ""); // 3:2
+		configParam(INTERVAL_PARAMS + 39, 0.0, 1.0, 0.0, "729.2", "");
+		configParam(INTERVAL_PARAMS + 40, 0.0, 1.0, 0.0, "745.8", "");
+		configParam(INTERVAL_PARAMS + 41, 0.0, 1.0, 0.0, "764.9", "");
+		configParam(INTERVAL_PARAMS + 42, 0.0, 1.0, 0.0, "772.6", "");
+		configParam(INTERVAL_PARAMS + 43, 0.0, 1.0, 0.0, "782.5", "");
+		configParam(INTERVAL_PARAMS + 44, 0.0, 1.0, 0.0, "813.7", "");
+		configParam(INTERVAL_PARAMS + 45, 0.0, 1.0, 0.0, "830.3", "");
+		configParam(INTERVAL_PARAMS + 46, 0.0, 1.0, 0.0, "840.5", "");
+		configParam(INTERVAL_PARAMS + 47, 0.0, 1.0, 0.0, "852.6", "");
+		configParam(INTERVAL_PARAMS + 48, 0.0, 1.0, 1.0, "884.4", ""); // 5:3
+		configParam(INTERVAL_PARAMS + 49, 0.0, 1.0, 0.0, "905.9", "");
+		configParam(INTERVAL_PARAMS + 50, 0.0, 1.0, 0.0, "910.8", "");
+		configParam(INTERVAL_PARAMS + 51, 0.0, 1.0, 0.0, "933.1", "");
+		configParam(INTERVAL_PARAMS + 52, 0.0, 1.0, 0.0, "952.3", "");
+		configParam(INTERVAL_PARAMS + 53, 0.0, 1.0, 0.0, "968.8", "");
+		configParam(INTERVAL_PARAMS + 54, 0.0, 1.0, 0.0, "996.1", "");
+		configParam(INTERVAL_PARAMS + 55, 0.0, 1.0, 0.0, "1003.8", "");
+		configParam(INTERVAL_PARAMS + 56, 0.0, 1.0, 0.0, "1017.6", "");
+		configParam(INTERVAL_PARAMS + 57, 0.0, 1.0, 0.0, "1035.0", "");
+		configParam(INTERVAL_PARAMS + 58, 0.0, 1.0, 0.0, "1049.4", "");
+		configParam(INTERVAL_PARAMS + 59, 0.0, 1.0, 0.0, "1061.4", "");
+		configParam(INTERVAL_PARAMS + 60, 0.0, 1.0, 0.0, "1071.7", "");
+		configParam(INTERVAL_PARAMS + 61, 0.0, 1.0, 0.0, "1080.6", "");
+		configParam(INTERVAL_PARAMS + 62, 0.0, 1.0, 1.0, "1088.3", ""); // 15:8
+		configParam(INTERVAL_PARAMS + 63, 0.0, 1.0, 0.0, "1119.5", "");
+		configParam(INTERVAL_PARAMS + 64, 0.0, 1.0, 0.0, "1132.1", "");
 		configParam(INTERVAL_PARAMS + 65, 0.0, 1.0, 0.0, "1137.0", "");
 		configParam(INTERVAL_PARAMS + 66, 0.0, 1.0, 0.0, "1151.2", "");
 		configParam(TOLERANCE_PARAM, 0.0, 50.0, 20.0, "Tolerance", "¢");
@@ -131,28 +131,22 @@ struct QuantIntervals : Module {
 	float transpose[16];
 	float cv_out[16];
 	float last_cv_out[16] = { 0.f };
-	float interval_lu[68] = { 0.f, 0.0406420f, 0.0443941f, 0.0524674f, 0.0588937f, 0.0671142f, 0.0703893f, 0.0848889f, 0.0931094f, 
-		0.0995357f, 0.1110313f, 0.1255309f, 0.1292830f, 0.1375035f, 0.1520031f, 0.1634987f, 0.1699250f, 
-		0.1844246f, 0.1926451f, 0.2223924f, 0.2370392f, 0.2451125f, 0.2515388f, 0.2630344f, 0.2895066f, 
-		0.2954559f, 0.3219281f, 0.3479233f, 0.3561438f, 0.3625701f, 0.3743955f, 0.3923174f, 0.4005379f, 
-		0.4150375f, 0.4329594f, 0.4474590f, 0.4594316f, 0.4739312f, 0.4854268f, 0.5145732f, 0.5260688f, 0.5405684f, 
-		0.5443205f, 0.5525410f, 0.5849625f, 0.6076826f, 0.6374299f, 0.6438562f, 0.6520767f, 0.6698514f, 
-		0.6780719f, 0.7104934f, 0.7224660f, 0.7369656f, 0.7548875f, 0.7776076f, 0.8073549f, 0.8300750f, 
-		0.8365013f, 0.8479969f, 0.8624965f, 0.8744691f, 0.9004643f, 0.9068906f, 0.9328858f, 0.9475326f, 
-		0.9593580f, 1.f };
+	// 13-limit with all octave complements and all ≤ 36
+	float interval_lu[68] = { 0.f, 0.0406420f, 0.0524674f, 0.0565835f, 0.0671142f, 0.0931094f, 0.0995357f, 0.1069152f,
+		0.1154772f, 0.1255309f, 0.1375035f, 0.1520031f, 0.1634987f, 0.1699250f, 0.1926451f, 0.2064509f,
+		0.2223924f, 0.2410081f, 0.2451125f, 0.2630344f, 0.2895066f, 0.2995603f, 0.3081223f, 0.3219281f,
+		0.3479233f, 0.3561438f, 0.3625701f, 0.3785116f, 0.3923174f, 0.4150375f, 0.4474590f, 0.4594316f,
+		0.4694853f, 0.4854268f, 0.5145732f, 0.5305147f, 0.5405684f, 0.5525410f, 0.5849625f, 0.6076826f,
+		0.6214884f, 0.6374299f, 0.6438562f, 0.6520767f, 0.6780719f, 0.6918777f, 0.7004397f, 0.7104934f,
+		0.7369656f, 0.7548875f, 0.7589919f, 0.7776076f, 0.7935491f, 0.8073549f, 0.8300750f, 0.8365013f,
+		0.8479969f, 0.8624965f, 0.8744691f, 0.8845228f, 0.8930848f, 0.9004643f, 0.9068906f, 0.9328858f,
+		0.9434165f, 0.9475326f, 0.9593580f, 1.f };
 	int num_intervals = 67;  // not including octave
-	// defines limit for each interval
-	int limit_lu[68] = { 0, 7, 11, 7, 5, 11, 7, 11, 5, 7, 5, 11, 7, 11, 5, 7, 3,
-		11, 7, 7, 11, 3, 7, 5, 11, 11, 5, 11, 5, 7, 7, 7, 11,
-		3, 5, 11, 11, 5, 7, 7, 5, 11, 7, 11, 3, 7, 7, 5, 11, 11,
-		5, 11, 11, 5, 3, 7, 7, 3, 7, 5, 11, 11, 7, 5, 11, 7,
-		7, 0 };
-	// large = 30 or denominator ≥ 25, small = denominator ≤ 10 and 16/15 (C#)
-	int ratio_size[68] = { 1, 3, 3, 3, 2, 2, 2, 3, 1, 2, 3, 2, 3, 1, 1, 3, 1,
-		2, 1, 1, 3, 3, 2, 1, 1, 2, 1, 2, 3, 1, 3, 2, 3,
-		1, 2, 2, 1, 2, 1, 1, 3, 2, 3, 2, 1, 3, 1, 2, 1, 3,
-		1, 2, 3, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2,
-		3, 1 };
+	int ratio_size[68] = { 1, 3, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 2, 1, 1, 2,
+		1, 2, 3, 1, 1, 2, 2, 1, 2, 3, 1, 1, 2, 1, 2, 1,
+		2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2,
+		1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+		2, 2, 3, 1 };
 
 
 	void process(const ProcessArgs &args) override {

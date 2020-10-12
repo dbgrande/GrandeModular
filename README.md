@@ -93,11 +93,20 @@ For this quantizer the valid notes are defined directly by number.
 
 QuantIntervals
 --------------
-***Updated for v1.2.0***
+***Updated for v1.3.0 and v1.2.0***
 
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
 
 **A 1-TET through 34-TET microtonal quantizer.**
+
+**v1.3.0 update:** The intervals for QuantIntervals needed to be updated. This means that any save files using this module will need to have the selected intervals updated.
+
+- After releasing this module, I discovered that I didn't have proper octave complements for 16 intervals. For example 35:24 has a complement of 48:35, which exceeded my target of 36, so it wasn't included.
+
+- I finally came up with a solution I liked—if I added the 13-limit intervals, I could still keep the ratio numbers ≤ 36.
+
+- So now all intervals have proper octave complements, 10:7 and 7:5 are in the center like they're supposed to be, and all the other interval pairs are arranged symmetrically around them.
+
 
 **v1.2.0 update:** I've drastically simplified the controls for QuantIntervals. This in turn allowed me to make the mapping between intervals and notes much more direct.
 
@@ -110,7 +119,7 @@ QuantIntervals
 
 For this quantizer the valid notes are defined indirectly by pitch intervals.
 
-- The interval buttons select desired pitch intervals, which include all 11-Limit intervals up to 36.
+- The interval buttons select desired pitch intervals, which now include all 13-Limit intervals where the ratio and its octave complement are less than or equal to 36.
 
 - However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is.
 
