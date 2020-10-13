@@ -547,11 +547,11 @@ struct QuantIntervalsWidget : ModuleWidget {
 		addParam(createParam<TL1105>(mm2px(Vec(62.00-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_SMALL_PARAM));
 		addParam(createParam<TL1105>(mm2px(Vec(74.00-2.709, 29.75-2.709)), module, QuantIntervals::SEL_ENABLED_PARAM));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(68.00, 43.75)), module, QuantIntervals::TOLERANCE_PARAM));
+		addParam(createParamCentered<RoundBlackKnobNoRandom>(mm2px(Vec(68.00, 43.75)), module, QuantIntervals::TOLERANCE_PARAM));
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(68.00, 63.00)), module, QuantIntervals::SIZE_PARAM));
 
-		addParam(createParam<CKSSThree>(mm2px(Vec(59.75, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
-		addParam(createParam<CKSS>(mm2px(Vec(71.75, 80.00)), module, QuantIntervals::EQUI_PARAM));
+		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(59.75, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
+		addParam(createParam<CKSSNoRandom>(mm2px(Vec(71.75, 80.00)), module, QuantIntervals::EQUI_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.00, 100.0)), module, QuantIntervals::CV_IN_INPUT));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(74.00, 100.0)), module, QuantIntervals::CV_OUT_OUTPUT));

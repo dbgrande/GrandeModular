@@ -350,8 +350,8 @@ struct QuantMTWidget : ModuleWidget {
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 54.5)), module, QuantMT::ROOT_INPUT));
 
-		addParam(createParam<CKSSThree>(mm2px(Vec(16.25, 65.5)), module, QuantMT::ROUNDING_PARAM));
-		addParam(createParam<CKSS>(mm2px(Vec(23.75, 67.0)), module, QuantMT::EQUI_PARAM));
+		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(16.25, 65.5)), module, QuantMT::ROUNDING_PARAM));
+		addParam(createParam<CKSSNoRandom>(mm2px(Vec(23.75, 67.0)), module, QuantMT::EQUI_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 85.0)), module, QuantMT::CV_IN_INPUT));
 

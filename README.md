@@ -8,9 +8,14 @@ By David Grande
 
 Quant
 -----
+***Updated for v1.3.0***
+
 ![Quant](images/Quant.png "Quant")
 
 **Normal 12-TET Quantizer with Equi-likely mode.**
+
+**v1.3.0 update:** Round and Equi- are no longer randomized.
+
 
 - **Scale:** Use **Scale** modules (see directly below) and polyphonic switch to allow selecting different scales.
 
@@ -64,11 +69,16 @@ Scale
 
 QuantMT
 -------
-***Updated for v1.1.0***
+***Updated for v1.3.0 and v1.1.0***
 
 ![QuantMT](images/QuantMT.png "QuantMT")
 
 **A 1-TET through 34-TET microtonal quantizer.**
+
+**v1.3.0 update:** Round, Equi-, and Ref are no longer randomized.
+
+**v1.1.0 update:** Mode and Ref were added.
+
 
 For this quantizer the valid notes are defined directly by number.
 
@@ -99,29 +109,24 @@ QuantIntervals
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
-**v1.3.0 update:** The intervals for QuantIntervals needed to be updated. This means that any save files using this module will need to have the selected intervals updated.
+**v1.3.0 update:**
 
 - After releasing this module, I discovered that I didn't have proper octave complements for 16 intervals. For example 35:24 has a complement of 48:35, which exceeded my target of 36, so it wasn't included.
 
-- I finally came up with a solution I liked—if I added the 13-limit intervals, I could still keep the ratio numbers ≤ 36.
+- My solution was to replace these unmatched intervals with 13-limit ones. That way I could still keep the ratio numbers ≤ 36. So now all intervals have proper octave complements, 10:7 and 7:5 are in the center like they're supposed to be, and all the other interval pairs are arranged symmetrically around them.
 
-- So now all intervals have proper octave complements, 10:7 and 7:5 are in the center like they're supposed to be, and all the other interval pairs are arranged symmetrically around them.
+-  However, this means that any save files created with an older version of this module need to have the selected intervals updated.
 
+- In addition, Round, Equi-, and Tolerance are no longer randomized.
 
-**v1.2.0 update:** I've drastically simplified the controls for QuantIntervals. This in turn allowed me to make the mapping between intervals and notes much more direct.
-
-- Since musical scales typically have five to ten notes, the **only** way to now add notes is by individually using the interval buttons.
-
-- I've also added a separate note display so that intervals and notes can both always be seen.
-
-- And finally, I've made **all** the lights also buttons (all 101 of them). Pressing any light highlights *(if they exist)* the corresponding note on the note display, and **all** the corresponding intervals on the interval display.
+**v1.2.0 update:** Controls were simplified and a separate note display was added.
 
 
 For this quantizer the valid notes are defined indirectly by pitch intervals.
 
-- The interval buttons select desired pitch intervals, which now include all 13-Limit intervals where the ratio and its octave complement are less than or equal to 36.
+- The interval buttons select desired pitch intervals, which **(new for v1.3.0)** now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36.
 
-- However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is.
+- However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is. In addition **(new for v1.2.0),** the valid notes are also displayed on the numbered lights to the right.
 
 - Only the closest intervals are generally highlighted. With so many intervals, it's common for more than one to be within tolerance of a valid note.
 
