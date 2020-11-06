@@ -8,8 +8,6 @@ By David Grande
 
 Quant
 -----
-***Updated for v1.3.0***
-
 ![Quant](images/Quant.png "Quant")
 
 **Normal 12-TET Quantizer with Equi-likely mode.**
@@ -69,8 +67,6 @@ Scale
 
 QuantMT
 -------
-***Updated for v1.3.0 and v1.1.0***
-
 ![QuantMT](images/QuantMT.png "QuantMT")
 
 **A 1-TET through 34-TET microtonal quantizer.**
@@ -103,21 +99,11 @@ For this quantizer the valid notes are defined directly by number.
 
 QuantIntervals
 --------------
-***Updated for v1.3.0 and v1.2.0***
-
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
-**v1.3.0 update:**
-
-- After releasing this module, I discovered that I didn't have proper octave complements for 16 intervals. For example 35:24 has a complement of 48:35, which exceeded my target of 36, so it wasn't included.
-
-- My solution was to replace these unmatched intervals with 13-limit ones. That way I could still keep the ratio numbers ≤ 36. So now all intervals have proper octave complements, 10:7 and 7:5 are in the center like they're supposed to be, and all the other interval pairs are arranged symmetrically around them.
-
--  However, this means that any save files created with an older version of this module need to have the selected intervals updated.
-
-- In addition, Round, Equi-, and Tolerance are no longer randomized.
+**v1.3.0 update:** Intervals updated; and Round, Equi-, and Tolerance are no longer randomized.
 
 **v1.2.0 update:** Controls were simplified and a separate note display was added.
 
@@ -155,11 +141,32 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 ***
 
+MicrotonalNotes
+------
+
+***New for v1.4.0***
+
+![MicrotonalNotes](images/MicrotonalNotes.png "Microtonal Notes")
+
+**A 1-TET through 34-TET microtonal static notes generator.**
+
+Provides eight settable microtonal notes, all based on current Notes/Oct setting. Each provides a monophonic output, and they can all be combined in the polyphonic output at the bottom. 
+
+- **Octaves** and **Notes** knobs: Set octave and note based on current temperament. Notes knobs clamped to Notes/Oct – 1.
+
+- **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
+
+- **Channels:** Defines how many polyphonic channels to output (default 8, not randomized). Each enabled channel is indicated by a small blue light next to its monophonic output.
+
+Combine with a polyphonic switch, like **SwitchN1** from 23volts, to make a simple microtonal sequencer.
+
+***
+
 NoteMT
 ------
 ![NoteMT](images/NoteMT.png "NoteMT")
 
-**A 1-TET through 34-TET microtonal note generator and display preprocessor.**
+**A 1-TET through 34-TET microtonal static note generator and display preprocessor.**
 
 - **Octave** and **Note** knobs: Set octave and note based on current temperament. Note knob clamped to Notes/Oct – 1.
 

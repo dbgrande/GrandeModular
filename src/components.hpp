@@ -56,6 +56,32 @@ struct TL1105Red : SvgSwitch {
 	}
 };
 
+struct RoundTinyRotarySwitch : Trimpot {
+	RoundTinyRotarySwitch() {
+		//minAngle = -0.83*M_PI;
+		//maxAngle = 0.83*M_PI;
+		snap = true;
+		smooth = false;
+	}
+
+	// handle the manually entered values
+	void onChange(const event::Change &e) override {
+		Trimpot::onChange(e);
+		paramQuantity->setValue(roundf(paramQuantity->getValue()));
+	}
+
+	// override the base randomizer as it sets switches to invalid values.
+	void randomize() override {
+		Trimpot::randomize();
+		paramQuantity->setValue(roundf(paramQuantity->getValue()));
+	}
+};
+
+struct RoundTinyRotarySwitchNoRandom : RoundTinyRotarySwitch {
+	void randomize() override {
+	}
+};
+
 struct RoundSmallRotarySwitch : RoundSmallBlackKnob {
 	RoundSmallRotarySwitch() {
 		//minAngle = -0.83*M_PI;

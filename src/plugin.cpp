@@ -9,6 +9,7 @@ void init(Plugin* p) {
 
 	// Add modules here
 	// p->addModel(modelMyModule);
+	p->addModel(modelMicrotonalNotes);
 	p->addModel(modelNoteMT);
 	p->addModel(modelQuant);
 	p->addModel(modelQuantIntervals);
