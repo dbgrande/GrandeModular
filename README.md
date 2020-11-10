@@ -148,7 +148,7 @@ MicrotonalNotes
 
 ![MicrotonalNotes](images/MicrotonalNotes.png "Microtonal Notes")
 
-**A 1-TET through 34-TET microtonal static notes generator.**
+**A 1-TET through 34-TET microtonal octal note generator.**
 
 Provides eight settable microtonal notes, all based on current Notes/Oct setting. Each provides a monophonic output, and they can all be combined in the polyphonic output at the bottom. 
 
@@ -160,13 +160,34 @@ Provides eight settable microtonal notes, all based on current Notes/Oct setting
 
 Combine with a polyphonic switch, like **SwitchN1** from 23volts, to make a simple microtonal sequencer.
 
+
+***
+
+MicrotonalChords
+------
+
+***New for v1.4.0***
+
+![MicrotonalChords](images/MicrotonalChords.png "Microtonal Chords")
+
+**A 1-TET through 34-TET microtonal quad chord generator.**
+
+Provides four four-note microtonal chords, all based on current Notes/Oct setting. Chords are labeled A, B, C, and D. All four notes of the selected chord are output on Poly_Out, defined by the Select input.
+
+- **Octaves** and **Notes** knobs: Set octave and note for each note of the chord based on current temperament. Notes knobs clamped to Notes/Oct – 1.
+
+- **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
+
+- **Select:** Defines which chord to output. 0V = A, 1V = B, 2V = C, 3V = D. A blue light indicates which chord is being output. With nothing connected, chord A is always output.
+
+
 ***
 
 NoteMT
 ------
 ![NoteMT](images/NoteMT.png "NoteMT")
 
-**A 1-TET through 34-TET microtonal static note generator and display preprocessor.**
+**A 1-TET through 34-TET microtonal note generator and display preprocessor.**
 
 - **Octave** and **Note** knobs: Set octave and note based on current temperament. Note knob clamped to Notes/Oct – 1.
 

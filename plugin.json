@@ -13,9 +13,16 @@
   "changelogUrl": "",
   "modules": [
     {
+      "slug": "MicrotonalChords",
+      "name": "Microtonal Chords",
+      "description": "Microtonal quad chord generator.",
+      "manualUrl": "https://github.com/dbgrande/GrandeModular/#microtonalchords",
+      "tags": ["Utility", "Polyphonic"]
+    },
+    {
       "slug": "MicrotonalNotes",
       "name": "Microtonal Notes",
-      "description": "Microtonal static notes generator.",
+      "description": "Microtonal octal note generator.",
       "manualUrl": "https://github.com/dbgrande/GrandeModular/#microtonalnotes",
       "tags": ["Utility", "Polyphonic"]
     },
