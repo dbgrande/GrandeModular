@@ -12,9 +12,6 @@ Quant
 
 **Normal 12-TET Quantizer with Equi-likely mode.**
 
-**v1.3.0 update:** Round and Equi- are no longer randomized.
-
-
 - **Scale:** Use **Scale** modules (see directly below) and polyphonic switch to allow selecting different scales.
 
 - **Root:** Defines root note of scale (1V/Oct, polyphonic), quantized.
@@ -67,14 +64,14 @@ Scale
 
 QuantMT
 -------
+
+***Updated for v1.5.0***
+
 ![QuantMT](images/QuantMT.png "QuantMT")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
-**v1.3.0 update:** Round, Equi-, and Ref are no longer randomized.
-
-**v1.1.0 update:** Mode and Ref were added.
-
+**v1.5.0 update:** LEDs now not visible unless on, and Ref button operation changed.
 
 For this quantizer the valid notes are defined directly by number.
 
@@ -82,18 +79,17 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 
-- **Note buttons:** Buttons between the two blue lights (now on left for v1.1.0) enable valid notes. Notes outside this range are ignored.
+- **Note buttons:** Buttons between the two blue lights on left enable valid notes. Notes outside this range are ignored.
 
-- **Reference lights (New for v1.1.0):** Optional lights (on right of notes) that can be set and enabled with the Ref button. Just to give a visual reference scale to help with setting and changing scales. Lights maintain state through power cycles.
+- **Reference lights:** Optional **now blue** lights on right that can be set and enabled with the Ref button. Just to give a visual reference scale to help with setting and changing scales. Lights maintain state through power cycles.
 
-- **Set:** Enables all valid notes. (New for v1.1.0, only enables notes up to Notes/Oct – 1.)
+- **Set:** Enables all valid notes up to Notes/Oct – 1.
 
 - **Clear:** Disables all notes, except for root note.
 
-- **Mode (New for v1.1.0):** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
+- **Mode:** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
 
-- **Ref (New for v1.1.0):** Sets and enables reference lights based on current note buttons. Reference lights stay on until Ref button is turned off.
-
+- **Ref (Updated for v1.5.0):** Short press toggles display of reference lights. Long press on (≥ 1 sec) sets reference lights based on current note buttons.
 
 ***
 
@@ -103,16 +99,11 @@ QuantIntervals
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
-**v1.3.0 update:** Intervals updated; and Round, Equi-, and Tolerance are no longer randomized.
-
-**v1.2.0 update:** Controls were simplified and a separate note display was added.
-
-
 For this quantizer the valid notes are defined indirectly by pitch intervals.
 
-- The interval buttons select desired pitch intervals, which **(new for v1.3.0)** now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36.
+- The interval buttons select desired pitch intervals, which now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36.
 
-- However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is. In addition **(new for v1.2.0),** the valid notes are also displayed on the numbered lights to the right.
+- However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is. In addition, the valid notes are also displayed on the numbered lights to the right.
 
 - Only the closest intervals are generally highlighted. With so many intervals, it's common for more than one to be within tolerance of a valid note.
 
@@ -134,18 +125,15 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note.
 
-- **Note lights (new for v1.2.0):** Now displays enabled notes using separate note lights.
+- **Note lights:** Now displays enabled notes using separate note lights.
 
-- **LED Buttons (new for v1.2.0):** All lights have been converted to LED buttons, both the interval lights and the note lights. Pressing any one of these highlights *(if they exist)* the corresponding note on the note display, and **all** the corresponding intervals on the interval display.
+- **LED Buttons:** All lights have been converted to LED buttons, both the interval lights and the note lights. Pressing any one of these highlights *(if they exist)* the corresponding note on the note display, and **all** the corresponding intervals on the interval display.
 
 
 ***
 
 MicrotonalNotes
 ------
-
-***New for v1.4.0***
-
 ![MicrotonalNotes](images/MicrotonalNotes.png "Microtonal Notes")
 
 **A 1-TET through 34-TET microtonal octal note generator.**
@@ -165,9 +153,6 @@ Combine with a polyphonic switch, like **SwitchN1** from 23volts, to make a simp
 
 MicrotonalChords
 ------
-
-***New for v1.4.0***
-
 ![MicrotonalChords](images/MicrotonalChords.png "Microtonal Chords")
 
 **A 1-TET through 34-TET microtonal quad chord generator.**
@@ -213,6 +198,24 @@ SampleDelays (SD)
 Provides three sample-delay buffer chains giving one or two sample delays each.
 
 - Internally chained together to give up to six sample delays.
+
+
+***
+
+MergeSplit4 (MS4)
+-----------------
+
+***New for v1.5.0***
+
+![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
+
+**4-channel polyphonic merge and split.**
+
+Provides a 4-channel polyphonic merger and a 4-channel polyphonic splitter in a compact package.
+
+Useful for feeding multiple monophonic signals into my polyphonic quantizers. Run Merge out to Quantizer In, and Quantizer Out back to Split In.
+
+Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn't use any of his artwork.
 
 
 ***
