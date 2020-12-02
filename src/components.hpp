@@ -151,9 +151,20 @@ struct RoundLargeRotarySwitch : RoundLargeBlackKnob {
 };
 
 template <typename TBase>
-struct PetiteLight : TBase {
-	PetiteLight() {
+struct TinyStealthLight : TBase {
+	TinyStealthLight() {
+		this->box.size = app::mm2px(math::Vec(1.088, 1.088));
+		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
+		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
+	}
+};
+
+template <typename TBase>
+struct PetiteStealthLight : TBase {
+	PetiteStealthLight() {
 		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
+		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
 	}
 };
 
@@ -164,5 +175,11 @@ struct SmallLEDButton : SvgSwitch {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SmallLEDButton1.svg")));
 		fb->removeChild(shadow);
 		delete shadow;
+	}
+};
+
+struct SmallPort : app::SvgPort {
+	SmallPort() {
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SmallPort.svg")));
 	}
 };
