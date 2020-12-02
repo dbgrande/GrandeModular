@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="Quant.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
    id="svg8"
    version="1.1"
    viewBox="0 0 20.32 128.5"
@@ -33,9 +33,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="136.66117"
-     inkscape:cx="-0.27493404"
-     inkscape:zoom="4.1213154"
+     inkscape:cy="299.89652"
+     inkscape:cx="-112.82494"
+     inkscape:zoom="0.72855252"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -350,13 +350,6 @@
          d="m 6.9130332,278.50378 q 0,0.30763 -0.1411115,0.45156 -0.1411115,0.14676 -0.39229,0.14676 -0.1749783,0 -0.2737563,-0.0282 -0.098778,-0.0254 -0.1524005,-0.0564 l 0.070556,-0.28505 q 0.062089,0.0254 0.1326448,0.048 0.073378,0.0226 0.172156,0.0226 0.1439338,0 0.1975561,-0.079 0.056445,-0.0762 0.056445,-0.23425 v -0.0762 h -0.00847 q -0.039511,0.0564 -0.1072448,0.0847 -0.064911,0.0282 -0.1693338,0.0282 -0.2229562,0 -0.3358454,-0.16651 -0.1100669,-0.16933 -0.1100669,-0.5334 0,-0.39229 0.1524004,-0.57856 0.1552226,-0.18627 0.4402679,-0.18627 0.1524004,0 0.2737563,0.0254 0.1213559,0.0226 0.1947339,0.0564 z m -0.5221126,-0.26529 q 0.0762,0 0.1185337,-0.0367 0.045156,-0.0367 0.067734,-0.10443 v -0.70555 q -0.031045,-0.0141 -0.070556,-0.0226 -0.036689,-0.008 -0.087489,-0.008 -0.1044225,0 -0.1636893,0.1016 -0.056445,0.1016 -0.056445,0.34996 0,0.42615 0.1919116,0.42615 z"
          inkscape:connector-curvature="0" />
     </g>
-    <rect
-       style="opacity:0.356366;fill:#ffffff;stroke:#ff0000;stroke-width:0.0649999"
-       id="rect885"
-       width="0.94890845"
-       height="7.9118319"
-       x="31.425222"
-       y="245.58817" />
     <rect
        style="display:inline;opacity:0.399946;fill:#787878;fill-opacity:1;stroke:none;stroke-width:1"
        id="rect912"
