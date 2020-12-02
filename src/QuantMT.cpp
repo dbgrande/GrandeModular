@@ -26,6 +26,7 @@ struct QuantMT : Module {
 	enum LightIds {
 		ENUMS(OCTAVE_LIGHTS, 35),
 		ENUMS(REF_LIGHTS, 34),
+		REF_ON_LIGHT,
 		NUM_LIGHTS
 	};
 
@@ -90,7 +91,8 @@ struct QuantMT : Module {
 	float cv_out[16];
 	float last_cv_out[16] = { 0.f };
 	int last_mode = 0;
- 	bool refstate[35]; // reflight state, 0 = last_ref, 1..35 = light[0..34]
+	int last_ref = 0;
+ 	bool refstate[35];  // reflight state, 0 = ref_on, 1..35 = light[0..34]
 
 	void process(const ProcessArgs &args) override {
 		if (param_timer == 0) {
@@ -105,7 +107,7 @@ struct QuantMT : Module {
 			equi_likely = std::round(params[EQUI_PARAM].getValue());
 
 			// define whether to display reference scale
-			bool ref = clamp((int)(params[REF_PARAM].getValue()), 0, 1) == 1;
+			int ref = clamp((int)(params[REF_PARAM].getValue()), 0, 1);
 
 			// equal temperament size
 			equal_temp = clamp((int)(params[SIZE_PARAM].getValue()), 1, 34);
@@ -130,18 +132,27 @@ struct QuantMT : Module {
 			for (int i = 0; i < 34; i++)
 				input_scale[i] = clamp((int)(params[NOTE_PARAMS + i].getValue()), 0, 1);
 
-			// capture reference scale when ref button enabled
-			if (ref && !refstate[0]) {
-				for (int i = 0; i < equal_temp; i++)
-					refstate[i+1] = input_scale[i] == 1;
-				for (int i = equal_temp; i < 34; i++)
-					refstate[i+1] = false;
+			// ref button
+			if (ref == 1) {  // ref button pressed
+				if (last_ref == 0) {  // just pressed
+					refstate[0] = !refstate[0];  // toggle display ref lights state
+				}
+				else if (refstate[0] && last_ref > args.sampleRate) {  // pressed for one second, update refstate
+					for (int i = 0; i < equal_temp; i++)
+						refstate[i+1] = input_scale[i] == 1;
+					for (int i = equal_temp; i < 34; i++)
+						refstate[i+1] = false;
+				}
+				if (last_ref <= args.sampleRate)
+					last_ref += 50;
 			}
-			refstate[0] = ref;
+			else  // ref button not pressed
+				last_ref = 0;
 
-			// display reference scale
+			// display reference scale if on
+			lights[REF_ON_LIGHT].setBrightness(refstate[0]);
 			for (int i = 0; i < 34; i++)
-				lights[REF_LIGHTS + i].setBrightness(ref && i < equal_temp && refstate[i+1]);
+				lights[REF_LIGHTS + i].setBrightness(refstate[0] && i < equal_temp && refstate[i+1]);
 
 			// rotate mode down
 			int mode = clamp((int)(params[MODE_PARAM].getValue()), 0, 1);
@@ -346,7 +357,8 @@ struct QuantMTWidget : ModuleWidget {
 		addParam(createParam<TL1105>(mm2px(Vec(26.0-2.709, 23.5-2.709-6.5)), module, QuantMT::CLEAR_ALL_PARAM));
 
 		addParam(createParam<TL1105>(mm2px(Vec(18.5-2.709, 23.5-2.709+2.5)), module, QuantMT::MODE_PARAM));
-		addParam(createParam<TL1105Red>(mm2px(Vec(26.0-2.709, 23.5-2.709+2.5)), module, QuantMT::REF_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(26.0-2.709, 23.5-2.709+2.5)), module, QuantMT::REF_PARAM));
+		addChild(createLightCentered<MediumLight<BlueLight>>(mm2px(Vec(26.0, 23.5+2.5)), module, QuantMT::REF_ON_LIGHT));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 54.5)), module, QuantMT::ROOT_INPUT));
 
@@ -363,9 +375,9 @@ struct QuantMTWidget : ModuleWidget {
 			addParam(createParam<RectButton>(mm2px(Vec(5.2+0.25, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));
 
 		for (int i = 0; i < 35; i++)
-			addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(4.25+0.5, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
+			addChild(createLightCentered<TinyStealthLight<BlueLight>>(mm2px(Vec(4.25+0.5, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
 		for (int i = 0; i < 34; i++)
-			addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(13.25+0.30, 122.50 - 3.50*i)), module, QuantMT::REF_LIGHTS + i));
+			addChild(createLightCentered<PetiteStealthLight<BlueLight>>(mm2px(Vec(13.25+0.30, 122.50 - 3.50*i)), module, QuantMT::REF_LIGHTS + i));
 	}
 };
 
