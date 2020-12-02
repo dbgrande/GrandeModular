@@ -115,9 +115,9 @@ struct MicrotonalChordsWidget : ModuleWidget {
 		addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(6.0, 61.00)), module, MicrotonalChords::SELECT_LIGHTS + 2));
 		addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(32.44, 61.00)), module, MicrotonalChords::SELECT_LIGHTS + 3));
 
-		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(11.00, 115.25)), module, MicrotonalChords::SIZE_PARAM));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(26.00, 115.25)), module, MicrotonalChords::SELECT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(46.13, 115.25)), module, MicrotonalChords::POLY_OUTPUT));
+		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(11.00, 114.50)), module, MicrotonalChords::SIZE_PARAM));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(26.00, 114.50)), module, MicrotonalChords::SELECT_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(46.13, 114.50)), module, MicrotonalChords::POLY_OUTPUT));
 	}
 };
 

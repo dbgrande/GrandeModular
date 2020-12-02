@@ -240,9 +240,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.9912287"
-     inkscape:cx="27.130048"
-     inkscape:cy="171.35365"
+     inkscape:zoom="4"
+     inkscape:cx="120.92273"
+     inkscape:cy="394.17666"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -250,15 +250,15 @@
      inkscape:snap-midpoints="false"
      inkscape:window-width="1561"
      inkscape:window-height="1205"
-     inkscape:window-x="673"
-     inkscape:window-y="149"
+     inkscape:window-x="1675"
+     inkscape:window-y="137"
      inkscape:window-maximized="0"
      inkscape:snap-grids="true"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:snap-bbox="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-others="false"
+     inkscape:snap-bbox-midpoints="false"
+     inkscape:snap-others="true"
      inkscape:snap-nodes="false">
     <inkscape:grid
        empspacing="2"
@@ -365,7 +365,7 @@
        orientation="1,0"
        id="guide1405" />
     <sodipodi:guide
-       position="30.21238,13.25"
+       position="30.21238,14.000001"
        orientation="0,1"
        id="guide1498"
        inkscape:label=""
@@ -441,6 +441,13 @@
        inkscape:label=""
        inkscape:locked="false"
        inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="45.440003,8.5000003"
+       orientation="0,1"
+       id="guide2072"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -479,7 +486,7 @@
          sodipodi:role="line" /></text>
     <g
        id="g585"
-       transform="translate(-29.640004,76.75)">
+       transform="translate(-29.640004,76)">
       <path
          transform="rotate(90)"
          sodipodi:arc-type="slice"
@@ -1411,7 +1418,7 @@
        aria-label="Notes/Oct"
        id="text1085"
        style="font-size:2.82223px;line-height:1.25;font-family:'PTQ Sans Narrow';-inkscape-font-specification:'PTQ Sans Narrow, Normal';text-align:center;text-anchor:middle;stroke-width:0.264583"
-       transform="translate(0.61388251,-0.27296764)">
+       transform="translate(0.61388251,-0.88696)">
       <path
          d="m 5.8169376,107.75118 0.5616238,0.98496 h 0.2737563 v -1.98967 H 6.3164724 v 0.98496 l 0.045156,0.33584 H 6.3446947 L 6.2233388,107.72578 5.6560705,106.73236 H 5.3823142 v 1.98967 h 0.3358454 v -0.97649 l -0.045156,-0.34149 h 0.014111 z"
          style="stroke-width:0.264583"
@@ -2526,16 +2533,16 @@
        style="display:inline;opacity:0.994;fill:#555d50;fill-opacity:1;stroke:#555d50;stroke-width:0.250001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        id="rect562"
        width="10.249999"
-       height="13.15"
+       height="13.249999"
        x="41.005001"
-       y="107.28212"
+       y="106.625"
        rx="0.99999994"
-       ry="0.99999952" />
+       ry="0.99999946" />
     <g
        aria-label="Poly Out"
        id="text1138"
        style="font-size:2.82223px;line-height:1.25;font-family:'PTQ Sans Narrow';-inkscape-font-specification:'PTQ Sans Narrow, Normal';text-align:center;text-anchor:middle;fill:#fffff0;fill-opacity:1;stroke-width:0.264563"
-       transform="matrix(1,0,0,1.0001542,15.249131,1.508503)">
+       transform="matrix(1,0,0,1.0001542,15.249131,0.801503)">
       <path
          d="m 27.202101,106.73633 c -0.163689,0 -0.335845,0.0198 -0.465668,0.048 v 1.9558 h 0.355601 v -0.68016 c 0.03669,0.0113 0.09878,0.0113 0.146756,0.0113 h 0.03669 c 0.412046,0 0.629357,-0.25964 0.629357,-0.68298 0,-0.46002 -0.251178,-0.65193 -0.702735,-0.65193 z m 0.330201,0.64911 c 0,0.23142 -0.09031,0.36971 -0.313267,0.36971 -0.02258,0 -0.11289,-0.008 -0.127001,-0.0141 v -0.67451 c 0.03669,-0.008 0.08467,-0.0141 0.143934,-0.0141 0.200378,0 0.296334,0.127 0.296334,0.33302 z"
          style="fill:#fffff0;fill-opacity:1;stroke-width:0.264563"
@@ -2769,7 +2776,7 @@
        aria-label="Select"
        id="text1191"
        style="font-size:2.82223px;line-height:1.25;font-family:'PTQ Sans Narrow';-inkscape-font-specification:'PTQ Sans Narrow, Normal';display:inline;stroke-width:0.264583"
-       transform="translate(-6.2180482,0.81369)">
+       transform="translate(-6.2180482,0.10669)">
       <path
          d="m 29.293905,109.06193 -0.115712,0.31891 c 0.112889,0.0705 0.307623,0.11006 0.508002,0.11006 0.383823,0 0.612424,-0.19755 0.612424,-0.58702 0,-0.0988 -0.01976,-0.18344 -0.05362,-0.25682 -0.07056,-0.14111 -0.183445,-0.24836 -0.310445,-0.3302 -0.112889,-0.0706 -0.228601,-0.14394 -0.307623,-0.23425 -0.03669,-0.0395 -0.05362,-0.0875 -0.05362,-0.14111 0,-0.12418 0.09313,-0.1778 0.228601,-0.1778 0.129823,0 0.273756,0.0423 0.347134,0.0903 l 0.110067,-0.31327 c -0.112889,-0.0649 -0.293512,-0.10442 -0.474134,-0.10442 -0.352779,0 -0.567269,0.17498 -0.567269,0.53058 0,0.10442 0.01693,0.19191 0.05362,0.26247 0.06773,0.14111 0.180623,0.24553 0.307623,0.32455 0.112889,0.0734 0.228601,0.14394 0.310445,0.23707 0.03387,0.0423 0.05362,0.0931 0.05362,0.1524 0,0.14676 -0.09596,0.22014 -0.282223,0.22014 -0.13829,0 -0.287868,-0.0508 -0.36689,-0.1016 z"
          style="stroke-width:0.264583"
@@ -2801,12 +2808,12 @@
        width="7.249999"
        height="10.149999"
        x="30.917"
-       y="110.12499"
+       y="109.375"
        rx="1"
        ry="0.99999952" />
     <g
        id="g1362"
-       transform="translate(0.52916667)">
+       transform="translate(0.52916667,-0.74998881)">
       <g
          aria-label="0V = A"
          id="text1269"
@@ -2976,7 +2983,7 @@
        style="display:inline;fill:#0000ff;fill-rule:evenodd;stroke-width:0.264582"
        id="circle877"
        cx="46.130001"
-       cy="115.25"
+       cy="114.5"
        inkscape:label="CV_Out"
        inkscape:transform-center-x="3.1105318"
        inkscape:transform-center-y="-18.017301"
@@ -3128,8 +3135,8 @@
     <circle
        style="display:inline;fill:#0000ff;fill-rule:evenodd;stroke-width:0.264582"
        id="circle1228"
-       cx="26.158726"
-       cy="115.25"
+       cx="26"
+       cy="114.5"
        inkscape:label="CV_Out"
        inkscape:transform-center-x="3.1105318"
        inkscape:transform-center-y="-18.017301"
