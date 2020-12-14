@@ -9,8 +9,11 @@ By David Grande
 Quant
 -----
 ![Quant](images/Quant.png "Quant")
+![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **Normal 12-TET Quantizer with Equi-likely mode.**
+
+- Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
 
 - **Scale:** Use **Scale** modules (see directly below) and polyphonic switch to allow selecting different scales.
 
@@ -27,6 +30,7 @@ Quant
 - **Trigger:** Trigger whenever note changes (polyphonic).
 
 - **Note buttons:** Set current scale, or display externally defined scale. Root on bottom. Defaults to major scale. If no notes are selected, defaults to just the root note.
+
 
 **Explanation of Equi-likely mode**
 
@@ -68,12 +72,15 @@ QuantMT
 ***Updated for v1.5.0***
 
 ![QuantMT](images/QuantMT.png "QuantMT")
+![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
 **v1.5.0 update:** LEDs now not visible unless on, and Ref button operation changed.
 
 For this quantizer the valid notes are defined directly by number.
+
+- Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
 
 - **Quantizer features:** The same as **Quant** (see above), minus the external scale input. 
 
@@ -91,15 +98,19 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Ref (Updated for v1.5.0):** Short press toggles display of reference lights. Long press on (≥ 1 sec) sets reference lights based on current note buttons.
 
+
 ***
 
 QuantIntervals
 --------------
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
+![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
 For this quantizer the valid notes are defined indirectly by pitch intervals.
+
+- Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
 
 - The interval buttons select desired pitch intervals, which now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36.
 
