@@ -69,14 +69,14 @@ Scale
 QuantMT
 -------
 
-***Updated for v1.5.0***
+***Updated for v1.6.0***
 
 ![QuantMT](images/QuantMT.png "QuantMT")
 ![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
-**v1.5.0 update:** LEDs now not visible unless on, and Ref button operation changed.
+**v1.6.0 update:** Ref button long press tweaked.
 
 For this quantizer the valid notes are defined directly by number.
 
@@ -96,7 +96,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Mode:** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
 
-- **Ref (Updated for v1.5.0):** Short press toggles display of reference lights. Long press on (≥ 1 sec) sets reference lights based on current note buttons.
+- **Ref:** Short press toggles display of reference lights. Long press **(now ≥ 2 sec)** sets and turns on reference lights based on current note buttons.
 
 
 ***
@@ -181,21 +181,25 @@ Provides four four-note microtonal chords, all based on current Notes/Oct settin
 
 NoteMT
 ------
+***Updated for v1.6.0***
+
 ![NoteMT](images/NoteMT.png "NoteMT")
 
 **A 1-TET through 34-TET microtonal note generator and display preprocessor.**
 
+**v1.6.0 update:** Output processing stage now polyphonic, Round Notes button added, and blue indicator light removed.
+
 - **Octave** and **Note** knobs: Set octave and note based on current temperament. Note knob clamped to Notes/Oct – 1.
 
-- **V/Oct:** Output voltage defined by Octave and Note knobs.
+- **V/Oct:** Output voltage defined by Octave and Note knobs (still monophonic).
 
-- **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output.
+- **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output. **(Now polyphonic for 1.6.0)**
 
-- **Octave** and **Note** outputs: Convert V/Oct-In voltage (or knobs if input unconnected) into a pair of integer voltages. These can be displayed on a voltmeter, like the one from ML Modules.
+- **Round Notes:** Defines whether Note outputs rounded to integers. When using voltmeters with high precision, note voltages can be displayed as 2.999-something instead of 3. Therefore, I have added in the ability to round notes to integers.  **Caution:** Only use this mode when you're sure the Notes/Oct setting is correct. This mode is always disabled on power-up, and it's disabled whenever the Notes/Oct setting is changed.
+
+- **Octave** and **Note** outputs: Convert V/Oct-In voltage (or knobs if input unconnected) into a pair of integer voltages. These can be displayed on a voltmeter, like the one from ML Modules. **(Now polyphonic for 1.6.0,** so can also use a pair of polyphonic voltmeters, like **Debug** from computerscare.)
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
-
-- A blue light at the top turns on when the Note output values are integers, indicating that the Notes/Oct setting is likely matching the V/Oct-In source. However, this is not guaranteed.
 
 
 ***
@@ -215,9 +219,6 @@ Provides three sample-delay buffer chains giving one or two sample delays each.
 
 MergeSplit4 (MS4)
 -----------------
-
-***New for v1.5.0***
-
 ![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **4-channel polyphonic merge and split.**
