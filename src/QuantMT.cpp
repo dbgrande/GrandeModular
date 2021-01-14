@@ -137,14 +137,15 @@ struct QuantMT : Module {
 				if (last_ref == 0) {  // just pressed
 					refstate[0] = !refstate[0];  // toggle display ref lights state
 				}
-				else if (refstate[0] && last_ref > args.sampleRate) {  // pressed for one second, update refstate
+				else if (last_ref > 2 * args.sampleRate) {  // pressed for two seconds, update refstate
+					refstate[0] = true;  // always turn on when state changed
 					for (int i = 0; i < equal_temp; i++)
 						refstate[i+1] = input_scale[i] == 1;
 					for (int i = equal_temp; i < 34; i++)
 						refstate[i+1] = false;
+					last_ref = 1;  // only update once per hold time while ref button pressed
 				}
-				if (last_ref <= args.sampleRate)
-					last_ref += 50;
+				last_ref += 50;
 			}
 			else  // ref button not pressed
 				last_ref = 0;
