@@ -19,3 +19,4 @@ extern Model* modelQuantIntervals;
 extern Model* modelQuantMT;
 extern Model* modelSampleDelays;
 extern Model* modelScale;
+extern Model* modelTails;

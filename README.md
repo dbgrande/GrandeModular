@@ -6,6 +6,45 @@ By David Grande
 
 ***
 
+Tails
+-------------------
+***New for v1.7.0***
+
+![Tails](images/Tails.png "Tails")
+
+**Mono to poly sequential note splitter—helps preserve envelope tails.**
+
+**Tails** takes a monophonic sequence of notes, as defined by a gate/trigger and a V/Oct voltage, and moves each note to the next available polyphonic output channels. Then using a polyphonic oscillator and a polyphonic envelope generator, these notes can be played simultaneously, giving a much fuller sound. The envelope tails don't have to be cut short at the next note, and can play through most (or all) of their length.
+
+**Without Tails:** Notes and their envelopes get cut off abruptly when a new note appears.
+
+![without](images/without_tails.png "Without Tails")
+
+**With Tails:** Even with just two channels, notes and their envelopes now have significant overlap with the following note. Up to five channels are available for extreme cases. 
+![with](images/with_tails.png "With Tails")
+
+**Warning:** Requires use of a polyphonic oscillator (common), and a polyphonic envelope generator (not so common).
+
+- **Gate In (mono) and Out (poly):** On rising edge of Gate input, V/Oct input is sampled, and both Gate and sampled V/Oct are output on the next poly channel (up to five channels available). Output should be connected to Gate input of a polyphonic envelope generator.
+
+- **V/Oct In (mono) and Out (poly):**  Note values are sampled on the rising edge of the Gate input, and output to the corresponding poly output channel. Output should be connected to V/Oct input of a polyphonic oscillator.
+
+- **Channels knob:** Defines how many polyphonic channels to cycle through, from 1 (off) to 5.
+
+Also provides a polyphonic VCA, since some mixers don't support true polyphonic Volume inputs.
+
+- **VCA In and Out:** Polyphonic voltage-controlled attenuator (up to 16 channels).
+
+- **VCA CV:** Control voltage for VCA attenuation (up to 16 channels).
+
+- **VCA Gain knob:** Sets overall gain for VCA (0-1×).
+
+**Example patch:**
+
+![example_patch](images/example_patch.png "Example Patch")
+
+***
+
 Quant
 -----
 ![Quant](images/Quant.png "Quant")
@@ -68,15 +107,10 @@ Scale
 
 QuantMT
 -------
-
-***Updated for v1.6.0***
-
 ![QuantMT](images/QuantMT.png "QuantMT")
 ![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **A 1-TET through 34-TET microtonal quantizer.**
-
-**v1.6.0 update:** Ref button long press tweaked.
 
 For this quantizer the valid notes are defined directly by number.
 
@@ -96,7 +130,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Mode:** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
 
-- **Ref:** Short press toggles display of reference lights. Long press **(now ≥ 2 sec)** sets and turns on reference lights based on current note buttons.
+- **Ref:** Short press toggles display of reference lights. Long press (now ≥ 2 sec) sets and turns on reference lights based on current note buttons.
 
 
 ***
@@ -181,23 +215,19 @@ Provides four four-note microtonal chords, all based on current Notes/Oct settin
 
 NoteMT
 ------
-***Updated for v1.6.0***
-
 ![NoteMT](images/NoteMT.png "NoteMT")
 
 **A 1-TET through 34-TET microtonal note generator and display preprocessor.**
-
-**v1.6.0 update:** Output processing stage now polyphonic, Round Notes button added, and blue indicator light removed.
 
 - **Octave** and **Note** knobs: Set octave and note based on current temperament. Note knob clamped to Notes/Oct – 1.
 
 - **V/Oct:** Output voltage defined by Octave and Note knobs (still monophonic).
 
-- **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output. **(Now polyphonic for 1.6.0)**
+- **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output (now polyphonic).
 
-- **Round Notes:** Defines whether Note outputs rounded to integers. When using voltmeters with high precision, note voltages can be displayed as 2.999-something instead of 3. Therefore, I have added in the ability to round notes to integers.  **Caution:** Only use this mode when you're sure the Notes/Oct setting is correct. This mode is always disabled on power-up, and it's disabled whenever the Notes/Oct setting is changed.
+- **Round Notes:** Defines whether Note outputs rounded to integers. When using voltmeters with high precision, note voltages can be displayed as 2.999-something instead of 3. Therefore, I have added in the ability to round notes to integers. **Caution:** Only use this mode when you're sure the Notes/Oct setting is correct. This mode is always disabled on power-up, and it's disabled whenever the Notes/Oct setting is changed.
 
-- **Octave** and **Note** outputs: Convert V/Oct-In voltage (or knobs if input unconnected) into a pair of integer voltages. These can be displayed on a voltmeter, like the one from ML Modules. **(Now polyphonic for 1.6.0,** so can also use a pair of polyphonic voltmeters, like **Debug** from computerscare.)
+- **Octave** and **Note** outputs: Convert V/Oct-In voltage (or knobs if input unconnected) into a pair of integer voltages. These can be displayed on a voltmeter, like the one from ML Modules. (Now polyphonic, so can also use a pair of polyphonic voltmeters, like **Debug** from computerscare.)
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 

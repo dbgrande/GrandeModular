@@ -1,0 +1,122 @@
+#include "plugin.hpp"
+
+
+struct Tails : Module {
+	enum ParamIds {
+		GAIN_PARAM,
+		CHANNEL_PARAM,
+		NUM_PARAMS
+	};
+	enum InputIds {
+		IN_INPUT,
+		CV_INPUT,
+		VOCT_INPUT,
+		GATE_INPUT,
+		NUM_INPUTS
+	};
+	enum OutputIds {
+		OUT_OUTPUT,
+		VOCT_OUTPUT,
+		GATE_OUTPUT,
+		NUM_OUTPUTS
+	};
+	enum LightIds {
+		NUM_LIGHTS
+	};
+
+	Tails() {
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(GAIN_PARAM, 0.f, 1.f, 1.f, "Gain", "");
+		configParam(CHANNEL_PARAM, 1, 5, 2, "Channels out", "");
+	}
+
+	dsp::SchmittTrigger trigger;
+	int chan_ptr = 0;
+	float va[16] = { 0.f };
+	float cv[16] = { 0.f };
+	float voct[5] = { 0.f };
+
+	void process(const ProcessArgs &args) override {
+
+	// VCA
+		float gain = clamp((params[GAIN_PARAM].getValue()), 0.f, 1.f);
+
+		int channels_in = inputs[IN_INPUT].getChannels();
+		if (channels_in > 16)
+			channels_in = 16;  // Deal with broken polymerge
+		int c = 0;
+		for ( ; c < channels_in; c++)
+			va[c] = inputs[IN_INPUT].getVoltage(c);
+		for ( ; c < 16; c++)
+			va[c] = va[channels_in - 1];
+
+		int channels_cv = inputs[CV_INPUT].getChannels();
+		if (channels_cv > 0) {  // connected
+			c = 0;
+			for ( ; c < channels_cv; c++)
+				cv[c] = inputs[CV_INPUT].getVoltage(c) / 10.f;
+			for ( ; c < channels_in; c++)
+				cv[c] = cv[channels_cv - 1];
+		}
+		else {  // not connected, set all to one
+			for (c = 0; c < channels_in; c++)
+				cv[c] = 1.f;
+		}
+
+		for (int c = 0; c < channels_in; c++)
+			outputs[OUT_OUTPUT].setVoltage(va[c] * cv[c] * gain, c);
+
+		outputs[OUT_OUTPUT].setChannels(channels_in);
+
+	// Note splitter
+		int channels = clamp((int)(params[CHANNEL_PARAM].getValue()), 1, 5);
+
+		// sequential gates distributed across selected number of poly channels
+		// set trigger point to 0.9V, so doesn't false trigger envelope generators
+		// with gate thresholds at 1.0V.
+		float gv = inputs[GATE_INPUT].getVoltage();
+		if (trigger.process(rescale(gv, 0.1f, 0.9f, 0.f, 1.f))) {  // rising edge of gate
+			chan_ptr = (chan_ptr + 1) % channels;  // increment current channel
+			voct[chan_ptr] = inputs[VOCT_INPUT].getVoltage();  // latch v/oct to current channel
+		}
+		for (int c = 0; c < channels; c++) {
+			outputs[VOCT_OUTPUT].setVoltage(voct[c], c);
+			if (c == chan_ptr)
+				outputs[GATE_OUTPUT].setVoltage(gv, c);
+			else
+				outputs[GATE_OUTPUT].setVoltage(0.f, c);
+		}
+		outputs[VOCT_OUTPUT].setChannels(channels);
+		outputs[GATE_OUTPUT].setChannels(channels);
+
+	}
+};
+
+struct TailsWidget : ModuleWidget {
+	TailsWidget(Tails* module) {
+		setModule(module);
+		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Tails.svg")));
+
+		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
+		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 22.0)), module, Tails::IN_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 34.5)), module, Tails::OUT_OUTPUT));
+
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 47.5)), module, Tails::CV_INPUT));
+
+		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 59.0)), module, Tails::GAIN_PARAM));
+
+
+		addInput(createInputCentered<SmallPort>(mm2px(Vec(5.08, 74.0)), module, Tails::VOCT_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 82.5)), module, Tails::VOCT_OUTPUT));
+
+		addInput(createInputCentered<SmallPort>(mm2px(Vec(5.08, 94.5)), module, Tails::GATE_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 103.0)), module, Tails::GATE_OUTPUT));
+
+		addParam(createParamCentered<RoundTinyRotarySwitchNoRandom>(mm2px(Vec(5.08, 115.0)), module, Tails::CHANNEL_PARAM));
+	}
+};
+
+
+Model* modelTails = createModel<Tails, TailsWidget>("Tails");
