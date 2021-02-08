@@ -20,7 +20,8 @@ Tails
 
 ![without](images/without_tails.png "Without Tails")
 
-**With Tails:** Even with just two channels, notes and their envelopes now have significant overlap with the following note. Up to five channels are available for extreme cases. 
+**With Tails:** Even with just two channels, notes and their envelopes now have significant overlap with the following note. Up to five channels are available for extreme cases.
+
 ![with](images/with_tails.png "With Tails")
 
 **Warning:** Requires use of a polyphonic oscillator (common), and a polyphonic envelope generator (not so common).
