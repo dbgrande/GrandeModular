@@ -44,6 +44,11 @@ Also provides a polyphonic VCA, since some mixers don't support true polyphonic 
 
 ![example_patch](images/example_patch.png "Example Patch")
 
+- Set **Marble's** Jitter knob all the way to 1 to best demonstrate the effects of using **Tails.**
+
+- You can also use the Trigger input of **Plaits** instead of the Gate input of **ADSR.** In that case you don't have to use the VCA section of **Tails.**
+
+
 ***
 
 Quant
