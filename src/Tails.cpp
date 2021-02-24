@@ -31,6 +31,7 @@ struct Tails : Module {
 	}
 
 	dsp::SchmittTrigger trigger;
+	int last_channels = 0;
 	int chan_ptr = 0;
 	float va[16] = { 0.f };
 	float cv[16] = { 0.f };
@@ -44,22 +45,21 @@ struct Tails : Module {
 		int channels_in = inputs[IN_INPUT].getChannels();
 		if (channels_in > 16)
 			channels_in = 16;  // Deal with broken polymerge
-		int c = 0;
-		for ( ; c < channels_in; c++)
+
+		for (int c = 0 ; c < channels_in; c++)
 			va[c] = inputs[IN_INPUT].getVoltage(c);
-		for ( ; c < 16; c++)
-			va[c] = va[channels_in - 1];
 
 		int channels_cv = inputs[CV_INPUT].getChannels();
+		// clamp VCA cv input voltages between 0-10V
 		if (channels_cv > 0) {  // connected
-			c = 0;
+			int c = 0;
 			for ( ; c < channels_cv; c++)
-				cv[c] = inputs[CV_INPUT].getVoltage(c) / 10.f;
+				cv[c] = clamp(inputs[CV_INPUT].getVoltage(c), 0.f, 10.f) / 10.f;
 			for ( ; c < channels_in; c++)
 				cv[c] = cv[channels_cv - 1];
 		}
 		else {  // not connected, set all to one
-			for (c = 0; c < channels_in; c++)
+			for (int c = 0; c < channels_in; c++)
 				cv[c] = 1.f;
 		}
 
@@ -68,21 +68,36 @@ struct Tails : Module {
 
 		outputs[OUT_OUTPUT].setChannels(channels_in);
 
-	// Note splitter
+	// Notes splitter
 		int channels = clamp((int)(params[CHANNEL_PARAM].getValue()), 1, 5);
 
-		// sequential gates distributed across selected number of poly channels
-		// set trigger point to 0.9V, so doesn't false trigger envelope generators
-		// with gate thresholds at 1.0V.
-		float gv = inputs[GATE_INPUT].getVoltage();
-		if (trigger.process(rescale(gv, 0.1f, 0.9f, 0.f, 1.f))) {  // rising edge of gate
-			chan_ptr = (chan_ptr + 1) % channels;  // increment current channel
-			voct[chan_ptr] = inputs[VOCT_INPUT].getVoltage();  // latch v/oct to current channel
+		// check for number of channels being decreased
+		if (channels < last_channels) {
+			for (int c = channels; c < last_channels; c++)
+				voct[c] = 0.f;  // clear channels as they're turned off
+			if (chan_ptr >= channels)
+				chan_ptr = 0;  // wrap pointer to 0 if now pointing to disabled channel
+			last_channels = channels;
 		}
+		else
+			last_channels = channels;
+
+		// sequential gates distributed across selected number of poly channels
+		float gv = inputs[GATE_INPUT].getVoltage();
+
+		// rising edge of gate increments output channel
+		// and latches v/oct value to this channel
+		if (trigger.process(rescale(gv, 0.1f, 2.f, 0.f, 1.f))) {
+			chan_ptr = (chan_ptr + 1) % channels;
+			voct[chan_ptr] = inputs[VOCT_INPUT].getVoltage();
+		}
+		// All enabled v/oct output channels always output each channel's last latched value.
+		// The current gate output channel outputs 10V while its input remains high,
+		// then it outputs 0V, along with all the other gate output channels.
 		for (int c = 0; c < channels; c++) {
 			outputs[VOCT_OUTPUT].setVoltage(voct[c], c);
 			if (c == chan_ptr)
-				outputs[GATE_OUTPUT].setVoltage(gv, c);
+				outputs[GATE_OUTPUT].setVoltage((trigger.isHigh() ? 10.f : 0.f), c);
 			else
 				outputs[GATE_OUTPUT].setVoltage(0.f, c);
 		}
@@ -100,19 +115,19 @@ struct TailsWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 22.0)), module, Tails::IN_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 34.5)), module, Tails::OUT_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 21.5)), module, Tails::IN_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 33.5)), module, Tails::OUT_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 47.5)), module, Tails::CV_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 46.0)), module, Tails::CV_INPUT));
 
-		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 59.0)), module, Tails::GAIN_PARAM));
+		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 57.0)), module, Tails::GAIN_PARAM));
 
 
 		addInput(createInputCentered<SmallPort>(mm2px(Vec(5.08, 74.0)), module, Tails::VOCT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 82.5)), module, Tails::VOCT_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 82.8)), module, Tails::VOCT_OUTPUT));
 
 		addInput(createInputCentered<SmallPort>(mm2px(Vec(5.08, 94.5)), module, Tails::GATE_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 103.0)), module, Tails::GATE_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 103.3)), module, Tails::GATE_OUTPUT));
 
 		addParam(createParamCentered<RoundTinyRotarySwitchNoRandom>(mm2px(Vec(5.08, 115.0)), module, Tails::CHANNEL_PARAM));
 	}
