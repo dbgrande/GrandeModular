@@ -12,7 +12,7 @@
    viewBox="0 0 30.48 128.5"
    version="1.1"
    id="svg8"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="QuantMT.svg">
   <defs
      id="defs2">
@@ -240,9 +240,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.6402461"
-     inkscape:cx="93.940495"
-     inkscape:cy="113.31402"
+     inkscape:zoom="2.7012349"
+     inkscape:cx="-59.266384"
+     inkscape:cy="233.37173"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -250,7 +250,7 @@
      inkscape:snap-midpoints="false"
      inkscape:window-width="1881"
      inkscape:window-height="1309"
-     inkscape:window-x="1350"
+     inkscape:window-x="902"
      inkscape:window-y="27"
      inkscape:window-maximized="0"
      inkscape:snap-grids="true"
@@ -402,12 +402,12 @@
     <rect
        style="display:inline;fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829458;stroke-opacity:0.25"
        id="rect45"
-       width="8.6000013"
+       width="9"
        height="13"
-       x="17.947414"
+       x="17.74"
        y="92"
        ry="0.80000001"
-       rx="0.80000001" />
+       rx="0.80000007" />
     <g
        transform="translate(17.194416,-172.03951)"
        aria-label="CV In"
@@ -479,12 +479,12 @@
     <rect
        ry="0.80000001"
        y="107"
-       x="17.937416"
+       x="17.74"
        height="13"
-       width="8.6000013"
+       width="9"
        id="rect879"
        style="display:inline;fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829458;stroke-opacity:0.25"
-       rx="0.80000001" />
+       rx="0.80000007" />
     <g
        style="font-weight:bold;font-stretch:condensed;font-size:2.82223px;line-height:1.25;font-family:'PT Sans Narrow';-inkscape-font-specification:'PT Sans Narrow, Bold Condensed';display:inline;fill:#fffff0;fill-opacity:1;stroke-width:0.264583"
        id="text883"

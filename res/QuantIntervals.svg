@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="QuantIntervals.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    id="svg8"
    version="1.1"
    viewBox="0 0 81.28 128.5"
@@ -35,8 +35,8 @@
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="80.954831"
-     inkscape:cx="231.3178"
+     inkscape:cy="389.56288"
+     inkscape:cx="245.27864"
      inkscape:zoom="5.4437984"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -1341,12 +1341,12 @@
          d="m 53.949359,78.64769 c 0.09313,0 0.2286,-0.0254 0.282223,-0.06209 l -0.03105,-0.270934 c -0.03951,0.01693 -0.07055,0.0254 -0.112889,0.0254 -0.07902,0 -0.08467,-0.08467 -0.08467,-0.183445 v -1.51836 h -0.335845 v 1.698982 c 0,0.21449 0.07902,0.310446 0.282223,0.310446 z" />
     </g>
     <rect
-       rx="0.80000001"
+       rx="0.80000007"
        ry="0.80000001"
        y="92"
-       x="69.700005"
+       x="69.500008"
        height="13"
-       width="8.6000013"
+       width="8.9999924"
        id="rect45"
        style="display:inline;fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829455;stroke-opacity:0.25" />
     <g
@@ -1616,12 +1616,12 @@
     <rect
        style="display:inline;fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829455;stroke-opacity:0.25"
        id="rect1223"
-       width="8.6000013"
+       width="8.9999924"
        height="13"
-       x="69.699997"
+       x="69.5"
        y="107"
        ry="0.80000001"
-       rx="0.80000001" />
+       rx="0.80000007" />
     <g
        transform="translate(68.920005,-168.50005)"
        aria-label="Trig"

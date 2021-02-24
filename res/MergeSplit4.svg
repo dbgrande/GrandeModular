@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="MergeSplit4.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    id="svg8"
    version="1.1"
    viewBox="0 0 10.16 128.5"
@@ -22,8 +22,8 @@
      inkscape:snap-bbox="true"
      inkscape:document-rotation="0"
      inkscape:window-maximized="0"
-     inkscape:window-y="134"
-     inkscape:window-x="1457"
+     inkscape:window-y="131"
+     inkscape:window-x="770"
      inkscape:window-height="1205"
      inkscape:window-width="1374"
      inkscape:lockguides="false"
@@ -33,9 +33,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="318.72933"
-     inkscape:cx="10.806957"
-     inkscape:zoom="5.870362"
+     inkscape:cy="210.42859"
+     inkscape:cx="-35.629644"
+     inkscape:zoom="2.935181"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -295,27 +295,27 @@
     <rect
        style="display:inline;fill:#555d50;fill-opacity:1;stroke-width:0.264583"
        id="rect896"
-       width="8.6000004"
+       width="9"
        height="12.75"
-       x="0.77999997"
+       x="0.58000004"
        y="219.75"
        rx="1.0000006"
        ry="1.0000008" />
     <rect
        style="display:inline;fill:#555d50;fill-opacity:1;stroke-width:0.264583"
        id="rect913"
-       width="8.6000004"
+       width="9"
        height="40.5"
-       x="0.77999997"
+       x="0.58000004"
        y="247.99998"
        rx="1.0000006"
        ry="1.0000006" />
     <rect
        style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1"
        id="rect1025"
-       width="8.6000004"
+       width="9"
        height="2"
-       x="0.77999997"
+       x="0.58000004"
        y="219.75" />
     <g
        aria-label="Merge"
@@ -412,9 +412,9 @@
     <rect
        style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1"
        id="rect1023"
-       width="8.6000004"
+       width="9"
        height="2"
-       x="0.77999997"
+       x="0.58000004"
        y="248" />
     <g
        aria-label="1"
@@ -459,18 +459,18 @@
     <rect
        style="fill:none;fill-opacity:1;stroke:#555d50;stroke-width:0.264583;stroke-opacity:1"
        id="rect1019"
-       width="8.3354168"
+       width="8.7354164"
        height="52.735416"
-       x="0.91229147"
+       x="0.71229154"
        y="179.63226"
        rx="1.0000006"
        ry="1.0000005" />
     <rect
        style="fill:none;fill-opacity:1;stroke:#555d50;stroke-width:0.264583;stroke-opacity:1"
        id="rect1021"
-       width="8.3354168"
+       width="8.7231102"
        height="53.735416"
-       x="0.91229147"
+       x="0.71844465"
        y="234.63229"
        rx="1.0000006"
        ry="1.0000006" />

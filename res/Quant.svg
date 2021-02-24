@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="Quant.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    id="svg8"
    version="1.1"
    viewBox="0 0 20.32 128.5"
@@ -33,9 +33,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="299.89652"
-     inkscape:cx="-112.82494"
-     inkscape:zoom="0.72855252"
+     inkscape:cy="247.27093"
+     inkscape:cx="-65.673538"
+     inkscape:zoom="2.9142101"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -230,13 +230,14 @@
        x="-1.110223e-16"
        y="168.5" />
     <rect
-       style="fill:#555d50;stroke:none;stroke-width:0.829457;stroke-opacity:0.25;fill-opacity:1"
+       style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829457;stroke-opacity:0.25"
        id="rect45"
-       width="8.6000004"
+       width="9"
        height="13"
-       x="10.15"
+       x="9.9500008"
        y="260.5"
-       ry="0.80000001" />
+       ry="0.80000001"
+       rx="0.80000001" />
     <g
        transform="translate(9.397,-3.53951)"
        aria-label="CV In"
@@ -319,11 +320,12 @@
     <rect
        ry="0.80000001"
        y="275.5"
-       x="10.14"
+       x="9.9499998"
        height="13"
-       width="8.6000004"
+       width="9"
        id="rect879"
-       style="fill:#555d50;stroke:none;stroke-width:0.829457;stroke-opacity:0.25;fill-opacity:1" />
+       style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829457;stroke-opacity:0.25"
+       rx="0.80000001" />
     <g
        style="font-weight:bold;font-stretch:condensed;font-size:2.82223px;line-height:1.25;font-family:'PT Sans Narrow';-inkscape-font-specification:'PT Sans Narrow, Bold Condensed';fill:#fffff0;stroke-width:0.264583;fill-opacity:1"
        id="text883"

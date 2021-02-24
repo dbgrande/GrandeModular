@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="NoteMT.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    id="svg8"
    version="1.1"
    viewBox="0 0 25.4 128.5"
@@ -22,8 +22,8 @@
      inkscape:snap-bbox="true"
      inkscape:document-rotation="0"
      inkscape:window-maximized="0"
-     inkscape:window-y="23"
-     inkscape:window-x="26"
+     inkscape:window-y="414"
+     inkscape:window-x="749"
      inkscape:window-height="712"
      inkscape:window-width="1366"
      inkscape:lockguides="false"
@@ -33,8 +33,8 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="336.50185"
-     inkscape:cx="65.449656"
+     inkscape:cy="251.64903"
+     inkscape:cx="-20.817375"
      inkscape:zoom="2.828427"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -146,9 +146,9 @@
        rx="0.79999995"
        ry="0.80000025"
        y="221.5"
-       x="8.1000004"
+       x="8.1999998"
        height="13"
-       width="9.1999998"
+       width="9"
        id="rect912"
        style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829455;stroke-opacity:0.25" />
     <text
@@ -166,9 +166,9 @@
        rx="0.79999995"
        ry="0.80000019"
        y="253.5"
-       x="1.78"
+       x="1.88"
        height="13"
-       width="9.1999998"
+       width="9"
        id="rect919"
        style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829456;stroke-opacity:0.25" />
     <g
@@ -347,9 +347,9 @@
     <rect
        style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829456;stroke-opacity:0.25"
        id="rect1006"
-       width="9.1999998"
+       width="9"
        height="13"
-       x="14.45"
+       x="14.55"
        y="253.5"
        ry="0.80000019"
        rx="0.79999995" />
@@ -715,9 +715,9 @@
     <rect
        style="display:inline;opacity:0.994;fill:none;stroke:#555d50;stroke-width:0.250001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        id="rect278"
-       width="8.9499989"
+       width="8.749999"
        height="12.749999"
-       x="14.575001"
+       x="14.675"
        y="237.425"
        rx="0.99999994"
        ry="0.9999997" />
