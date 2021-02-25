@@ -8,13 +8,19 @@ By David Grande
 
 Tails
 -------------------
-***New for v1.7.0***
+***Updated for v1.7.1***
 
 ![Tails](images/Tails.png "Tails")
 
 **Mono to poly sequential note splitter—helps preserve envelope tails.**
 
-**Tails** takes a monophonic sequence of notes, as defined by a gate/trigger and a V/Oct voltage, and moves each note to the next available polyphonic output channels. Then using a polyphonic oscillator and a polyphonic envelope generator, these notes can be played simultaneously, giving a much fuller sound. The envelope tails don't have to be cut short at the next note, and can play through most (or all) of their length.
+***For v1.7.1, panel design updated, VCA CV input now clamped, and minor code issues were fixed.***
+
+**Tails** takes a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels.
+
+Gate pulse lengths are not changed, so there can still only be one active note playing at a time. However, by giving each note a separate channel, this allows for each note's release envelope to continue playing in parallel, giving a much fuller sound.
+
+This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there's only one pitch value per note, chords are not directly supported.
 
 **Without Tails:** Notes and their envelopes get cut off abruptly when a new note appears.
 
@@ -24,30 +30,43 @@ Tails
 
 ![with](images/with_tails.png "With Tails")
 
-**Warning:** Requires use of a polyphonic oscillator (common), and a polyphonic envelope generator (not so common).
+**Warning:** Requires use of a polyphonic oscillator (fairly common), and a polyphonic envelope generator (not so common).
 
-- **Gate In (mono) and Out (poly):** On rising edge of Gate input, V/Oct input is sampled, and both Gate and sampled V/Oct are output on the next poly channel (up to five channels available). Output should be connected to Gate input of a polyphonic envelope generator.
 
-- **V/Oct In (mono) and Out (poly):**  Note values are sampled on the rising edge of the Gate input, and output to the corresponding poly output channel. Output should be connected to V/Oct input of a polyphonic oscillator.
+**Notes Section:**
 
-- **Channels knob:** Defines how many polyphonic channels to cycle through, from 1 (off) to 5.
+- **V/Oct input:** Feed in a monophonic sequence of V/Oct note pitches. Each value is latched on the rising edge of its corresponding gate pulse.
+
+- **V/Oct output (poly):** Connect to the V/Oct input of a polyphonic oscillator.
+
+- **Gate input:** Feed in a monophonic sequence of gate pulses, the more irregular the better.
+
+- **Gate output (poly):** Connect to the Gate or Trigger input of a polyphonic envelope generator.
+
+- **Chans knob:** Defines how many polyphonic channels to output, from 1 to 5.
+
+**VCA Section:**
 
 Also provides a polyphonic VCA, since some mixers don't support true polyphonic Volume inputs.
 
 - **VCA In and Out:** Polyphonic voltage-controlled attenuator (up to 16 channels).
 
-- **VCA CV:** Control voltage for VCA attenuation (up to 16 channels).
+- **VCA CV:** Control voltage for VCA attenuation (up to 16 channels). ***For v1.7.1, CV input voltage now clamped 0-10V, to match VCV VCA.***
 
 - **VCA Gain knob:** Sets overall gain for VCA (0-1×).
+
 
 **Example patch:**
 
 ![example_patch](images/example_patch.png "Example Patch")
 
-- Set **Marble's** Jitter knob all the way to 1 to best demonstrate the effects of using **Tails.**
+- **Marbles (random sampler):** To best demonstrate the effects of using **Tails,** set the **JITTER** knob all the way to the right (value = 1). Also, turning the **STEPS** knob clockwise gives more musical sequences.
 
-- You can also use the Trigger input of **Plaits** instead of the Gate input of **ADSR.** In that case you don't have to use the VCA section of **Tails.**
+- **Plaits (macro oscillator 2):** Lowering the **FREQUENCY** knob by two octaves gives more pleasant notes.
 
+- **ADSR:** Set fairly short attack and decay times,such as 15ms, while making the release time fairly long, such as 300ms or more.
+
+- **Tails:** While this patch is playing, alternate the number of channels between 1 and 5, and listen to the difference.
 
 ***
 
@@ -242,11 +261,15 @@ NoteMT
 
 SampleDelays (SD)
 -----------------
+***Updated for v1.7.1***
+
 ![SampleDelays](images/SampleDelays.png "SampleDelays")
 
 **3 sample delay buffer chains.**
 
-Provides three sample-delay buffer chains giving one or two sample delays each.
+***For v1.7.1, panel design made consistent with other modules.***
+
+Provides three independent sample-delay buffer chains giving one or two sample delays each.
 
 - Internally chained together to give up to six sample delays.
 
