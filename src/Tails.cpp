@@ -73,14 +73,14 @@ struct Tails : Module {
 
 		// check for number of channels being decreased
 		if (channels < last_channels) {
+			if (chan_ptr >= channels) {
+				voct[0] = voct[chan_ptr];  // copy current voct to 0, in case gate still on
+				chan_ptr = 0;  // wrap pointer to 0 if now pointing to disabled channel
+			}
 			for (int c = channels; c < last_channels; c++)
 				voct[c] = 0.f;  // clear channels as they're turned off
-			if (chan_ptr >= channels)
-				chan_ptr = 0;  // wrap pointer to 0 if now pointing to disabled channel
-			last_channels = channels;
 		}
-		else
-			last_channels = channels;
+		last_channels = channels;
 
 		// sequential gates distributed across selected number of poly channels
 		float gv = inputs[GATE_INPUT].getVoltage();
