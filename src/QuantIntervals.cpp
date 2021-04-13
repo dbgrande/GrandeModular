@@ -433,7 +433,10 @@ struct QuantIntervals : Module {
 				for (int c = 0; c < 16; c++)
 					transpose[c] = 0.f;
 			else if (channels == 1) { // mono tranpose, apply to all channels
-				float fracT = fmodf(inputs[ROOT_INPUT].getVoltage(0), 1.f);
+				float vin = inputs[ROOT_INPUT].getVoltage(0);
+				if (std::isnan(vin) || std::isinf(vin))  // NaN or ∞ crashed Rack
+					vin = 0.f;
+				float fracT = fmodf(vin, 1.f);
 				if (fracT < 0.f ) // round to -∞
 					fracT = (abs(fracT) < 1e-7) ? 0.f : fracT + 1.f;
 				float qT = floor(equal_temp * fracT + 0.5f) / equal_temp; // quantize to chromatic scale
@@ -442,7 +445,10 @@ struct QuantIntervals : Module {
 			}
 			else { // full poly, separate transpose per channel
 				for (int c = 0; c < channels; c++) {
-					float fracT = fmodf(inputs[ROOT_INPUT].getVoltage(c), 1.f);
+					float vin = inputs[ROOT_INPUT].getVoltage(c);
+					if (std::isnan(vin) || std::isinf(vin))  // NaN or ∞ crashed Rack
+						vin = 0.f;
+					float fracT = fmodf(vin, 1.f);
 					if (fracT < 0.f ) // round to -∞
 						fracT = (abs(fracT) < 1e-7) ? 0.f : fracT + 1.f;
 					transpose[c] = floor(equal_temp * fracT + 0.5f) / equal_temp; // quantize to chromatic scale
@@ -457,8 +463,11 @@ struct QuantIntervals : Module {
 		// quantize cv input (polyphonic)
 		int channels = inputs[CV_IN_INPUT].getChannels();
 		for (int c = 0; c < channels; c++) {
+			float vin = inputs[CV_IN_INPUT].getVoltage(c);
+			if (std::isnan(vin))  // NaN crashed Rack
+				vin = 0.f;
 			float intPart;
-			float fracPart = modff(inputs[CV_IN_INPUT].getVoltage(c) - transpose[c], &intPart);
+			float fracPart = modff(vin - transpose[c], &intPart);
 			if (intPart < 0.f || fracPart < 0.f) { // round to -∞
 				if (abs(fracPart) < 1e-7)
 					fracPart = 0.f;
