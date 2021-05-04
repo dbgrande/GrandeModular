@@ -22,8 +22,8 @@
      inkscape:snap-bbox="true"
      inkscape:document-rotation="0"
      inkscape:window-maximized="0"
-     inkscape:window-y="131"
-     inkscape:window-x="770"
+     inkscape:window-y="23"
+     inkscape:window-x="26"
      inkscape:window-height="1205"
      inkscape:window-width="1374"
      inkscape:lockguides="false"
@@ -33,9 +33,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="210.42859"
-     inkscape:cx="-35.629644"
-     inkscape:zoom="2.935181"
+     inkscape:cy="243.71843"
+     inkscape:cx="8.0774248"
+     inkscape:zoom="4.1509728"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -120,7 +120,7 @@
        orientation="-1,0"
        position="5.0800002,74.250002" />
     <sodipodi:guide
-       position="-37.318825,69.750003"
+       position="-37.318825,69.250003"
        orientation="0,1"
        id="guide882"
        inkscape:label=""
@@ -298,7 +298,7 @@
        width="9"
        height="12.75"
        x="0.58000004"
-       y="219.75"
+       y="220.25"
        rx="1.0000006"
        ry="1.0000008" />
     <rect
@@ -316,12 +316,12 @@
        width="9"
        height="2"
        x="0.58000004"
-       y="219.75" />
+       y="220.25" />
     <g
        aria-label="Merge"
        id="text917"
        style="font-size:2.82223px;line-height:1.25;font-family:'PTQ Sans Narrow';-inkscape-font-specification:'PTQ Sans Narrow, Normal';fill:#fffff0;fill-opacity:1;stroke-width:0.264583"
-       transform="translate(-0.64576321,-0.20240734)">
+       transform="translate(-0.64576321,0.3929)">
       <path
          d="m 3.9167179,221.56383 v 1.01883 h 0.355601 V 220.6071 H 3.9364735 l -0.3866455,0.84949 -0.064911,0.25118 H 3.4736278 L 3.4058942,221.46223 2.9938486,220.6071 H 2.6523588 v 1.97556 h 0.3358454 v -1.02165 l -0.053622,-0.381 h 0.016933 l 0.1044225,0.34149 0.3414898,0.69709 h 0.1185337 l 0.3217342,-0.69427 0.1044225,-0.33867 h 0.014111 z"
          style="fill:#fffff0;fill-opacity:1;stroke-width:0.264583"
@@ -347,7 +347,7 @@
        aria-label="Split"
        id="text932"
        style="font-size:2.82223px;line-height:1.25;font-family:'PTQ Sans Narrow';-inkscape-font-specification:'PTQ Sans Narrow, Normal';stroke-width:0.264583"
-       transform="translate(0.27995134,0.32841)">
+       transform="translate(0.27995134,0.57841)">
       <path
          d="m 2.6297616,237.04721 -0.1157115,0.31891 c 0.1128892,0.0706 0.3076231,0.11007 0.5080015,0.11007 0.3838232,0 0.6124239,-0.19756 0.6124239,-0.58703 0,-0.0988 -0.019756,-0.18344 -0.053622,-0.25682 -0.070556,-0.14111 -0.1834449,-0.24836 -0.3104453,-0.3302 -0.1128892,-0.0706 -0.2286006,-0.14393 -0.3076231,-0.23425 -0.036689,-0.0395 -0.053622,-0.0875 -0.053622,-0.14111 0,-0.12418 0.093134,-0.1778 0.2286007,-0.1778 0.1298226,0 0.2737563,0.0423 0.3471343,0.0903 l 0.110067,-0.31326 c -0.1128892,-0.0649 -0.293512,-0.10443 -0.4741347,-0.10443 -0.3527788,0 -0.5672682,0.17498 -0.5672682,0.53058 0,0.10443 0.016933,0.19191 0.053622,0.26247 0.067733,0.14111 0.1806228,0.24553 0.3076231,0.32456 0.1128892,0.0734 0.2286006,0.14393 0.3104453,0.23706 0.033867,0.0423 0.053622,0.0931 0.053622,0.1524 0,0.14676 -0.095956,0.22014 -0.282223,0.22014 -0.1382893,0 -0.2878675,-0.0508 -0.3668899,-0.1016 z"
          style="stroke-width:0.264583"
@@ -460,7 +460,7 @@
        style="fill:none;fill-opacity:1;stroke:#555d50;stroke-width:0.264583;stroke-opacity:1"
        id="rect1019"
        width="8.7354164"
-       height="52.735416"
+       height="53.23542"
        x="0.71229154"
        y="179.63226"
        rx="1.0000006"
@@ -469,9 +469,9 @@
        style="fill:none;fill-opacity:1;stroke:#555d50;stroke-width:0.264583;stroke-opacity:1"
        id="rect1021"
        width="8.7231102"
-       height="53.735416"
+       height="53.235416"
        x="0.71844465"
-       y="234.63229"
+       y="235.13229"
        rx="1.0000006"
        ry="1.0000006" />
   </g>
@@ -489,7 +489,7 @@
        r="4" />
     <circle
        inkscape:label="CV_Out"
-       cy="58.75"
+       cy="59.25"
        cx="5.0799999"
        id="circle914"
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264582"
