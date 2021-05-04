@@ -168,6 +168,13 @@ struct PetiteStealthLight : TBase {
 	}
 };
 
+template <typename TBase>
+struct PetiteLight : TBase {
+	PetiteLight() {
+		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+	}
+};
+
 struct SmallLEDButton : SvgSwitch {
 	SmallLEDButton() {
 		momentary = true;

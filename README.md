@@ -142,6 +142,29 @@ Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https:/
 
 ***
 
+Clip
+----
+![Clip](images/Clip.png "Clip")
+
+**Polyphonic hard clipper and visual clip monitor.**
+
+Provides two separate polyphonic clippers with displays, which clip to ±5V by default. The clipping voltage is adjustable by knob (up to ±10V), or polyphonic input voltages (up to ±20V).
+
+In addition, this module also filters out infinities and NaNs. Positive infinities get clipped to +Vclip and negative infinities get clipped to –Vclip, while NaNs get filtered to 0V.
+
+The display shows active channels in blue, while any currently clipping channels are shown in red. To use this just as a clip monitor, just attach the inputs and don't pass through this module.
+
+- **A In and Out:** First signal to be clipped/monitored (polyphonic).
+
+- **B In and Out:** Second signal to be clipped/monitored (polyphonic).
+
+- **Vclip knob:** Allows adjusting the clipping voltage from 0 to ±10V (default ±5V). Applies to both A and B inputs, and all channels. Note that this is only enabled if the Vclip input port is unconnected.
+
+- **Vclip input:** Alternative for setting clipping voltages. Input voltages (polyphonic) directly define clipping voltage to use for A and B, which are clipped to ±Vclip (per channel). In this case input values can range from 0V to 20V, and negative input values are converted to positive values.
+
+
+***
+
 SampleDelays (SD)
 -----------------
 ![SampleDelays](images/SampleDelays.png "SampleDelays")

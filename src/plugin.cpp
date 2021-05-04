@@ -9,6 +9,7 @@ void init(Plugin* p) {
 
 	// Add modules here
 	// p->addModel(modelMyModule);
+	p->addModel(modelClip);
 	p->addModel(modelMergeSplit4);
 	p->addModel(modelMicrotonalChords);
 	p->addModel(modelMicrotonalNotes);
