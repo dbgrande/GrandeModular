@@ -28,7 +28,8 @@ struct QuantIntervals : Module {
 		NUM_OUTPUTS
 	};
 	enum LightIds {
-		ENUMS(INTERVAL_LIGHTS, 67),
+		ENUMS(INTERVAL_TOP_LIGHTS, 67),
+		ENUMS(INTERVAL_BOT_LIGHTS, 67),
 		ENUMS(NOTE_LIGHTS, 34),
 		NUM_LIGHTS
 	};
@@ -202,6 +203,7 @@ struct QuantIntervals : Module {
 				note_used[i] = -1;  // -1 == unused, 0 - 31, or 0 - 61 == pointer to interval
 
 			float interval_used[68];
+			float error_table[68];
 			for (int i = 0; i < num_intervals + 1; i++)
 				interval_used[i] = -1.f;  // < -0.5f == unused, 0.f - min(tolerance, step_size) == current error
 
@@ -216,17 +218,20 @@ struct QuantIntervals : Module {
 			for (int i = 0; i < num_intervals + 1; i++) {
 				if (interval_inputs[i] == 1) {
 					int closest_note = floorf((interval_lu[i] / step_size) + 0.5f);
-					float error = fabsf(interval_lu[i] - closest_note * step_size);
+					float raw_error = interval_lu[i] - closest_note * step_size;
+					float error = fabsf(raw_error);
 					if (error <= tolerance) {
 						int prev_int = note_used[closest_note];
 						if (prev_int >= 0 && error < interval_used[prev_int]) {
 							interval_used[prev_int] = -1.f;  // zero out previous interval
 							note_used[closest_note] = i;
 							interval_used[i] = error;
+							error_table[i] = raw_error;
 						}
 						else if (prev_int < 0) {
 							note_used[closest_note] = i;
 							interval_used[i] = error;
+							error_table[i] = raw_error;
 						}
 					}
 				}
@@ -259,38 +264,70 @@ struct QuantIntervals : Module {
 					d_note_used[i] = -1;  // -1 == unused, 0 - 31, or 0 - 61 == pointer to interval
 
 				float d_interval_used[68];
+				float d_error_table[68];
 				for (int i = 0; i < num_intervals; i++)
 					d_interval_used[i] = -1.f;  // < -0.5f == unused, 0.f - min(tolerance, step_size) == current error
 
 				for (int i = 0; i < num_intervals + 1; i++) {
 					if (show_small == 0 || (show_small == 1 && ratio_size[i] == 1)) {  // only check small if show small
 						int closest_note = floorf((interval_lu[i] / step_size) + 0.5f);
-						float error = fabsf(interval_lu[i] - closest_note * step_size);
+						float raw_error = interval_lu[i] - closest_note * step_size;
+						float error = fabsf(raw_error);
 						if (error <= tolerance) {
 							int prev_int = d_note_used[closest_note];
 							if (prev_int >= 0 && error < d_interval_used[prev_int]) {
 								d_interval_used[prev_int] = -1.f;  // zero out previous interval
 								d_note_used[closest_note] = i;
 								d_interval_used[i] = error;
+								d_error_table[i] = raw_error;
 							}
 							else if (prev_int < 0) {
 								d_note_used[closest_note] = i;
 								d_interval_used[i] = error;
+								d_error_table[i] = raw_error;
 							}
 						}
 					}
 				}
-				// show all allowed lights, with error amount
+				// show all allowed lights, with error amount (test with positive and negative error)
 				for (int i = 0; i < 67; i++) {
 					if (d_interval_used[i] > -0.5) {  //interval used
-						float error = d_interval_used[i] * 1200.f / 6.f;  // 6¢
-						if (error < 1.f)
-							lights[INTERVAL_LIGHTS + i].setBrightness(1.f);
+						float error = d_error_table[i] * 1200.f;  // 1¢ = 1, 50¢ = 50
+						float thresh = 2.5f;
+						float top, bot;
+						//
+						// Interval lights now split into top and bottom halves, so I can indicate if actual note
+						//   is above or below each interval. For example, superflat EDOs have closest note well below the
+						//   3/2 interval, e.g. note 5 in 9 EDO (5\9). For these, the 3/2 light will be fairly dim, but
+						//   the bottom half will be brighter.
+						// Explanation of algorithm:
+						// - Within thresh (2.5¢), both halves will be full brightness.
+						// - Up to 5¢, light in direction of note full brightness.
+						// -   Beyond that, it decays at (5¢/error)**0.7.
+						// -   However, at 25¢, it decays at twice that rate.
+						// - At 2.5¢, the light in the opposite direction decays at a much faster rate, (2.5¢/error)**1.5.
+						//
+						// top half
+						if (error < 2.f * -thresh)
+							top = std::pow(2.f * thresh / -error, 0.7f) * (error < -25.f ? (75.f + error)/50.f : 1.f);
+						else if (error > thresh)
+							top = std::pow(thresh / error, 1.5f);
 						else
-							lights[INTERVAL_LIGHTS + i].setBrightness(1.f / error);
+							top = 1.0;
+						// bot half
+						if (error > 2.f * thresh)
+							bot = std::pow(2.f * thresh / error, 0.7f) * (error > 25.f ? (75.f - error)/50.f : 1.f);
+						else if (error < -thresh)
+							bot = std::pow(thresh / -error, 1.5f);
+						else
+							bot = 1.0;
+						lights[INTERVAL_TOP_LIGHTS + i].setBrightness(top);
+						lights[INTERVAL_BOT_LIGHTS + i].setBrightness(bot);
 					}
-					else
-						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
+					else {
+						lights[INTERVAL_TOP_LIGHTS + i].setBrightness(0.f);
+						lights[INTERVAL_BOT_LIGHTS + i].setBrightness(0.f);
+					}
 				}
 			}
 			else if (interval_light_pressed >= 0) {
@@ -303,52 +340,99 @@ struct QuantIntervals : Module {
 					note = 0;
 				if (e <= tolerance) {
 					for (int i = 0; i < 67; i++) {
-						float error = fabsf(((float) note / equal_temp) - interval_lu[i]);
+						float error = (interval_lu[i] - ((float) note / equal_temp)) * 1200.f;
 						if (note == 0 && i == 66)  // root can match 35:18 if tolerance big enough.
-							error = 1.f - interval_lu[i];
-						if (error <= fminf(tolerance, 0.5f / equal_temp)) {
-							if (error < 0.005f)  // 6¢
-								lights[INTERVAL_LIGHTS + i].setBrightness(1.f);
+							error = 1200.f * (interval_lu[i] - 1.f);
+						if (std::fabs(error) <= 1200.f * fminf(tolerance, 0.5f / equal_temp)) {
+							float thresh = 2.5f;
+							float top, bot;
+							// lights show direction to actual note
+							// top half
+							if (error < 2.f * -thresh)
+								top = std::pow(2.f * thresh / -error, 0.7f) * (error < -25.f ? (75.f + error)/50.f : 1.f);
+							else if (error > thresh)
+								top = std::pow(thresh / error, 1.5f);
 							else
-								lights[INTERVAL_LIGHTS + i].setBrightness(0.005f / error);
+								top = 1.0;
+							// bot half
+							if (error > 2.f * thresh)
+								bot = std::pow(2.f * thresh / error, 0.7f) * (error > 25.f ? (75.f - error)/50.f : 1.f);
+							else if (error < -thresh)
+								bot = std::pow(thresh / -error, 1.5f);
+							else
+								bot = 1.0;
+							lights[INTERVAL_TOP_LIGHTS + i].setBrightness(top);
+							lights[INTERVAL_BOT_LIGHTS + i].setBrightness(bot);
 						}
-						else
-							lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
+						else {
+							lights[INTERVAL_TOP_LIGHTS + i].setBrightness(0.f);
+							lights[INTERVAL_BOT_LIGHTS + i].setBrightness(0.f);
+						}
 					}
-				}
-				else {
-					for (int i = 0; i < 67; i++)
-						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
 				}
 			}
 			else if (note_light_pressed >= 0) {
 				// show all intervals valid for pressed note, based on set tolerance
 				for (int i = 0; i < 67; i++) {
-					float error = fabsf(((float) note_light_pressed / equal_temp) - interval_lu[i]);
+					float error = (interval_lu[i] - ((float) note_light_pressed / equal_temp)) * 1200.f;
 					if (note_light_pressed == 0 && i == 66)  // root can match 35:18 if tolerance big enough.
-						error = 1.f - interval_lu[i];
-					if (error <= fminf(tolerance, 0.5f / equal_temp)) {
-						if (error < 0.005f)  // 6¢
-							lights[INTERVAL_LIGHTS + i].setBrightness(1.f);
+						error = 1200.f * (interval_lu[i] - 1.f);
+					if (std::fabs(error) <= 1200.f * fminf(tolerance, 0.5f / equal_temp)) {  // 50¢
+						float thresh = 2.5f;
+						float top, bot;
+						// lights show direction to actual note
+						// top half
+						if (error < 2.f * -thresh)
+							top = std::pow(2.f * thresh / -error, 0.7f) * (error < -25.f ? (75.f + error)/50.f : 1.f);
+						else if (error > thresh)
+							top = std::pow(thresh / error, 1.5f);
 						else
-							lights[INTERVAL_LIGHTS + i].setBrightness(0.005f / error);
+							top = 1.0;
+						// bot half
+						if (error > 2.f * thresh)
+							bot = std::pow(2.f * thresh / error, 0.7f) * (error > 25.f ? (75.f - error)/50.f : 1.f);
+						else if (error < -thresh)
+							bot = std::pow(thresh / -error, 1.5f);
+						else
+							bot = 1.0;
+						lights[INTERVAL_TOP_LIGHTS + i].setBrightness(top);
+						lights[INTERVAL_BOT_LIGHTS + i].setBrightness(bot);
 					}
-					else
-						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
+					else {
+						lights[INTERVAL_TOP_LIGHTS + i].setBrightness(0.f);
+						lights[INTERVAL_BOT_LIGHTS + i].setBrightness(0.f);
+					}
 				}
 			}
 			else {
 				// show normal interval lights, which give error for selected intervals
 				for (int i = 0; i < 67; i++) {
 					if (interval_used[i] > -0.5) {  //interval used
-					float error = interval_used[i] * 1200.f / 6.f;  // 6¢
-						if (error < 1.f)
-							lights[INTERVAL_LIGHTS + i].setBrightness(1.f);
+						float error = error_table[i] * 1200.f;  // 1¢ = 1, 50¢ = 50
+						float thresh = 2.5f;
+						float top, bot;
+						// lights show direction to actual note
+						// top half
+						if (error < 2.f * -thresh)
+							top = std::pow(2.f * thresh / -error, 0.7f) * (error < -25.f ? (75.f + error)/50.f : 1.f);
+						else if (error > thresh)
+							top = std::pow(thresh / error, 1.5f);
 						else
-							lights[INTERVAL_LIGHTS + i].setBrightness(1.f / error);
+							top = 1.0;
+						// bot half
+						if (error > 2.f * thresh)
+							bot = std::pow(2.f * thresh / error, 0.7f) * (error > 25.f ? (75.f - error)/50.f : 1.f);
+						else if (error < -thresh)
+							bot = std::pow(thresh / -error, 1.5f);
+						else
+							bot = 1.0;
+						lights[INTERVAL_TOP_LIGHTS + i].setBrightness(top);
+						lights[INTERVAL_BOT_LIGHTS + i].setBrightness(bot);
 					}
-					else
-						lights[INTERVAL_LIGHTS + i].setBrightness(0.f);
+					else {
+						lights[INTERVAL_TOP_LIGHTS + i].setBrightness(0.f);
+						lights[INTERVAL_BOT_LIGHTS + i].setBrightness(0.f);
+					}
 				}
 			}
 
@@ -573,13 +657,17 @@ struct QuantIntervalsWidget : ModuleWidget {
 		for (int i = 1; i < 67; i += 2)
 			addParam(createParam<RectButton>(mm2px(Vec(30.00-3.50+1.325, 122.50 - 1.6 - 1.75*i)), module, QuantIntervals::INTERVAL_PARAMS + i));
 
-		for (int i = 0; i < 67; i += 2)
-			addChild(createLightCentered<SmallLight<BlueLight>>(mm2px(Vec(20.25+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHTS + i));
+		for (int i = 0; i < 67; i += 2) {
+			addChild(createLightCentered<SmallLightTop<BlueLight>>(mm2px(Vec(20.25+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_TOP_LIGHTS + i));
+			addChild(createLightCentered<SmallLightBot<BlueLight>>(mm2px(Vec(20.25+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_BOT_LIGHTS + i));
+		}
 		for (int i = 0; i < 67; i += 2)
 			addParam(createParam<SmallLEDButton>(mm2px(Vec(20.25+1.325-1.5, 122.50-1.5 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHT_PARAMS + i));
 
-		for (int i = 1; i < 67; i += 2)
-			addChild(createLightCentered<SmallLight<BlueLight>>(mm2px(Vec(23.75+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHTS + i));
+		for (int i = 1; i < 67; i += 2) {
+			addChild(createLightCentered<SmallLightTop<BlueLight>>(mm2px(Vec(23.75+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_TOP_LIGHTS + i));
+			addChild(createLightCentered<SmallLightBot<BlueLight>>(mm2px(Vec(23.75+1.325, 122.50 - 1.75*i)), module, QuantIntervals::INTERVAL_BOT_LIGHTS + i));
+		}
 		for (int i = 1; i < 67; i += 2)
 			addParam(createParam<SmallLEDButton>(mm2px(Vec(23.75+1.325-1.5, 122.50-1.5 - 1.75*i)), module, QuantIntervals::INTERVAL_LIGHT_PARAMS + i));
 

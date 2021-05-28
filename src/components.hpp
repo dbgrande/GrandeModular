@@ -190,3 +190,137 @@ struct SmallPort : app::SvgPort {
 		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SmallPort.svg")));
 	}
 };
+
+template <typename TBase>
+struct SmallLightTop : TBase {
+	void drawLight(const widget::Widget::DrawArgs& args) override {
+		nvgBeginPath(args.vg);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		nvgArc(args.vg, radius, radius, radius, 0, 3.141592653589793, 1);  // top
+		nvgClosePath(args.vg);
+
+		// Background
+		if (this->bgColor.a > 0.0) {
+			nvgFillColor(args.vg, this->bgColor);
+			nvgFill(args.vg);
+		}
+
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+
+		// Border
+		if (this->borderColor.a > 0.0) {
+			nvgStrokeWidth(args.vg, 0.5);
+			nvgStrokeColor(args.vg, this->borderColor);
+			nvgStroke(args.vg);
+		}
+	}
+	SmallLightTop() {
+		this->box.size = app::mm2px(math::Vec(2.176, 2.176));
+	}
+};
+
+template <typename TBase>
+struct SmallLightBot : TBase {
+	void drawLight(const widget::Widget::DrawArgs& args) override {
+		nvgBeginPath(args.vg);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		nvgArc(args.vg, radius, radius, radius, 3.141592653589793, 0, 1);  // bot
+		nvgClosePath(args.vg);
+
+		// Background
+		if (this->bgColor.a > 0.0) {
+			nvgFillColor(args.vg, this->bgColor);
+			nvgFill(args.vg);
+		}
+
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+
+		// Border
+		if (this->borderColor.a > 0.0) {
+			nvgStrokeWidth(args.vg, 0.5);
+			nvgStrokeColor(args.vg, this->borderColor);
+			nvgStroke(args.vg);
+		}
+	}
+	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo twice
+	}
+	SmallLightBot() {
+		this->box.size = app::mm2px(math::Vec(2.176, 2.176));
+	}
+};
+
+template <typename TBase>
+struct PetiteLightTop : TBase {
+	void drawLight(const widget::Widget::DrawArgs& args) override {
+		nvgBeginPath(args.vg);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		nvgArc(args.vg, radius, radius, radius, 0, 3.141592653589793, 1);  // top
+		nvgClosePath(args.vg);
+
+		// Background
+		if (this->bgColor.a > 0.0) {
+			nvgFillColor(args.vg, this->bgColor);
+			nvgFill(args.vg);
+		}
+
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+
+		// Border
+		if (this->borderColor.a > 0.0) {
+			nvgStrokeWidth(args.vg, 0.5);
+			nvgStrokeColor(args.vg, this->borderColor);
+			nvgStroke(args.vg);
+		}
+	}
+	PetiteLightTop() {
+		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+	}
+};
+
+template <typename TBase>
+struct PetiteLightBot : TBase {
+	void drawLight(const widget::Widget::DrawArgs& args) override {
+		nvgBeginPath(args.vg);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		nvgArc(args.vg, radius, radius, radius, 3.141592653589793, 0, 1);  // bot
+		nvgClosePath(args.vg);
+
+		// Background
+		if (this->bgColor.a > 0.0) {
+			nvgFillColor(args.vg, this->bgColor);
+			nvgFill(args.vg);
+		}
+
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+
+		// Border
+		if (this->borderColor.a > 0.0) {
+			nvgStrokeWidth(args.vg, 0.5);
+			nvgStrokeColor(args.vg, this->borderColor);
+			nvgStroke(args.vg);
+		}
+	}
+	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo twice
+	}
+	PetiteLightBot() {
+		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+	}
+};
