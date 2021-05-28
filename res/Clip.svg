@@ -31,10 +31,10 @@
      showguides="true"
      units="mm"
      showgrid="false"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="415.78102"
-     inkscape:cx="25.475819"
+     inkscape:cy="252.524"
+     inkscape:cx="18.07577"
      inkscape:zoom="8.0000004"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -267,8 +267,8 @@
        height="62.235001"
        x="0.71249968"
        y="226.13251"
-       rx="0.79999942"
-       ry="0.79999942" />
+       rx="1"
+       ry="1" />
     <rect
        style="display:inline;fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829452;stroke-opacity:0.25"
        id="rect905"

@@ -22,8 +22,8 @@
      inkscape:snap-bbox="true"
      inkscape:document-rotation="0"
      inkscape:window-maximized="0"
-     inkscape:window-y="196"
-     inkscape:window-x="763"
+     inkscape:window-y="23"
+     inkscape:window-x="26"
      inkscape:window-height="1017"
      inkscape:window-width="1696"
      inkscape:lockguides="false"
@@ -33,8 +33,8 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="247.27093"
-     inkscape:cx="-65.673538"
+     inkscape:cy="425.70693"
+     inkscape:cx="-67.046123"
      inkscape:zoom="2.9142101"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -236,8 +236,8 @@
        height="13"
        x="9.9500008"
        y="260.5"
-       ry="0.80000001"
-       rx="0.80000001" />
+       ry="1"
+       rx="1" />
     <g
        transform="translate(9.397,-3.53951)"
        aria-label="CV In"
@@ -318,14 +318,14 @@
          y="233.73691"
          style="stroke-width:0.264583" /></text>
     <rect
-       ry="0.80000001"
+       ry="1"
        y="275.5"
        x="9.9499998"
        height="13"
        width="9"
        id="rect879"
        style="fill:#555d50;fill-opacity:1;stroke:none;stroke-width:0.829457;stroke-opacity:0.25"
-       rx="0.80000001" />
+       rx="1" />
     <g
        style="font-weight:bold;font-stretch:condensed;font-size:2.82223px;line-height:1.25;font-family:'PT Sans Narrow';-inkscape-font-specification:'PT Sans Narrow, Bold Condensed';fill:#fffff0;stroke-width:0.264583;fill-opacity:1"
        id="text883"

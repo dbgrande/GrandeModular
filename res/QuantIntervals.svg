@@ -26,8 +26,8 @@
      showguides="true"
      inkscape:snap-grids="true"
      inkscape:window-maximized="0"
-     inkscape:window-y="88"
-     inkscape:window-x="473"
+     inkscape:window-y="23"
+     inkscape:window-x="26"
      inkscape:window-height="1205"
      inkscape:window-width="1776"
      inkscape:snap-midpoints="false"
@@ -35,9 +35,9 @@
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="389.56288"
-     inkscape:cx="245.27864"
-     inkscape:zoom="5.4437984"
+     inkscape:cy="262.96896"
+     inkscape:cx="219.31449"
+     inkscape:zoom="2.7218992"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -1341,8 +1341,8 @@
          d="m 53.949359,78.64769 c 0.09313,0 0.2286,-0.0254 0.282223,-0.06209 l -0.03105,-0.270934 c -0.03951,0.01693 -0.07055,0.0254 -0.112889,0.0254 -0.07902,0 -0.08467,-0.08467 -0.08467,-0.183445 v -1.51836 h -0.335845 v 1.698982 c 0,0.21449 0.07902,0.310446 0.282223,0.310446 z" />
     </g>
     <rect
-       rx="0.80000007"
-       ry="0.80000001"
+       rx="1"
+       ry="1"
        y="92"
        x="69.500008"
        height="13"
@@ -1620,8 +1620,8 @@
        height="13"
        x="69.5"
        y="107"
-       ry="0.80000001"
-       rx="0.80000007" />
+       ry="1"
+       rx="1" />
     <g
        transform="translate(68.920005,-168.50005)"
        aria-label="Trig"
@@ -1681,11 +1681,11 @@
        height="121.25"
        x="46.25"
        y="4.125"
-       rx="0.79999954"
+       rx="1"
        ry="0.99999982" />
     <rect
        ry="1"
-       rx="0.79999959"
+       rx="1"
        y="34.25"
        x="58.500004"
        height="38.25"
@@ -1874,7 +1874,7 @@
        height="121.25"
        x="3.1050005"
        y="4.125"
-       rx="0.79999965"
+       rx="1"
        ry="0.99999976" />
     <g
        aria-label="Show All"

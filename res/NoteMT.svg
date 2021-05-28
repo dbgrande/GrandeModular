@@ -22,8 +22,8 @@
      inkscape:snap-bbox="true"
      inkscape:document-rotation="0"
      inkscape:window-maximized="0"
-     inkscape:window-y="414"
-     inkscape:window-x="749"
+     inkscape:window-y="23"
+     inkscape:window-x="26"
      inkscape:window-height="712"
      inkscape:window-width="1366"
      inkscape:lockguides="false"
@@ -33,9 +33,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="251.64903"
-     inkscape:cx="-20.817375"
-     inkscape:zoom="2.828427"
+     inkscape:cy="413.79091"
+     inkscape:cx="-28.373711"
+     inkscape:zoom="1.9999999"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -143,8 +143,8 @@
        x="-1.3877788e-16"
        y="168.5" />
     <rect
-       rx="0.79999995"
-       ry="0.80000025"
+       rx="1"
+       ry="1"
        y="221.5"
        x="8.1999998"
        height="13"
@@ -163,8 +163,8 @@
          y="233.73691"
          style="stroke-width:0.264583" /></text>
     <rect
-       rx="0.79999995"
-       ry="0.80000019"
+       rx="1"
+       ry="1"
        y="253.5"
        x="1.88"
        height="13"
@@ -351,8 +351,8 @@
        height="13"
        x="14.55"
        y="253.5"
-       ry="0.80000019"
-       rx="0.79999995" />
+       ry="1"
+       rx="1" />
     <g
        aria-label="Note"
        id="text964"
@@ -719,8 +719,8 @@
        height="12.749999"
        x="14.675"
        y="237.425"
-       rx="0.99999994"
-       ry="0.9999997" />
+       rx="1"
+       ry="1" />
   </g>
   <g
      style="display:none"
