@@ -108,7 +108,7 @@ struct MergeSplit4Widget : ModuleWidget {
 
 			addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 74.25)), module, MergeSplit4::POLY_IN_B));
 			for(int i = 0; i < 4; i++) {
-				addOutput(createOutputCentered<SmallPort>(mm2px(Vec(5.08, 85.50 + 10.00 * i)), module, MergeSplit4::OUTPUTS_B + i));
+				addOutput(createOutputCentered<SmallPort>(mm2px(Vec(5.08, 85.00 + 10.00 * i)), module, MergeSplit4::OUTPUTS_B + i));
 			}
 		}
 		
