@@ -1,7 +1,7 @@
 {
   "slug": "GrandeModular",
   "name": "Grande",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "license": "GPL-3.0-or-later",
   "author": "David Grande",
   "authorEmail": "dbgrande246@gmail.com",
@@ -48,6 +48,13 @@
       "tags": ["Utility", "Polyphonic"]
     },
     {
+      "slug": "PolyMergeResplit",
+      "name": "PolyMergeResplit",
+      "description": "Poly-to-poly Merge and Resplit back to the same channel widths.",
+      "manualUrl": "https://github.com/dbgrande/GrandeModular/#polymergeresplit-pmr",
+      "tags": ["Utility", "Polyphonic"]
+    },
+    {
       "slug": "Quant",
       "name": "Quant",
       "description": "Quantizer with equi-likely notes mode.",
@@ -88,6 +95,13 @@
       "description": "Mono to poly sequential note splitter—helps preserve envelope tails.",
       "manualUrl": "https://github.com/dbgrande/GrandeModular/#tails",
       "tags": ["Utility", "Polyphonic", "Attenuator", "Voltage-controlled amplifier"]
+    },
+    {
+      "slug": "VarSampleDelays",
+      "name": "VarSampleDelays",
+      "description": "Quad independent variable sample-delay buffers.",
+      "manualUrl": "https://github.com/dbgrande/GrandeModular/#varsampledelays-vsd",
+      "tags": ["Delay", "Polyphonic", "Quad"]
     }
   ]
 }
