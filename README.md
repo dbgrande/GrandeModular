@@ -34,7 +34,7 @@ Quant
 
 **Explanation of Equi-likely mode**
 
-Equi-likely mode changes the evenness of notes across the scale. The following images show the differences between normal mode and equi-likely mode using the Blues Scale, which is particularly obvious with its note intervals of 321132. 
+Equi-likely mode changes the evenness of notes across the scale. The following images show the differences between normal mode and equi-likely mode using the Blues Scale, which is particularly obvious with its note intervals of 321132.
 
 ![Blues Normal](images/blues_normal.png "Normal")
 
@@ -137,8 +137,57 @@ Provides a 4-channel polyphonic merger and a 4-channel polyphonic splitter in a 
 
 Useful for feeding multiple monophonic signals into my polyphonic quantizers. Run Merge out to Quantizer In, and Quantizer Out back to Split In.
 
+Note however that this combination, with a quantizer and **MergeSplit4,** adds three sample delays to the V/Oct path. My sampledelay modules can be used to match delays on the gate/trigger path (see below).
+
 Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn't use any of his artwork.
 
+
+***
+
+PolyMergeResplit (PMR)
+----------------
+***New for 1.9.0***
+
+![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
+
+**Poly-to-poly Merge and Resplit back to the same channel widths.**
+
+Provides a 4-channel poly-to-poly merger and a 4-channel poly-to-poly resplitter in a compact package.
+
+Useful for combining multiple polyphonic signals, processing them with a single polyphonic module, and then resplitting the output signals back to their original number and channel widths.
+
+**Merge:** Four polyphonic inputs to one polyphonic output.
+
+- Channels are added to the output from the top input down.
+
+- If the total number of inputs exceeds 16, the output is clamped to 16 channels, and a red warning light turns on.
+
+- Note that unlike my **MergeSplit4,** skipped Merge inputs don't add any channels to the output, but the corresponding Resplit outputs will also need to be skipped.
+
+**Resplit:** One polyphonic input to four polyphonic outputs.
+
+- The output channels mirror the Merge input channels, including gaps.
+
+- A blue light next to each output indicates that this output has the same number of channels as the corresponding Merge input.
+
+- A red light means that the channel doesn't match. Up means the output has too many channels, and down means too few channels.
+
+
+**How to use PolyMergeResplit to combine Tails modules**
+
+![example_patch_2](images/example_patch_2.png "Example Patch 2")
+
+- Multiple **Tails** V/Oct outputs get connected to one set of **PMR** Merge inputs.
+
+- Multiple **Tails** Gate outputs get connected to another set of **PMR** Merge inputs. Note they need to be the same number and in the same order.
+
+- **PMR** Merge outputs get sent to the V/Oct and Trigger inputs of a polyphonic oscillator.
+
+- Oscillator output gets connected to either **PMR** Resplit input.
+
+- **PMR** Resplit outputs now match the original number of **Tails** and their widths. They can be sent off to a mixer for individual volume and panning adjustments.
+
+- *(If desired, the **PMR** Gate output could be sent to an ADSR instead.)*
 
 ***
 
@@ -178,6 +227,21 @@ Provides three independent sample-delay buffer chains giving one or two sample d
 
 ***
 
+VarSampleDelays (VSD)
+-----------------
+***New for 1.9.0***
+
+![VarSampleDelays](images/VarSampleDelays.png "VarSampleDelays")
+
+**Quad independent variable sample-delay buffers.**
+
+Provides four independent sample-delay buffers that can be adjusted between one and nine sample delays each (default 5).
+
+- Each buffer is not internally connected to any others. If more than nine sample delays are needed, they can be connected externally.
+
+
+***
+
 The Microtonal Collection
 =========================
 
@@ -195,7 +259,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
 
-- **Quantizer features:** The same as **Quant** (see above), minus the external scale input. 
+- **Quantizer features:** The same as **Quant** (see above), minus the external scale input.
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 
@@ -216,12 +280,16 @@ For this quantizer the valid notes are defined directly by number.
 
 QuantIntervals
 --------------
+***Updated for 1.9.0***
+
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
 ![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
 For this quantizer the valid notes are defined indirectly by pitch intervals.
+
+- ***New for 1.9.0, the interval lights have been split into top and bottom halves, so they can also show the direction to the closest valid note.***
 
 - Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
 
@@ -231,7 +299,7 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - Only the closest intervals are generally highlighted. With so many intervals, it's common for more than one to be within tolerance of a valid note.
 
-- **Quantizer features:** The same as **Quant** (see above), minus the external scale input. 
+- **Quantizer features:** The same as **Quant** (see above), minus the external scale input.
 
 **Controls**
 
@@ -247,9 +315,9 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - **Clear Invalid:** Disables all intervals that don't have a light showing.
 
-- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note.
+- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note. ***New for 1.9.0:*** These interval lights are now split in two, so they also show the direction to the closest valid note. If the top light is brighter, the valid note's pitch is sharper than this interval, and if the bottom light is brighter, the valid note's pitch is flatter than this interval. If both halves are full brightness, the interval matches the valid note within ±2.5¢.
 
-- **Note lights:** Now displays enabled notes using separate note lights.
+- **Note lights:** Displays enabled notes using separate note lights.
 
 - **LED Buttons:** All lights have been converted to LED buttons, both the interval lights and the note lights. Pressing any one of these highlights *(if they exist)* the corresponding note on the note display, and **all** the corresponding intervals on the interval display.
 
@@ -262,7 +330,7 @@ MicrotonalNotes
 
 **A 1-TET through 34-TET microtonal octal note generator.**
 
-Provides eight settable microtonal notes, all based on current Notes/Oct setting. Each provides a monophonic output, and they can all be combined in the polyphonic output at the bottom. 
+Provides eight settable microtonal notes, all based on current Notes/Oct setting. Each provides a monophonic output, and they can all be combined in the polyphonic output at the bottom.
 
 - **Octaves** and **Notes** knobs: Set octave and note based on current temperament. Notes knobs clamped to Notes/Oct – 1.
 
