@@ -29,7 +29,8 @@ struct PolyMergeResplit : Module {
 	void process(const ProcessArgs &args) override {
 		int ch_m[4] = { 0 };
 		for (int n = 0; n < 4; n++) {
-			ch_m[n] = inputs[M_INPUTS + n].getChannels();
+			if (inputs[M_INPUTS + n].isConnected())
+				ch_m[n] = inputs[M_INPUTS + n].getChannels();
 		}
 		int sum_m = 0;
 		bool overflow_m = false;
@@ -52,14 +53,16 @@ struct PolyMergeResplit : Module {
 			sum_m = 16;
 
 		// outputs
-		outputs[M_OUTPUT].setChannels(sum_m);
+		outputs[M_OUTPUT].channels = sum_m;
 
 		// lights
 		lights[M_OVER_LIGHT].setBrightness(overflow_m);
 
 		// Resplit //
 		// Output channel split points defined by Merge inputs
-		int ch_r = inputs[R_INPUT].getChannels();
+		int ch_r = 0;
+		if (inputs[R_INPUT].isConnected())
+			ch_r = inputs[R_INPUT].getChannels();
 		int num_r[4] = { 0 };
 		for (int c = 0; c < ch_r; c++) {
 			float vr = inputs[R_INPUT].getVoltage(c);
@@ -82,7 +85,7 @@ struct PolyMergeResplit : Module {
 		}
 		// outputs
 		for (int n = 0; n < 4; n++)
-			outputs[R_OUTPUTS + n].setChannels(num_r[n]);
+			outputs[R_OUTPUTS + n].channels = num_r[n];
 
 		// lights
 		for (int n = 0; n < 4; n++) {
