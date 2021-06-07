@@ -152,7 +152,7 @@ PolyMergeResplit (PMR)
 
 **Poly-to-poly Merge and Resplit back to the same channel widths.**
 
-Provides a 4-channel poly-to-poly merger and a 4-channel poly-to-poly resplitter in a compact package.
+Provides a 4-to-1 poly-to-poly merger and a 1-to-4 poly-to-poly resplitter in a compact package.
 
 Useful for combining multiple polyphonic signals, processing them with a single polyphonic module, and then resplitting the output signals back to their original number and channel widths.
 
@@ -160,7 +160,7 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 
 - Channels are added to the output from the top input down.
 
-- If the total number of inputs exceeds 16, the output is clamped to 16 channels, and a red warning light turns on.
+- If the total number of input channels exceeds 16, the output is clamped to 16 channels, and a red warning light turns on.
 
 - Note that unlike my **MergeSplit4,** skipped Merge inputs don't add any channels to the output, but the corresponding Resplit outputs will also need to be skipped.
 
@@ -170,7 +170,7 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 
 - A blue light next to each output indicates that this output has the same number of channels as the corresponding Merge input.
 
-- A red light means that the channel doesn't match. Up means the output has too many channels, and down means too few channels.
+- A red light means that the channel count doesn't match. Up means the output has too many channels, and down means too few channels.
 
 
 **How to use PolyMergeResplit to combine Tails modules**
