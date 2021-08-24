@@ -10,10 +10,11 @@ Quant
 -----
 ![Quant](images/Quant.png "Quant")
 ![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
+![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
 
 **Normal 12-TET Quantizer with Equi-likely mode.**
 
-- Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
+- Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
 - **Scale:** Use **Scale** modules (see directly below) and polyphonic switch to allow selecting different scales.
 
@@ -154,7 +155,7 @@ PolyMergeResplit (PMR)
 
 Provides a 4-to-1 poly-to-poly merger and a 1-to-4 poly-to-poly resplitter in a compact package.
 
-Useful for combining multiple polyphonic signals, processing them with a single polyphonic module, and then resplitting the output signals back to their original number and channel widths.
+Useful for combining multiple polyphonic signals, processing them with a single polyphonic module (such as a quantizer or VCO), and then resplitting the output signals back to their original number and channel widths.
 
 **Merge:** Four polyphonic inputs to one polyphonic output.
 
@@ -257,7 +258,7 @@ QuantMT
 
 For this quantizer the valid notes are defined directly by number.
 
-- Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
+- Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
 - **Quantizer features:** The same as **Quant** (see above), minus the external scale input.
 
@@ -283,7 +284,7 @@ QuantIntervals
 ***Updated for 1.9.0***
 
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
-![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
+![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
@@ -291,9 +292,9 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - ***New for 1.9.0, the interval lights have been split into top and bottom halves, so they can also show the direction to the closest valid note.***
 
-- Combine with **MergeSplit4** to easily quantize up to four monophonic signals. Connect its Merge output to Quantizer In, and connect Quantizer Out back to its Split input.
+- Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
-- The interval buttons select desired pitch intervals, which now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36.
+- The interval buttons select desired pitch intervals, which now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36 (minus one pair).
 
 - However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is. In addition, the valid notes are also displayed on the numbered lights to the right.
 
