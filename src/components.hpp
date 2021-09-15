@@ -212,6 +212,21 @@ struct SmallLightTop : TBase {
 			nvgStroke(args.vg);
 		}
 	}
+	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		float oradius = 4.0 * radius;
+	
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
+	
+		NVGpaint paint;
+		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
+		NVGcolor ocol = nvgRGB(0, 0, 0);
+		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		nvgFillPaint(args.vg, paint);
+		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
+		nvgFill(args.vg);
+	}
 	SmallLightTop() {
 		this->box.size = app::mm2px(math::Vec(2.176, 2.176));
 	}
@@ -245,7 +260,19 @@ struct SmallLightBot : TBase {
 		}
 	}
 	void drawHalo(const widget::Widget::DrawArgs& args) override {
-		// Don't draw halo twice
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		float oradius = 4.0 * radius;
+	
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
+	
+		NVGpaint paint;
+		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
+		NVGcolor ocol = nvgRGB(0, 0, 0);
+		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		nvgFillPaint(args.vg, paint);
+		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
+		nvgFill(args.vg);
 	}
 	SmallLightBot() {
 		this->box.size = app::mm2px(math::Vec(2.176, 2.176));
@@ -278,6 +305,21 @@ struct PetiteLightTop : TBase {
 			nvgStrokeColor(args.vg, this->borderColor);
 			nvgStroke(args.vg);
 		}
+	}
+	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		float oradius = 4.0 * radius;
+	
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
+	
+		NVGpaint paint;
+		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
+		NVGcolor ocol = nvgRGB(0, 0, 0);
+		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		nvgFillPaint(args.vg, paint);
+		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
+		nvgFill(args.vg);
 	}
 	PetiteLightTop() {
 		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
@@ -312,7 +354,19 @@ struct PetiteLightBot : TBase {
 		}
 	}
 	void drawHalo(const widget::Widget::DrawArgs& args) override {
-		// Don't draw halo twice
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		float oradius = 4.0 * radius;
+	
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
+	
+		NVGpaint paint;
+		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
+		NVGcolor ocol = nvgRGB(0, 0, 0);
+		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		nvgFillPaint(args.vg, paint);
+		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
+		nvgFill(args.vg);
 	}
 	PetiteLightBot() {
 		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
