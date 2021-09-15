@@ -147,8 +147,6 @@ Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https:/
 
 PolyMergeResplit (PMR)
 ----------------
-***New for 1.9.0***
-
 ![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
 
 **Poly-to-poly Merge and Resplit back to the same channel widths.**
@@ -230,8 +228,6 @@ Provides three independent sample-delay buffer chains giving one or two sample d
 
 VarSampleDelays (VSD)
 -----------------
-***New for 1.9.0***
-
 ![VarSampleDelays](images/VarSampleDelays.png "VarSampleDelays")
 
 **Quad independent variable sample-delay buffers.**
@@ -281,16 +277,12 @@ For this quantizer the valid notes are defined directly by number.
 
 QuantIntervals
 --------------
-***Updated for 1.9.0***
-
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
 ![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
 For this quantizer the valid notes are defined indirectly by pitch intervals.
-
-- ***New for 1.9.0, the interval lights have been split into top and bottom halves, so they can also show the direction to the closest valid note.***
 
 - Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
@@ -316,7 +308,7 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - **Clear Invalid:** Disables all intervals that don't have a light showing.
 
-- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note. ***New for 1.9.0:*** These interval lights are now split in two, so they also show the direction to the closest valid note. If the top light is brighter, the valid note's pitch is sharper than this interval, and if the bottom light is brighter, the valid note's pitch is flatter than this interval. If both halves are full brightness, the interval matches the valid note within ±2.5¢.
+- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note. Lights are split in two, to show the direction to the closest valid note. If the top light is brighter, the valid note's pitch is sharper than this interval, and if the bottom light is brighter, the valid note's pitch is flatter than this interval. If both halves are full brightness, the interval matches the valid note within ±2.5¢.
 
 - **Note lights:** Displays enabled notes using separate note lights.
 
@@ -385,4 +377,6 @@ NoteMT
 License
 -------
 
-GPL-3.0+
+- Source Code: [GPL-3.0+](http://www.gnu.org/licenses/gpl.html)
+
+- Artwork: [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)

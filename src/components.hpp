@@ -185,12 +185,6 @@ struct SmallLEDButton : SvgSwitch {
 	}
 };
 
-struct SmallPort : app::SvgPort {
-	SmallPort() {
-		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SmallPort.svg")));
-	}
-};
-
 template <typename TBase>
 struct SmallLightTop : TBase {
 	void drawLight(const widget::Widget::DrawArgs& args) override {

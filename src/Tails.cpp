@@ -115,21 +115,21 @@ struct TailsWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 21.5)), module, Tails::IN_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 33.5)), module, Tails::OUT_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 21.6)), module, Tails::IN_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 33.4)), module, Tails::OUT_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 46.0)), module, Tails::CV_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 45.2)), module, Tails::CV_INPUT));
 
-		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 57.0)), module, Tails::GAIN_PARAM));
+		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 56.2)), module, Tails::GAIN_PARAM));
 
 
-		addInput(createInputCentered<SmallPort>(mm2px(Vec(5.08, 74.0)), module, Tails::VOCT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 82.8)), module, Tails::VOCT_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 73.5)), module, Tails::VOCT_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 82.9)), module, Tails::VOCT_OUTPUT));
 
-		addInput(createInputCentered<SmallPort>(mm2px(Vec(5.08, 94.5)), module, Tails::GATE_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 103.3)), module, Tails::GATE_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 94.8)), module, Tails::GATE_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 104.3)), module, Tails::GATE_OUTPUT));
 
-		addParam(createParamCentered<RoundTinyRotarySwitchNoRandom>(mm2px(Vec(5.08, 115.0)), module, Tails::CHANNEL_PARAM));
+		addParam(createParamCentered<RoundTinyRotarySwitchNoRandom>(mm2px(Vec(5.08, 115.3)), module, Tails::CHANNEL_PARAM));
 	}
 };
 
