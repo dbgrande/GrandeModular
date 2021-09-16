@@ -634,23 +634,23 @@ struct QuantIntervalsWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParam<TL1105>(mm2px(Vec(74.00-2.709, 17.50-2.709)), module, QuantIntervals::CLEAR_ALL_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(62.00-2.709, 17.50-2.709)), module, QuantIntervals::SHOW_ALLOWED_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(73.50-2.709, 17.50-2.709)), module, QuantIntervals::CLEAR_ALL_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(62.50-2.709, 17.50-2.709)), module, QuantIntervals::SHOW_ALLOWED_PARAM));
 
-		addParam(createParam<TL1105>(mm2px(Vec(62.00-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_SMALL_PARAM));
-		addParam(createParam<TL1105>(mm2px(Vec(74.00-2.709, 29.75-2.709)), module, QuantIntervals::SEL_ENABLED_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(62.50-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_SMALL_PARAM));
+		addParam(createParam<TL1105>(mm2px(Vec(73.50-2.709, 29.75-2.709)), module, QuantIntervals::SEL_ENABLED_PARAM));
 
 		addParam(createParamCentered<RoundBlackKnobNoRandom>(mm2px(Vec(68.00, 43.75)), module, QuantIntervals::TOLERANCE_PARAM));
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(68.00, 63.00)), module, QuantIntervals::SIZE_PARAM));
 
-		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(59.75, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
-		addParam(createParam<CKSSNoRandom>(mm2px(Vec(71.75, 80.00)), module, QuantIntervals::EQUI_PARAM));
+		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(62.5-2.25, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
+		addParam(createParam<CKSSNoRandom>(mm2px(Vec(73.5-2.25, 80.00)), module, QuantIntervals::EQUI_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.00, 100.0)), module, QuantIntervals::CV_IN_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(74.00, 100.0)), module, QuantIntervals::CV_OUT_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.50, 100.0)), module, QuantIntervals::CV_IN_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(73.50, 100.0)), module, QuantIntervals::CV_OUT_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.00, 115.0)), module, QuantIntervals::ROOT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(74.00, 115.0)), module, QuantIntervals::TRIGGER_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.50, 115.0)), module, QuantIntervals::ROOT_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(73.50, 115.0)), module, QuantIntervals::TRIGGER_OUTPUT));
 
 		for (int i = 0; i < 67; i += 2)
 			addParam(createParam<RectButton>(mm2px(Vec(14.00-3.50+1.325, 122.50 - 1.6 - 1.75*i)), module, QuantIntervals::INTERVAL_PARAMS + i));
