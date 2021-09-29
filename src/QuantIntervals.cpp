@@ -36,8 +36,10 @@ struct QuantIntervals : Module {
 
 	QuantIntervals() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(ROUNDING_PARAM, -1.0, 1.0, 0.0, "Rounding", "");
-		configParam(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", "");
+		configSwitch(ROUNDING_PARAM, 0.0, 2.0, 1.0, "Rounding", {"Down", "Nearest", "Up"});
+		getParamQuantity(ROUNDING_PARAM)->randomizeEnabled = false;
+		configSwitch(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", {"Off", "On"});
+		getParamQuantity(EQUI_PARAM)->randomizeEnabled = false;
 		configParam(SIZE_PARAM, 1, 34, 12, "Notes per Octave", "");
 		configParam(INTERVAL_PARAMS, 0.0, 1.0, 1.0, "0.0", "");  // Unison
 		configParam(INTERVAL_PARAMS + 1, 0.0, 1.0, 0.0, "48.8", "");
@@ -107,14 +109,20 @@ struct QuantIntervals : Module {
 		configParam(INTERVAL_PARAMS + 65, 0.0, 1.0, 0.0, "1137.0", "");
 		configParam(INTERVAL_PARAMS + 66, 0.0, 1.0, 0.0, "1151.2", "");
 		configParam(TOLERANCE_PARAM, 0.0, 50.0, 20.0, "Tolerance", "¢");
-		configParam(CLEAR_ALL_PARAM, 0.0, 1.0, 0.0, "Clear All", "");
-		configParam(SHOW_SMALL_PARAM, 0.0, 1.0, 0.0, "Show Small Valid", "");
-		configParam(SHOW_ALLOWED_PARAM, 0.0, 1.0, 0.0, "Show All Valid", "");
-		configParam(SEL_ENABLED_PARAM, 0.0, 1.0, 0.0, "Clear Invalid", "");
+		getParamQuantity(TOLERANCE_PARAM)->randomizeEnabled = false;
+		configButton(CLEAR_ALL_PARAM, "Clear All");
+		configButton(SHOW_SMALL_PARAM, "Show Small Valid");
+		configButton(SHOW_ALLOWED_PARAM, "Show All Valid");
+		configButton(SEL_ENABLED_PARAM, "Clear Invalid");
 		for (int i = 0; i < 67; i++)
-			configParam(INTERVAL_LIGHT_PARAMS + i, 0.0, 1.0, 0.0, "i" + std::to_string(i), "");
+			configButton(INTERVAL_LIGHT_PARAMS + i, "i" + std::to_string(i));
 		for (int i = 0; i < 34; i++)
-			configParam(NOTE_LIGHT_PARAMS + i, 0.0, 1.0, 0.0, "n" + std::to_string(i), "");
+			configButton(NOTE_LIGHT_PARAMS + i, "n" + std::to_string(i));
+		configInput(ROOT_INPUT, "Transpose");
+		configInput(CV_IN_INPUT, "Pitch");
+		configOutput(CV_OUT_OUTPUT, "Pitch");
+		configOutput(TRIGGER_OUTPUT, "Trigger");
+		configBypass(CV_IN_INPUT, CV_OUT_OUTPUT);
 	}
 
 	dsp::PulseGenerator pulseGenerators[16];
@@ -156,7 +164,7 @@ struct QuantIntervals : Module {
 			param_timer = 50;  // how often to update params (audio cycles)
 
 			// rounding mode (-1 = down, 0 = nearest, 1 = up)
-			rounding_mode = std::round(params[ROUNDING_PARAM].getValue());
+			rounding_mode = std::round(params[ROUNDING_PARAM].getValue()) - 1;
 
 			// equally-likely note mode (0 = off, 1 = on)
 			// makes the input voltage range for each note equivalent
@@ -640,11 +648,11 @@ struct QuantIntervalsWidget : ModuleWidget {
 		addParam(createParam<TL1105>(mm2px(Vec(62.50-2.709, 29.75-2.709)), module, QuantIntervals::SHOW_SMALL_PARAM));
 		addParam(createParam<TL1105>(mm2px(Vec(73.50-2.709, 29.75-2.709)), module, QuantIntervals::SEL_ENABLED_PARAM));
 
-		addParam(createParamCentered<RoundBlackKnobNoRandom>(mm2px(Vec(68.00, 43.75)), module, QuantIntervals::TOLERANCE_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(68.00, 43.75)), module, QuantIntervals::TOLERANCE_PARAM));
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(68.00, 63.00)), module, QuantIntervals::SIZE_PARAM));
 
-		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(62.5-2.25, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
-		addParam(createParam<CKSSNoRandom>(mm2px(Vec(73.5-2.25, 80.00)), module, QuantIntervals::EQUI_PARAM));
+		addParam(createParam<CKSSThree>(mm2px(Vec(62.5-2.25, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
+		addParam(createParam<CKSS>(mm2px(Vec(73.5-2.25, 80.00)), module, QuantIntervals::EQUI_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.50, 100.0)), module, QuantIntervals::CV_IN_INPUT));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(73.50, 100.0)), module, QuantIntervals::CV_OUT_OUTPUT));

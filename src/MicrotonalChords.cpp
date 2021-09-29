@@ -40,6 +40,8 @@ struct MicrotonalChords : Module {
 			configParam(OCTAVED_PARAMS + i, -4, 4, 0, "OctaveD" + std::to_string(i+1), "");
 		}
 		configParam(SIZE_PARAM, 1, 34, 12, "Notes per Octave", "");
+		configInput(SELECT_INPUT, "Select");
+		configOutput(POLY_OUTPUT, "Poly");
 	}
 
 	void process(const ProcessArgs &args) override {

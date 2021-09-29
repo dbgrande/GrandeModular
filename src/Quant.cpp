@@ -36,8 +36,10 @@ struct Quant : Module {
 
 	Quant() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(ROUNDING_PARAM, -1.0, 1.0, 0.0, "Rounding", "");
-		configParam(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", "");
+		configSwitch(ROUNDING_PARAM, 0.0, 2.0, 1.0, "Rounding", {"Down", "Nearest", "Up"});
+		getParamQuantity(ROUNDING_PARAM)->randomizeEnabled = false;
+		configSwitch(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", {"Off", "On"});
+		getParamQuantity(EQUI_PARAM)->randomizeEnabled = false;
 		configParam(NOTE0_PARAM, 0.0, 1.0, 1.0, "Note0", "");  // Root note
 		configParam(NOTE1_PARAM, 0.0, 1.0, 0.0, "Note1", "");
 		configParam(NOTE2_PARAM, 0.0, 1.0, 1.0, "Note2", "");
@@ -50,6 +52,12 @@ struct Quant : Module {
 		configParam(NOTE9_PARAM, 0.0, 1.0, 1.0, "Note9", "");
 		configParam(NOTE10_PARAM, 0.0, 1.0, 0.0, "Note10", "");
 		configParam(NOTE11_PARAM, 0.0, 1.0, 1.0, "Note11", "");
+		configInput(SCALE_INPUT, "Scale");
+		configInput(CV_IN_INPUT, "Pitch");
+		configInput(ROOT_INPUT, "Transpose");
+		configOutput(CV_OUT_OUTPUT, "Pitch");
+		configOutput(TRIGGER_OUTPUT, "Trigger");
+		configBypass(CV_IN_INPUT, CV_OUT_OUTPUT);
 	}
 
 	dsp::PulseGenerator pulseGenerators[16];
@@ -72,7 +80,7 @@ struct Quant : Module {
 			param_timer = 50;  // how often to update params (audio cycles)
 
 			// rounding mode (-1 = down, 0 = nearest, 1 = up)
-			rounding_mode = std::round(params[ROUNDING_PARAM].getValue());
+			rounding_mode = std::round(params[ROUNDING_PARAM].getValue()) - 1;
 
 			// equally-likely note mode (0 = off, 1 = on)
 			// makes the input voltage range for each note equivalent
@@ -269,9 +277,9 @@ struct QuantWidget : ModuleWidget {
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(14.45, 38.0)), module, Quant::ROOT_INPUT));
 
-		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(12.20, 49.0)), module, Quant::ROUNDING_PARAM));
+		addParam(createParam<CKSSThree>(mm2px(Vec(12.20, 49.0)), module, Quant::ROUNDING_PARAM));
 
-		addParam(createParam<CKSSNoRandom>(mm2px(Vec(12.20, 67.0)), module, Quant::EQUI_PARAM));
+		addParam(createParam<CKSS>(mm2px(Vec(12.20, 67.0)), module, Quant::EQUI_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(14.45, 85.0)), module, Quant::CV_IN_INPUT));
 

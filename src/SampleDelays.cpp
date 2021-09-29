@@ -26,6 +26,15 @@ struct SampleDelays : Module {
 
 	SampleDelays() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configInput(A_INPUT, "A");
+		configOutput(A1_OUTPUT, "A1");
+		configOutput(A2_OUTPUT, "A2");
+		configInput(B_INPUT, "B");
+		configOutput(B1_OUTPUT, "B1");
+		configOutput(B2_OUTPUT, "B2");
+		configInput(C_INPUT, "C");
+		configOutput(C1_OUTPUT, "C1");
+		configOutput(C2_OUTPUT, "C2");
 	}
 
 	int channela1 = 1;

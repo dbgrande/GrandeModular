@@ -24,6 +24,16 @@ struct PolyMergeResplit : Module {
 
 	PolyMergeResplit() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configInput(M_INPUTS, "1st poly");
+		configInput(M_INPUTS + 1, "2nd poly");
+		configInput(M_INPUTS + 2, "3rd poly");
+		configInput(M_INPUTS + 3, "4th poly");
+		configOutput(M_OUTPUT, "Poly merge");
+		configInput(R_INPUT, "Poly resplit");
+		configOutput(R_OUTPUTS, "1st poly");
+		configOutput(R_OUTPUTS + 1, "2nd poly");
+		configOutput(R_OUTPUTS + 2, "3rd poly");
+		configOutput(R_OUTPUTS + 3, "4th poly");
 	}
 
 	void process(const ProcessArgs &args) override {

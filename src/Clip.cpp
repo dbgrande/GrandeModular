@@ -26,6 +26,13 @@ struct Clip : Module {
 	Clip() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(VCLIP_PARAM, 0.f, 10.f, 5.f, "Vclip", "V");
+		configInput(A_INPUT, "A");
+		configOutput(A_OUTPUT, "A");
+		configInput(B_INPUT, "B");
+		configOutput(B_OUTPUT, "B");
+		configInput(VCLIP_INPUT, "Vclip");
+		configBypass(A_INPUT, A_OUTPUT);
+		configBypass(B_INPUT, B_OUTPUT);
 	}
 
 	const float max_voltage = 20.f;  // max allowed clipping voltage
@@ -218,8 +225,8 @@ struct ClipWidget : ModuleWidget {
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 115.75)), module, Clip::VCLIP_PARAM));
 
 		for (int i = 0; i < 16; i++) {
-			addChild(createLightCentered<PetiteLight<RedGreenBlueLight>>(mm2px(Vec(3.40, 16.75 + 2.42*i)), module, Clip::A_LIGHTS + i*3));
-			addChild(createLightCentered<PetiteLight<RedGreenBlueLight>>(mm2px(Vec(6.68, 16.75 + 2.42*i)), module, Clip::B_LIGHTS + i*3));
+			addChild(createLightCentered<PetiteLightHalfHalo<RedGreenBlueLight>>(mm2px(Vec(3.40, 16.75 + 2.42*i)), module, Clip::A_LIGHTS + i*3));
+			addChild(createLightCentered<PetiteLightHalfHalo<RedGreenBlueLight>>(mm2px(Vec(6.68, 16.75 + 2.42*i)), module, Clip::B_LIGHTS + i*3));
 		}
 	}
 };

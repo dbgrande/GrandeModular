@@ -27,9 +27,12 @@ struct MicrotonalNotes : Module {
 		for (int i = 0; i < 8; i++) {
 			configParam(PITCH_PARAMS + i, 0.f, 33.f, 0.f, "Note" + std::to_string(i+1), "");
 			configParam(OCTAVE_PARAMS + i, -4, 4, 0, "Octave" + std::to_string(i+1), "");
+			configOutput(NOTE_OUTPUTS + i, "Note " + std::to_string(i+1));
 		}
 		configParam(SIZE_PARAM, 1, 34, 12, "Notes per Octave", "");
 		configParam(CHANNEL_PARAM, 1, 8, 8, "Channels out", "");
+		getParamQuantity(CHANNEL_PARAM)->randomizeEnabled = false;
+		configOutput(POLY_OUTPUT, "Poly");
 	}
 
 	void process(const ProcessArgs &args) override {
@@ -75,7 +78,7 @@ struct MicrotonalNotesWidget : ModuleWidget {
 			addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(35.85, 19.50 + i*11.25)), module, MicrotonalNotes::CHANNEL_LIGHTS + i));
 		}
 		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(8.15, 114.50)), module, MicrotonalNotes::SIZE_PARAM));
-		addParam(createParamCentered<RoundTinyRotarySwitchNoRandom>(mm2px(Vec(21.50, 114.50)), module, MicrotonalNotes::CHANNEL_PARAM));
+		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(21.50, 114.50)), module, MicrotonalNotes::CHANNEL_PARAM));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(32.02, 114.50)), module, MicrotonalNotes::POLY_OUTPUT));
 	}
 };

@@ -33,6 +33,18 @@ struct VarSampleDelays : Module {
 		configParam(B_PARAM, 1, 9, 5, "Sample delays", "");
 		configParam(C_PARAM, 1, 9, 5, "Sample delays", "");
 		configParam(D_PARAM, 1, 9, 5, "Sample delays", "");
+		configInput(A_INPUT, "A");
+		configOutput(A_OUTPUT, "A");
+		configInput(B_INPUT, "B");
+		configOutput(B_OUTPUT, "B");
+		configInput(C_INPUT, "C");
+		configOutput(C_OUTPUT, "C");
+		configInput(D_INPUT, "D");
+		configOutput(D_OUTPUT, "D");
+		configBypass(A_INPUT, A_OUTPUT);
+		configBypass(B_INPUT, B_OUTPUT);
+		configBypass(C_INPUT, C_OUTPUT);
+		configBypass(D_INPUT, D_OUTPUT);
 	}
 
 	int channels_a[9] = { 0 };

@@ -2,16 +2,6 @@ using namespace rack;
 
 extern Plugin *pluginInstance;
 
-struct CKSSNoRandom : CKSS {
-	void randomize () override {
-	}
-};
-
-struct CKSSThreeNoRandom : CKSSThree {
-	void randomize () override {
-	}
-};
-
 struct WhiteButton : SvgSwitch {
 	WhiteButton() {
 		momentary = false;
@@ -21,6 +11,7 @@ struct WhiteButton : SvgSwitch {
 		delete shadow;
 	}
 };
+
 
 struct BlackButton : SvgSwitch {
 	BlackButton() {
@@ -32,6 +23,7 @@ struct BlackButton : SvgSwitch {
 	}
 };
 
+
 struct RectButton : SvgSwitch {
 	RectButton() {
 		momentary = false;
@@ -42,43 +34,12 @@ struct RectButton : SvgSwitch {
 	}
 };
 
-struct TL1105Red : SvgSwitch {
-	TL1105Red() {
-		momentary = false;
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_Gray.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_Red.svg")));
-		//fb->removeChild(shadow);
-		//delete shadow;
-	}
-	// currently only using this for QuantMT Ref button
-	// if use elsewhere, may need to split out NoRandom version
-	void randomize () override {
-	}
-};
-
 struct RoundTinyRotarySwitch : Trimpot {
 	RoundTinyRotarySwitch() {
 		//minAngle = -0.83*M_PI;
 		//maxAngle = 0.83*M_PI;
 		snap = true;
 		smooth = false;
-	}
-
-	// handle the manually entered values
-	void onChange(const event::Change &e) override {
-		Trimpot::onChange(e);
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
-
-	// override the base randomizer as it sets switches to invalid values.
-	void randomize() override {
-		Trimpot::randomize();
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
-};
-
-struct RoundTinyRotarySwitchNoRandom : RoundTinyRotarySwitch {
-	void randomize() override {
 	}
 };
 
@@ -89,18 +50,6 @@ struct RoundSmallRotarySwitch : RoundSmallBlackKnob {
 		snap = true;
 		smooth = false;
 	}
-
-	// handle the manually entered values
-	void onChange(const event::Change &e) override {
-		RoundSmallBlackKnob::onChange(e);
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
-
-	// override the base randomizer as it sets switches to invalid values.
-	void randomize() override {
-		RoundSmallBlackKnob::randomize();
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
 };
 
 struct RoundBlackRotarySwitch : RoundBlackKnob {
@@ -109,23 +58,6 @@ struct RoundBlackRotarySwitch : RoundBlackKnob {
 		//maxAngle = 0.83*M_PI;
 		snap = true;
 		smooth = false;
-	}
-
-	// handle the manually entered values
-	void onChange(const event::Change &e) override {
-		RoundBlackKnob::onChange(e);
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
-
-	// override the base randomizer as it sets switches to invalid values.
-	void randomize() override {
-		RoundBlackKnob::randomize();
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
-};
-
-struct RoundBlackKnobNoRandom : RoundBlackKnob {
-	void randomize () override {
 	}
 };
 
@@ -136,44 +68,76 @@ struct RoundLargeRotarySwitch : RoundLargeBlackKnob {
 		snap = true;
 		smooth = false;
 	}
-
-	// handle the manually entered values
-	void onChange(const event::Change &e) override {
-		RoundLargeBlackKnob::onChange(e);
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
-
-	// override the base randomizer as it sets switches to invalid values.
-	void randomize() override {
-		RoundLargeBlackKnob::randomize();
-		paramQuantity->setValue(roundf(paramQuantity->getValue()));
-	}
 };
 
-template <typename TBase>
-struct TinyStealthLight : TBase {
-	TinyStealthLight() {
-		this->box.size = app::mm2px(math::Vec(1.088, 1.088));
-		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
-		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
-	}
-};
+
 
 template <typename TBase>
-struct PetiteStealthLight : TBase {
-	PetiteStealthLight() {
-		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
-		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
-		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
-	}
-};
-
-template <typename TBase>
-struct PetiteLight : TBase {
+struct PetiteLight : TSvgLight<TBase> {
 	PetiteLight() {
-		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLight.svg")));
 	}
 };
+
+template <typename TBase>
+struct PetiteLightHalfHalo : TSvgLight<TBase> {
+	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+		if (args.fb)
+			return;
+
+		const float halo = settings::haloBrightness;
+		if (halo == 0.f)
+			return;
+
+		// If light is off, rendering the halo gives no effect.
+		if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f)
+			return;
+
+		math::Vec c = this->box.size.div(2);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		float oradius = radius + std::min(radius * 4.f, 15.f);
+
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
+
+		NVGcolor icol = color::mult(this->color, halo/2.0);  // half brightness
+		NVGcolor ocol = nvgRGBA(0, 0, 0, 0);
+		NVGpaint paint = nvgRadialGradient(args.vg, c.x, c.y, radius, oradius, icol, ocol);
+		nvgFillPaint(args.vg, paint);
+		nvgFill(args.vg);
+	}
+	PetiteLightHalfHalo() {
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLight.svg")));
+	}
+};
+
+template <typename TBase>
+struct MediumLightFlat : TSvgLight<TBase> {
+	MediumLightFlat() {
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/MediumLightFlat.svg")));
+	}
+};
+
+template <typename TBase>
+struct TinyStealthLight : TSvgLight<TBase> {
+	TinyStealthLight() {
+		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
+		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/TinyLightFlat.svg")));
+	}
+};
+
+template <typename TBase>
+struct PetiteStealthLight : TSvgLight<TBase> {
+	PetiteStealthLight() {
+		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
+		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLightFlat.svg")));
+	}
+};
+
+
 
 struct SmallLEDButton : SvgSwitch {
 	SmallLEDButton() {
@@ -185,9 +149,23 @@ struct SmallLEDButton : SvgSwitch {
 	}
 };
 
+
 template <typename TBase>
-struct SmallLightTop : TBase {
+struct SmallLightTop : TSvgLight<TBase> {
 	void drawLight(const widget::Widget::DrawArgs& args) override {
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgBeginPath(args.vg);
+			float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+			nvgArc(args.vg, radius, radius, radius, 0, 3.141592653589793, 1);  // top
+			nvgClosePath(args.vg);
+
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+	}
+
+	void drawBackground(const widget::Widget::DrawArgs& args) override {
 		nvgBeginPath(args.vg);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
 		nvgArc(args.vg, radius, radius, radius, 0, 3.141592653589793, 1);  // top
@@ -199,12 +177,6 @@ struct SmallLightTop : TBase {
 			nvgFill(args.vg);
 		}
 
-		// Foreground
-		if (this->color.a > 0.0) {
-			nvgFillColor(args.vg, this->color);
-			nvgFill(args.vg);
-		}
-
 		// Border
 		if (this->borderColor.a > 0.0) {
 			nvgStrokeWidth(args.vg, 0.5);
@@ -212,29 +184,56 @@ struct SmallLightTop : TBase {
 			nvgStroke(args.vg);
 		}
 	}
+
 	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+		if (args.fb)
+			return;
+
+		const float halo = settings::haloBrightness;
+		if (halo == 0.f)
+			return;
+
+		// If light is off, rendering the halo gives no effect.
+		if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f)
+			return;
+
+		math::Vec c = this->box.size.div(2);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
-		float oradius = 4.0 * radius;
-	
+		float oradius = radius + std::min(radius * 4.f, 15.f);
+
 		nvgBeginPath(args.vg);
-		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
-	
-		NVGpaint paint;
-		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
-		NVGcolor ocol = nvgRGB(0, 0, 0);
-		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		nvgRect(args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
+
+		NVGcolor icol = color::mult(this->color, halo/2.0);  // half brightness
+		NVGcolor ocol = nvgRGBA(0, 0, 0, 0);
+		NVGpaint paint = nvgRadialGradient(args.vg, c.x, c.y, radius, oradius, icol, ocol);
 		nvgFillPaint(args.vg, paint);
-		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
 		nvgFill(args.vg);
 	}
+
 	SmallLightTop() {
-		this->box.size = app::mm2px(math::Vec(2.176, 2.176));
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/SmallLightTop.svg")));
 	}
 };
 
+
 template <typename TBase>
-struct SmallLightBot : TBase {
+struct SmallLightBot : TSvgLight<TBase> {
 	void drawLight(const widget::Widget::DrawArgs& args) override {
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgBeginPath(args.vg);
+			float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+			nvgArc(args.vg, radius, radius, radius, 3.141592653589793, 0, 1);  // bot
+			nvgClosePath(args.vg);
+
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+	}
+
+	void drawBackground(const widget::Widget::DrawArgs& args) override {
 		nvgBeginPath(args.vg);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
 		nvgArc(args.vg, radius, radius, radius, 3.141592653589793, 0, 1);  // bot
@@ -246,12 +245,6 @@ struct SmallLightBot : TBase {
 			nvgFill(args.vg);
 		}
 
-		// Foreground
-		if (this->color.a > 0.0) {
-			nvgFillColor(args.vg, this->color);
-			nvgFill(args.vg);
-		}
-
 		// Border
 		if (this->borderColor.a > 0.0) {
 			nvgStrokeWidth(args.vg, 0.5);
@@ -259,29 +252,57 @@ struct SmallLightBot : TBase {
 			nvgStroke(args.vg);
 		}
 	}
+
 	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+		if (args.fb)
+			return;
+
+		const float halo = settings::haloBrightness;
+		if (halo == 0.f)
+			return;
+
+		// If light is off, rendering the halo gives no effect.
+		if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f)
+			return;
+
+		math::Vec c = this->box.size.div(2);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
-		float oradius = 4.0 * radius;
+		float oradius = radius + std::min(radius * 4.f, 15.f);
 	
 		nvgBeginPath(args.vg);
-		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
-	
-		NVGpaint paint;
-		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
-		NVGcolor ocol = nvgRGB(0, 0, 0);
-		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		nvgRect(args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
+
+		NVGcolor icol = color::mult(this->color, halo/2.0);  // half brightness
+		NVGcolor ocol = nvgRGBA(0, 0, 0, 0);
+		NVGpaint paint = nvgRadialGradient(args.vg, c.x, c.y, radius, oradius, icol, ocol);
 		nvgFillPaint(args.vg, paint);
-		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
 		nvgFill(args.vg);
 	}
+
 	SmallLightBot() {
-		this->box.size = app::mm2px(math::Vec(2.176, 2.176));
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/SmallLightBot.svg")));
 	}
 };
 
+
+
 template <typename TBase>
-struct PetiteLightTop : TBase {
+struct PetiteLightTop : TSvgLight<TBase> {
 	void drawLight(const widget::Widget::DrawArgs& args) override {
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgBeginPath(args.vg);
+			float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+			nvgArc(args.vg, radius, radius, radius, 0, 3.141592653589793, 1);  // top
+			nvgClosePath(args.vg);
+
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+	}
+
+	void drawBackground(const widget::Widget::DrawArgs& args) override {
 		nvgBeginPath(args.vg);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
 		nvgArc(args.vg, radius, radius, radius, 0, 3.141592653589793, 1);  // top
@@ -293,12 +314,6 @@ struct PetiteLightTop : TBase {
 			nvgFill(args.vg);
 		}
 
-		// Foreground
-		if (this->color.a > 0.0) {
-			nvgFillColor(args.vg, this->color);
-			nvgFill(args.vg);
-		}
-
 		// Border
 		if (this->borderColor.a > 0.0) {
 			nvgStrokeWidth(args.vg, 0.5);
@@ -306,29 +321,56 @@ struct PetiteLightTop : TBase {
 			nvgStroke(args.vg);
 		}
 	}
+
 	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+		if (args.fb)
+			return;
+
+		const float halo = settings::haloBrightness;
+		if (halo == 0.f)
+			return;
+
+		// If light is off, rendering the halo gives no effect.
+		if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f)
+			return;
+
+		math::Vec c = this->box.size.div(2);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
-		float oradius = 4.0 * radius;
-	
+		float oradius = radius + std::min(radius * 4.f, 15.f);
+
 		nvgBeginPath(args.vg);
-		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
+		nvgRect(args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
 	
-		NVGpaint paint;
-		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
-		NVGcolor ocol = nvgRGB(0, 0, 0);
-		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		NVGcolor icol = color::mult(this->color, halo/2.0);  // half brightness
+		NVGcolor ocol = nvgRGBA(0, 0, 0, 0);
+		NVGpaint paint = nvgRadialGradient(args.vg, c.x, c.y, radius, oradius, icol, ocol);
 		nvgFillPaint(args.vg, paint);
-		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
 		nvgFill(args.vg);
 	}
+
 	PetiteLightTop() {
-		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLightTop.svg")));
 	}
 };
 
+
 template <typename TBase>
-struct PetiteLightBot : TBase {
+struct PetiteLightBot : TSvgLight<TBase> {
 	void drawLight(const widget::Widget::DrawArgs& args) override {
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgBeginPath(args.vg);
+			float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+			nvgArc(args.vg, radius, radius, radius, 3.141592653589793, 0, 1);  // bot
+			nvgClosePath(args.vg);
+
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+	}
+
+	void drawBackground(const widget::Widget::DrawArgs& args) override {
 		nvgBeginPath(args.vg);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
 		nvgArc(args.vg, radius, radius, radius, 3.141592653589793, 0, 1);  // bot
@@ -340,12 +382,6 @@ struct PetiteLightBot : TBase {
 			nvgFill(args.vg);
 		}
 
-		// Foreground
-		if (this->color.a > 0.0) {
-			nvgFillColor(args.vg, this->color);
-			nvgFill(args.vg);
-		}
-
 		// Border
 		if (this->borderColor.a > 0.0) {
 			nvgStrokeWidth(args.vg, 0.5);
@@ -353,22 +389,35 @@ struct PetiteLightBot : TBase {
 			nvgStroke(args.vg);
 		}
 	}
+
 	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+		if (args.fb)
+			return;
+
+		const float halo = settings::haloBrightness;
+		if (halo == 0.f)
+			return;
+
+		// If light is off, rendering the halo gives no effect.
+		if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f)
+			return;
+
+		math::Vec c = this->box.size.div(2);
 		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
-		float oradius = 4.0 * radius;
+		float oradius = radius + std::min(radius * 4.f, 15.f);
 	
 		nvgBeginPath(args.vg);
-		nvgRect(args.vg, radius - oradius, radius - oradius, 2 * oradius, 2 * oradius);
+		nvgRect(args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
 	
-		NVGpaint paint;
-		NVGcolor icol = color::mult(this->color, 0.035);  // half brightness
-		NVGcolor ocol = nvgRGB(0, 0, 0);
-		paint = nvgRadialGradient(args.vg, radius, radius, radius, oradius, icol, ocol);
+		NVGcolor icol = color::mult(this->color, halo/2.0);  // half brightness
+		NVGcolor ocol = nvgRGBA(0, 0, 0, 0);
+		NVGpaint paint = nvgRadialGradient(args.vg, c.x, c.y, radius, oradius, icol, ocol);
 		nvgFillPaint(args.vg, paint);
-		nvgGlobalCompositeOperation(args.vg, NVG_LIGHTER);
 		nvgFill(args.vg);
 	}
+
 	PetiteLightBot() {
-		this->box.size = app::mm2px(math::Vec(1.632, 1.632));
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLightBot.svg")));
 	}
 };

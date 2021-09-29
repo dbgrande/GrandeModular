@@ -28,6 +28,15 @@ struct Tails : Module {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(GAIN_PARAM, 0.f, 1.f, 1.f, "Gain", "");
 		configParam(CHANNEL_PARAM, 1, 5, 2, "Channels out", "");
+		getParamQuantity(CHANNEL_PARAM)->randomizeEnabled = false;
+		configInput(IN_INPUT, "VCA");
+		configOutput(OUT_OUTPUT, "VCA");
+		configInput(CV_INPUT, "VCA gain");
+		configInput(VOCT_INPUT, "Mono pitch");
+		configOutput(VOCT_OUTPUT, "Poly pitch");
+		configInput(GATE_INPUT, "Mono gate/trigger");
+		configOutput(GATE_OUTPUT, "Poly gate/trigger");
+		configBypass(IN_INPUT, OUT_OUTPUT);
 	}
 
 	dsp::SchmittTrigger trigger;
@@ -129,7 +138,7 @@ struct TailsWidget : ModuleWidget {
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 94.8)), module, Tails::GATE_INPUT));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 104.3)), module, Tails::GATE_OUTPUT));
 
-		addParam(createParamCentered<RoundTinyRotarySwitchNoRandom>(mm2px(Vec(5.08, 115.3)), module, Tails::CHANNEL_PARAM));
+		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 115.3)), module, Tails::CHANNEL_PARAM));
 	}
 };
 

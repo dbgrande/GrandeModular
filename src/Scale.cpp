@@ -42,6 +42,7 @@ struct Scale : Module {
 		configParam(NOTE9_PARAM, 0.0, 1.0, 1.0, "Note9", "");
 		configParam(NOTE10_PARAM, 0.0, 1.0, 0.0, "Note10", "");
 		configParam(NOTE11_PARAM, 0.0, 1.0, 1.0, "Note11", "");
+		configOutput(SCALE_OUTPUT, "Scale");
 	}
 
 	dsp::PulseGenerator pulseGenerators[16];

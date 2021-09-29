@@ -34,7 +34,11 @@ struct NoteMT : Module {
 		configParam(PITCH_PARAM, 0.f, 33.f, 0.f, "Note", "");
 		configParam(OCTAVE_PARAM, -5, 5, 0, "Octave", "");
 		configParam(SIZE_PARAM, 1, 34, 12, "Notes per Octave", "");
-		configParam(INT_PARAM, 0, 1, 0, "Round notes", "");
+		configButton(INT_PARAM, "Round notes");
+		configInput(VOCT_INPUT, "Pitch");
+		configOutput(VOCT_OUTPUT, "Pitch");
+		configOutput(OCTAVE_OUTPUT, "Octave");
+		configOutput(NOTE_OUTPUT, "Note");
 	}
 
 	void process(const ProcessArgs &args) override {
@@ -124,7 +128,7 @@ struct NoteMTWidget : ModuleWidget {
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(6.35, 77.00)), module, NoteMT::VOCT_INPUT));
 		addParam(createParam<TL1105>(mm2px(Vec(19.05-2.709, 77.90-2.709)), module, NoteMT::INT_PARAM));
-		addChild(createLightCentered<MediumLight<BlueLight>>(mm2px(Vec(19.05, 77.90)), module, NoteMT::INT_LIGHT));
+		addChild(createLightCentered<MediumLightFlat<BlueLight>>(mm2px(Vec(18.95, 77.80)), module, NoteMT::INT_LIGHT));
 
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(6.35, 93.00)), module, NoteMT::OCTAVE_OUTPUT));
 

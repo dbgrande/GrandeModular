@@ -32,11 +32,13 @@ struct QuantMT : Module {
 
 	QuantMT() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(ROUNDING_PARAM, -1.0, 1.0, 0.0, "Rounding", "");
-		configParam(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", "");
+		configSwitch(ROUNDING_PARAM, 0.0, 2.0, 1.0, "Rounding", {"Down", "Nearest", "Up"});
+		getParamQuantity(ROUNDING_PARAM)->randomizeEnabled = false;
+		configSwitch(EQUI_PARAM, 0.0, 1.0, 0.0, "Equi-likely notes", {"Off", "On"});
+		getParamQuantity(EQUI_PARAM)->randomizeEnabled = false;
 		configParam(SIZE_PARAM, 1, 34, 12, "Notes per Octave", "");
 		configParam(NOTE_PARAMS, 0.0, 1.0, 1.0, "Note0", "");  // Root
-		configParam(NOTE_PARAMS + 1, 0.0, 1.0, 0.0, "Note1", "");
+		configParam(NOTE_PARAMS + 1, 0.0, 1.0, 0.0, "Note1");
 		configParam(NOTE_PARAMS + 2, 0.0, 1.0, 1.0, "Note2", "");
 		configParam(NOTE_PARAMS + 3, 0.0, 1.0, 0.0, "Note3", "");
 		configParam(NOTE_PARAMS + 4, 0.0, 1.0, 1.0, "Note4", "");
@@ -69,11 +71,15 @@ struct QuantMT : Module {
 		configParam(NOTE_PARAMS + 31, 0.0, 1.0, 0.0, "Note31", "");
 		configParam(NOTE_PARAMS + 32, 0.0, 1.0, 0.0, "Note32", "");
 		configParam(NOTE_PARAMS + 33, 0.0, 1.0, 0.0, "Note33", "");
-		configParam(SEL_ALL_PARAM, 0.0, 1.0, 0.0, "Set", "");
-		configParam(CLEAR_ALL_PARAM, 0.0, 1.0, 0.0, "Clear", "");
-		configParam(MODE_PARAM, 0.0, 1.0, 0.0, "Rotate Mode", "");
-		configParam(REF_PARAM, 0.0, 1.0, 0.0, "Reference Scale", "");
-
+		configButton(SEL_ALL_PARAM, "Set All");
+		configButton(CLEAR_ALL_PARAM, "Clear All");
+		configButton(MODE_PARAM, "Rotate Mode");
+		configButton(REF_PARAM, "Reference Scale");
+		configInput(CV_IN_INPUT, "Pitch");
+		configInput(ROOT_INPUT, "Transpose");
+		configOutput(CV_OUT_OUTPUT, "Pitch");
+		configOutput(TRIGGER_OUTPUT, "Trigger");
+		configBypass(CV_IN_INPUT, CV_OUT_OUTPUT);
 		onReset();
 	}
 
@@ -100,7 +106,7 @@ struct QuantMT : Module {
 			param_timer = 50;  // how often to update params (audio cycles)
 
 			// rounding mode (-1 = down, 0 = nearest, 1 = up)
-			rounding_mode = std::round(params[ROUNDING_PARAM].getValue());
+			rounding_mode = std::round(params[ROUNDING_PARAM].getValue()) - 1;
 
 			// equally-likely note mode (0 = off, 1 = on)
 			// makes the input voltage range for each note equivalent
@@ -368,12 +374,12 @@ struct QuantMTWidget : ModuleWidget {
 
 		addParam(createParam<TL1105>(mm2px(Vec(18.5-2.709, 23.5-2.709+2.5)), module, QuantMT::MODE_PARAM));
 		addParam(createParam<TL1105>(mm2px(Vec(26.0-2.709, 23.5-2.709+2.5)), module, QuantMT::REF_PARAM));
-		addChild(createLightCentered<MediumLight<BlueLight>>(mm2px(Vec(26.0, 23.5+2.5)), module, QuantMT::REF_ON_LIGHT));
+		addChild(createLightCentered<MediumLightFlat<BlueLight>>(mm2px(Vec(25.9, 25.86)), module, QuantMT::REF_ON_LIGHT));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 54.5)), module, QuantMT::ROOT_INPUT));
 
-		addParam(createParam<CKSSThreeNoRandom>(mm2px(Vec(16.25, 65.5)), module, QuantMT::ROUNDING_PARAM));
-		addParam(createParam<CKSSNoRandom>(mm2px(Vec(23.75, 67.0)), module, QuantMT::EQUI_PARAM));
+		addParam(createParam<CKSSThree>(mm2px(Vec(16.25, 65.5)), module, QuantMT::ROUNDING_PARAM));
+		addParam(createParam<CKSS>(mm2px(Vec(23.75, 67.0)), module, QuantMT::EQUI_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 85.0)), module, QuantMT::CV_IN_INPUT));
 

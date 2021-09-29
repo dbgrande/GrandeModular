@@ -22,6 +22,16 @@ struct MergeSplit4 : Module {
 
 	MergeSplit4() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configInput(INPUTS_A, "Channel 1");
+		configInput(INPUTS_A + 1, "Channel 2");
+		configInput(INPUTS_A + 2, "Channel 3");
+		configInput(INPUTS_A + 3, "Channel 4");
+		configOutput(POLY_OUT_A, "Poly merge");
+		configInput(POLY_IN_B, "Poly split");
+		configOutput(OUTPUTS_B, "Channel 1");
+		configOutput(OUTPUTS_B + 1, "Channel 2");
+		configOutput(OUTPUTS_B + 2, "Channel 3");
+		configOutput(OUTPUTS_B + 3, "Channel 4");
 		onReset();
 	}
 
