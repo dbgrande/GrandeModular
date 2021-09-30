@@ -1,7 +1,13 @@
-Grande Modules for VCV Rack 1.0
+Grande Modules for VCV Rack 2.0
 ===============================
 
 By David Grande
+
+***
+
+- Preliminary version of these modules for Rack 2.0.
+- README images won't be regenerated until final version.
+- The svg files in **res** are now optimized. The originals can be found in **res-src**.
 
 
 ***
