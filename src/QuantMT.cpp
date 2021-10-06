@@ -157,9 +157,10 @@ struct QuantMT : Module {
 				last_ref = 0;
 
 			// display reference scale if on
+			// dim slightly, since Rack 2 blends light with background color
 			lights[REF_ON_LIGHT].setBrightness(refstate[0]);
 			for (int i = 0; i < 34; i++)
-				lights[REF_LIGHTS + i].setBrightness(refstate[0] && i < equal_temp && refstate[i+1]);
+				lights[REF_LIGHTS + i].setBrightness(0.5 * (refstate[0] && i < equal_temp && refstate[i+1]));
 
 			// rotate mode down
 			int mode = clamp((int)(params[MODE_PARAM].getValue()), 0, 1);
