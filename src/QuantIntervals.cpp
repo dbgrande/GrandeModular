@@ -31,6 +31,7 @@ struct QuantIntervals : Module {
 		ENUMS(INTERVAL_TOP_LIGHTS, 67),
 		ENUMS(INTERVAL_BOT_LIGHTS, 67),
 		ENUMS(NOTE_LIGHTS, 34),
+		ENUMS(OCTAVE_LIGHTS, 35),
 		NUM_LIGHTS
 	};
 
@@ -495,6 +496,13 @@ struct QuantIntervals : Module {
 				}
 			}
 
+			// lights show root and top note
+			for (int i = 0; i < 35; i++)
+				if (i == 0 || i == equal_temp)
+					lights[OCTAVE_LIGHTS + i].setBrightness(true);
+				else
+					lights[OCTAVE_LIGHTS + i].setBrightness(false);
+
 			// generate scale[] with enabled notes up to equal_temp size
 			note_per_oct = 0;
 			for (int i = 0, j = 0; i < equal_temp; i++) {
@@ -682,6 +690,9 @@ struct QuantIntervalsWidget : ModuleWidget {
 
 		for (int i = 0; i < 34; i++)
 			addChild(createLightCentered<SmallLight<BlueLight>>(mm2px(Vec(52.75, 122.50 - 3.5*i)), module, QuantIntervals::NOTE_LIGHTS + i));
+
+		for (int i = 0; i < 35; i++)
+			addChild(createLightCentered<TinyStealthLight<BlueLight>>(mm2px(Vec(50.75, 122.50 + 1.75 - 3.50*i)), module, QuantIntervals::OCTAVE_LIGHTS + i));
 
 		for (int i = 0; i < 34; i++)
 			addParam(createParam<SmallLEDButton>(mm2px(Vec(52.75-1.5, 122.50-1.5 - 3.5*i)), module, QuantIntervals::NOTE_LIGHT_PARAMS + i));

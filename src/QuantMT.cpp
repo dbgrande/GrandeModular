@@ -392,7 +392,7 @@ struct QuantMTWidget : ModuleWidget {
 			addParam(createParam<RectButton>(mm2px(Vec(5.2+0.25, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));
 
 		for (int i = 0; i < 35; i++)
-			addChild(createLightCentered<TinyStealthLight<BlueLight>>(mm2px(Vec(4.25+0.5, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
+			addChild(createLightCentered<TinyStealthLight<BlueLight>>(mm2px(Vec(4.25, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
 		for (int i = 0; i < 34; i++)
 			addChild(createLightCentered<PetiteStealthLight<BlueLight>>(mm2px(Vec(13.25+0.30, 122.50 - 3.50*i)), module, QuantMT::REF_LIGHTS + i));
 	}
