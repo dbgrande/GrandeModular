@@ -157,10 +157,10 @@ struct QuantMT : Module {
 				last_ref = 0;
 
 			// display reference scale if on
-			// dim slightly, since Rack 2 blends light with background color
+			// use my blue-light hack: separately output non-blended lights and blended halos
 			lights[REF_ON_LIGHT].setBrightness(refstate[0]);
 			for (int i = 0; i < 34; i++)
-				lights[REF_LIGHTS + i].setBrightness(0.5 * (refstate[0] && i < equal_temp && refstate[i+1]));
+				lights[REF_LIGHTS + i].setBrightness(refstate[0] && i < equal_temp && refstate[i+1]);
 
 			// rotate mode down
 			int mode = clamp((int)(params[MODE_PARAM].getValue()), 0, 1);
@@ -393,8 +393,10 @@ struct QuantMTWidget : ModuleWidget {
 
 		for (int i = 0; i < 35; i++)
 			addChild(createLightCentered<TinyStealthLight<BlueLight>>(mm2px(Vec(4.25, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
-		for (int i = 0; i < 34; i++)
+		for (int i = 0; i < 34; i++) {
 			addChild(createLightCentered<PetiteStealthLight<BlueLight>>(mm2px(Vec(13.25+0.30, 122.50 - 3.50*i)), module, QuantMT::REF_LIGHTS + i));
+			addChild(createLightCentered<PetiteStealthLightHalo<BlueLight>>(mm2px(Vec(13.25+0.30, 122.50 - 3.50*i)), module, QuantMT::REF_LIGHTS + i));
+		}
 	}
 };
 
