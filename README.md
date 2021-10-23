@@ -1,13 +1,7 @@
-Grande Modules for VCV Rack 2.0
-===============================
+Grande Modules for VCV Rack 2
+=============================
 
 By David Grande
-
-***
-
-- Preliminary version of these modules for Rack 2.0.
-- README images won't be regenerated until final version.
-- The svg files in **res** are now optimized. The originals can be found in **res-src**.
 
 
 ***
@@ -22,7 +16,7 @@ Quant
 
 - Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
-- **Scale:** Use **Scale** modules (see directly below) and polyphonic switch to allow selecting different scales.
+- **Scale:** Use **Scale** modules (see directly below) and a polyphonic switch to allow selecting different scales.
 
 - **Root:** Defines root note of scale (1V/Oct, polyphonic), quantized.
 
@@ -30,13 +24,26 @@ Quant
 
 - **Equi-likely mode:** Down = off, up = on.
 
-- **In:** CV input (1V/Oct, polyphonic).
+- **In:** Pitch input (1V/Oct, polyphonic).
 
-- **Out:** Quantized CV output (1V/Oct, polyphonic).
+- **Out:** Quantized pitch output (1V/Oct, polyphonic).
 
-- **Trigger:** Trigger whenever note changes (polyphonic).
+- **Trigger:** Outputs trigger whenever note changes (polyphonic).
 
 - **Note buttons:** Set current scale, or display externally defined scale. Root on bottom. Defaults to major scale. If no notes are selected, defaults to just the root note.
+
+
+**Factory Preset Scales *(new for version 2)***
+
+Now easily set one of fourteen different common scales.
+
+- Chromatic
+- Major, Dorian, Phrygian, Lydian, Mixolydian, Aeolian *(Natural Minor)*, Locrian
+- Harmonic Minor, Melodic Minor\*
+- Major Pentatonic, Minor Pentatonic
+- Blues, Whole Tone
+
+\* *Just the modern ascending-only form of the Melodic Minor scale.*
 
 
 **Explanation of Equi-likely mode**
@@ -62,13 +69,15 @@ However, equi-likely mode is best for random input voltages. It can cause unexpe
 
 Scale
 -----
-![Additional Scales](images/additional_scales.png "Additional Scales")
+![Scale](images/Scale.png "Scale")
 
 **Extra scales for the Quant quantizer.**
 
 - Sends 12 control signals using a polyphonic cable (0V or 10V).
 
-- Use a polyphonic switch, like the one from Bogaudio, and plug it into the Scale input of **Quant.**
+- Route multiple **Scale** modules through a polyphonic switch, and into the Scale input of **Quant.**
+
+- Provides the same fourteen factory preset scales as **Quant.**
 
 
 ***
@@ -98,13 +107,13 @@ This is particularly useful for irregular tempos, where widely spaced notes have
 
 **Notes Section:**
 
-- **V/Oct input:** Feed in a monophonic sequence of V/Oct note pitches. Each value is latched on the rising edge of its corresponding gate pulse.
+- **Mono pitch input:** Feed in a monophonic sequence of V/Oct note pitches. Each value is latched on the rising edge of its corresponding gate pulse.
 
-- **V/Oct output (poly):** Connect to the V/Oct input of a polyphonic oscillator.
+- **Poly pitch output:** Connect to the V/Oct input of a polyphonic oscillator.
 
-- **Gate input:** Feed in a monophonic sequence of gate pulses, the more irregular the better.
+- **Mono gate/trigger input:** Feed in a monophonic sequence of gate/trigger pulses, the more irregular the better.
 
-- **Gate output (poly):** Connect to the Gate or Trigger input of a polyphonic envelope generator.
+- **Poly gate/trigger output:** Connect to the Gate or Trigger input of a polyphonic oscillator or envelope generator.
 
 - **Chans knob:** Defines how many polyphonic channels to output, from 1 to 5.
 
@@ -114,7 +123,7 @@ Also provides a polyphonic VCA, since some mixers don't support true polyphonic 
 
 - **VCA In and Out:** Polyphonic voltage-controlled attenuator (up to 16 channels).
 
-- **VCA CV:** Control voltage for VCA attenuation (up to 16 channels).
+- **VCA CV:** Control voltage for VCA attenuation (0-10V, up to 16 channels).
 
 - **VCA Gain knob:** Sets overall gain for VCA (0-1×).
 
@@ -140,7 +149,7 @@ MergeSplit4 (MS4)
 
 **4-channel polyphonic merge and split.**
 
-Provides a 4-channel polyphonic merger and a 4-channel polyphonic splitter in a compact package.
+Provides a 4-channel mono-to-poly merger and a 4-channel poly-to-mono splitter in a compact package.
 
 Useful for feeding multiple monophonic signals into my polyphonic quantizers. Run Merge out to Quantizer In, and Quantizer Out back to Split In.
 
@@ -190,7 +199,7 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 
 - Oscillator output gets connected to either **PMR** Resplit input.
 
-- **PMR** Resplit outputs now match the original number of **Tails** and their widths. They can be sent off to a mixer for individual volume and panning adjustments.
+- **PMR** Resplit outputs match the original number of **Tails** and their widths. They can be sent off to a mixer for individual volume and panning adjustments.
 
 - *(If desired, the **PMR** Gate output could be sent to an ADSR instead.)*
 
@@ -203,8 +212,6 @@ Clip
 **Polyphonic hard clipper and visual clip monitor.**
 
 Provides two separate polyphonic clippers with displays, which clip to ±5V by default. The clipping voltage is adjustable by knob (up to ±10V), or polyphonic input voltages (up to ±20V).
-
-In addition, this module also filters out infinities and NaNs. Positive infinities get clipped to +Vclip and negative infinities get clipped to –Vclip, while NaNs get filtered to 0V.
 
 The display shows active channels in blue, while any currently clipping channels are shown in red. To use this just as a clip monitor, just attach the inputs and don't pass through this module.
 
@@ -225,7 +232,7 @@ SampleDelays (SD)
 
 **3 sample delay buffer chains.**
 
-Provides three independent sample-delay buffer chains giving one or two sample delays each.
+Provides three independent sample-delay buffer chains giving one or two sample delays each (polyphonic).
 
 - Internally chained together to give up to six sample delays.
 
@@ -238,7 +245,7 @@ VarSampleDelays (VSD)
 
 **Quad independent variable sample-delay buffers.**
 
-Provides four independent sample-delay buffers that can be adjusted between one and nine sample delays each (default 5).
+Provides four independent sample-delay buffers that can be adjusted between one and nine sample delays each (default 5, polyphonic).
 
 - Each buffer is not internally connected to any others. If more than nine sample delays are needed, they can be connected externally.
 
@@ -268,7 +275,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Note buttons:** Buttons between the two blue lights on left enable valid notes. Notes outside this range are ignored.
 
-- **Reference lights:** Optional **now blue** lights on right that can be set and enabled with the Ref button. Just to give a visual reference scale to help with setting and changing scales. Lights maintain state through power cycles.
+- **Reference lights:** Optional **blue** lights on right that can be set and enabled with the Ref button. Just to give a visual reference scale to help with setting and changing scales. Lights maintain state through power cycles.
 
 - **Set:** Enables all valid notes up to Notes/Oct – 1.
 
@@ -276,7 +283,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Mode:** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
 
-- **Ref:** Short press toggles display of reference lights. Long press (now ≥ 2 sec) sets and turns on reference lights based on current note buttons.
+- **Ref:** Short press toggles display of reference lights. Long press (≥ 2 sec) sets and turns on reference lights based on current note buttons.
 
 
 ***
@@ -292,7 +299,7 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
-- The interval buttons select desired pitch intervals, which now include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36 (minus one pair).
+- The interval buttons select desired pitch intervals, which include all 13-limit intervals where the ratio and its octave complement are less than or equal to 36 (minus one pair).
 
 - However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is. In addition, the valid notes are also displayed on the numbered lights to the right.
 
@@ -306,11 +313,11 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - **Tolerance:** Defines required accuracy for matching, from 0 to 50 cents (default 20 cents).
 
-- **Show All:** Uses the lights to show **all** closest intervals within tolerance of a valid note. *(They will now have to be selected individually.)*
+- **Show All:** Uses the lights to show **all** closest intervals within tolerance of a valid note.
 
 - **Clear All:** Disables all intervals, except 1/1 unison.
 
-- **Show Small:** Uses the lights to show all closest **small-number** intervals within tolerance of a valid note. *(They will also have to be selected individually.)*
+- **Show Small:** Uses the lights to show all closest **small-number** intervals within tolerance of a valid note.
 
 - **Clear Invalid:** Disables all intervals that don't have a light showing.
 
@@ -367,13 +374,13 @@ NoteMT
 
 - **Octave** and **Note** knobs: Set octave and note based on current temperament. Note knob clamped to Notes/Oct – 1.
 
-- **V/Oct:** Output voltage defined by Octave and Note knobs (still monophonic).
+- **V/Oct:** Output voltage defined by Octave and Note knobs (monophonic).
 
-- **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output (now polyphonic).
+- **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output (polyphonic).
 
 - **Round Notes:** Defines whether Note outputs rounded to integers. When using voltmeters with high precision, note voltages can be displayed as 2.999-something instead of 3. Therefore, I have added in the ability to round notes to integers. **Caution:** Only use this mode when you're sure the Notes/Oct setting is correct. This mode is always disabled on power-up, and it's disabled whenever the Notes/Oct setting is changed.
 
-- **Octave** and **Note** outputs: Convert V/Oct-In voltage (or knobs if input unconnected) into a pair of integer voltages. These can be displayed on a voltmeter, like the one from ML Modules. (Now polyphonic, so can also use a pair of polyphonic voltmeters, like **Debug** from computerscare.)
+- **Octave** and **Note** outputs: Convert V/Oct-In voltage(s) (or knobs if input unconnected) into a pair of voltages, which can be displayed using a pair of voltmeters (polyphonic).
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 
