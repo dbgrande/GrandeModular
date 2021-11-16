@@ -130,48 +130,16 @@ struct TinyStealthLight : TSvgLight<TBase> {
 
 template <typename TBase>
 struct PetiteStealthLight : TSvgLight<TBase> {
-	void draw(const widget::Widget::DrawArgs& args) override {
-		LightWidget::drawBackground(args);
-		Widget::draw(args);
-	}
-
-	void drawLayer(const widget::Widget::DrawArgs& args, int layer) override {
-		if (layer == 1) {
-			//nvgGlobalCompositeBlendFunc(args.vg, NVG_ONE_MINUS_DST_COLOR, NVG_ONE);
-			LightWidget::drawLight(args);
-			//LightWidget::drawHalo(args);
-		}
-		Widget::drawLayer(args, layer);
-	}
+	void drawBackground(const Widget::DrawArgs& args) override {
+			this->bgColor.a = this->color.a;
+			this->borderColor.a = 0;
+			LightWidget::drawBackground(args);
+		};
 
 	PetiteStealthLight() {
-		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
-		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
 		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLightFlat.svg")));
 	}
 };
-
-template <typename TBase>
-struct PetiteStealthLightHalo : TSvgLight<TBase> {
-	void draw(const widget::Widget::DrawArgs& args) override {
-		//LightWidget::drawBackground(args);
-		Widget::draw(args);
-	}
-
-	void drawLayer(const widget::Widget::DrawArgs& args, int layer) override {
-		if (layer == 1) {
-			nvgGlobalCompositeBlendFunc(args.vg, NVG_ONE_MINUS_DST_COLOR, NVG_ONE);
-			//LightWidget::drawLight(args);
-			LightWidget::drawHalo(args);
-		}
-		Widget::drawLayer(args, layer);
-	}
-
-	PetiteStealthLightHalo() {
-		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLightFlat.svg")));
-	}
-};
-
 
 
 struct SmallLEDButton : SvgSwitch {
