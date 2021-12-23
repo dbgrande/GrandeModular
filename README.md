@@ -155,7 +155,33 @@ Useful for feeding multiple monophonic signals into my polyphonic quantizers. Ru
 
 Note however that this combination, with a quantizer and **MergeSplit4,** adds three sample delays to the V/Oct path. My sampledelay modules can be used to match delays on the gate/trigger path (see below).
 
-Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn't use any of his artwork.
+*Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn't use any of his artwork.*
+
+
+***
+
+Merge8
+------
+![Merge8](images/Merge8.png "Merge8")
+
+**8-channel polyphonic merge.**
+
+Provides an 8-channel mono-to-poly merger in a compact package.
+
+*Based on my MergeSplit4 module, which was based on GPL3 code from 23Volts.*
+
+
+***
+
+Split8
+------
+![Split8](images/Split8.png "Split8")
+
+**8-channel polyphonic split.**
+
+Provides an 8-channel poly-to-mono splitter in a compact package.
+
+*Based on my MergeSplit4 module, which was based on GPL3 code from 23Volts.*
 
 
 ***
@@ -202,6 +228,7 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 - **PMR** Resplit outputs match the original number of **Tails** and their widths. They can be sent off to a mixer for individual volume and panning adjustments.
 
 - *(If desired, the **PMR** Gate output could be sent to an ADSR instead.)*
+
 
 ***
 

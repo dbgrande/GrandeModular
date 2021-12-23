@@ -10,6 +10,7 @@ void init(Plugin* p) {
 	// Add modules here
 	// p->addModel(modelMyModule);
 	p->addModel(modelClip);
+	p->addModel(modelMerge8);
 	p->addModel(modelMergeSplit4);
 	p->addModel(modelMicrotonalChords);
 	p->addModel(modelMicrotonalNotes);
@@ -20,6 +21,7 @@ void init(Plugin* p) {
 	p->addModel(modelQuantMT);
 	p->addModel(modelSampleDelays);
 	p->addModel(modelScale);
+	p->addModel(modelSplit8);
 	p->addModel(modelTails);
 	p->addModel(modelVarSampleDelays);
 
