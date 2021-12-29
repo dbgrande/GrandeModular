@@ -17,6 +17,7 @@ extern Model* modelMicrotonalChords;
 extern Model* modelMicrotonalNotes;
 extern Model* modelNoteMT;
 extern Model* modelPolyMergeResplit;
+extern Model* modelPolySplit;
 extern Model* modelQuant;
 extern Model* modelQuantIntervals;
 extern Model* modelQuantMT;

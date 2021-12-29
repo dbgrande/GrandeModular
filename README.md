@@ -90,9 +90,9 @@ Tails
 
 **Tails** takes a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels.
 
-Gate pulse lengths are not changed, so there can still only be one active note playing at a time. However, by giving each note a separate channel, this allows for each note's release envelope to continue playing in parallel, giving a much fuller sound.
+Gate pulse lengths are not changed, so there can still only be one active note playing at a time. However, by giving each note a separate channel, this allows for each note’s release envelope to continue playing in parallel, giving a much fuller sound.
 
-This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there's only one pitch value per note, chords are not directly supported.
+This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there’s only one pitch value per note, chords are not directly supported.
 
 **Without Tails:** Notes and their envelopes get cut off abruptly when a new note appears.
 
@@ -119,7 +119,7 @@ This is particularly useful for irregular tempos, where widely spaced notes have
 
 **VCA Section:**
 
-Also provides a polyphonic VCA, since some mixers don't support true polyphonic Volume inputs.
+Also provides a polyphonic VCA, since some mixers don’t support true polyphonic Volume inputs.
 
 - **VCA In and Out:** Polyphonic voltage-controlled attenuator (up to 16 channels).
 
@@ -155,7 +155,7 @@ Useful for feeding multiple monophonic signals into my polyphonic quantizers. Ru
 
 Note however that this combination, with a quantizer and **MergeSplit4,** adds three sample delays to the V/Oct path. My sampledelay modules can be used to match delays on the gate/trigger path (see below).
 
-*Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn't use any of his artwork.*
+*Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn’t use any of his artwork.*
 
 
 ***
@@ -202,7 +202,7 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 
 - If the total number of input channels exceeds 16, the output is clamped to 16 channels, and a red warning light turns on.
 
-- Note that unlike my **MergeSplit4,** skipped Merge inputs don't add any channels to the output, but the corresponding Resplit outputs will also need to be skipped.
+- Note that unlike my **MergeSplit4,** skipped Merge inputs don’t add any channels to the output, but the corresponding Resplit outputs will also need to be skipped.
 
 **Resplit:** One polyphonic input to four polyphonic outputs.
 
@@ -210,7 +210,7 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 
 - A blue light next to each output indicates that this output has the same number of channels as the corresponding Merge input.
 
-- A red light means that the channel count doesn't match. Up means the output has too many channels, and down means too few channels.
+- A red light means that the channel count doesn’t match. Up means the output has too many channels, and down means too few channels.
 
 
 **How to use PolyMergeResplit to combine Tails modules**
@@ -232,6 +232,29 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 
 ***
 
+PolySplit
+---------
+![PolySplit](images/PolySplit.png "PolySplit")
+
+**Poly-to-poly splitter with visual selection of channel split points.**
+
+Provides a 1-to-4 poly-to-poly splitter in a compact package.
+
+The channels of the polyphonic input can be routed to up to four polyphonic outputs, with the split points defined by the triangular **split-point buttons** (bright red when selected).
+
+- With no split points selected, all the input channels go to the first output.
+
+- With one split point selected, the lower channels go to the first output and the upper channels go to the second output—if there are enough channels. (The blue **channel lights** on the right indicate the number of input channels.)
+
+- This continues for the second and third split points, with higher channels going to the third and fourth outputs.
+
+- If a fourth split point is selected, since there isn't a fifth output, this serves to truncate the number of channels in the fourth output. (The corresponding **channel lights** are dimmed to indicate when this happens.)
+
+- If additional **split-point buttons** are selected, they are also dimmed to show that they are being ignored.
+
+
+***
+
 Clip
 ----
 ![Clip](images/Clip.png "Clip")
@@ -240,7 +263,7 @@ Clip
 
 Provides two separate polyphonic clippers with displays, which clip to ±5V by default. The clipping voltage is adjustable by knob (up to ±10V), or polyphonic input voltages (up to ±20V).
 
-The display shows active channels in blue, while any currently clipping channels are shown in red. To use this just as a clip monitor, just attach the inputs and don't pass through this module.
+The display shows active channels in blue, while any currently clipping channels are shown in red. To use this just as a clip monitor, just attach the inputs and don’t pass through this module.
 
 - **A In and Out:** First signal to be clipped/monitored (polyphonic).
 
@@ -308,7 +331,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Clear:** Disables all notes, except for root note.
 
-- **Mode:** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn't make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
+- **Mode:** Cycles through scale modes. As an example, starting with the major scale (Ionian mode), pressing this button will cycle through Dorian, Phrygian, Lydian, etc., until after seven presses it gets back to Ionian. (However, it doesn’t make much sense if the root note is disabled—so in this case it just rotates notes down one note.)
 
 - **Ref:** Short press toggles display of reference lights. Long press (≥ 2 sec) sets and turns on reference lights based on current note buttons.
 
@@ -330,7 +353,7 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - However, these intervals need to be mapped to notes in the selected temperament. Valid notes are those that match selected intervals within the specified tolerance. These are indicated by a blue light, with the brightness indicating how close the match is. In addition, the valid notes are also displayed on the numbered lights to the right.
 
-- Only the closest intervals are generally highlighted. With so many intervals, it's common for more than one to be within tolerance of a valid note.
+- Only the closest intervals are generally highlighted. With so many intervals, it’s common for more than one to be within tolerance of a valid note.
 
 - **Quantizer features:** The same as **Quant** (see above), minus the external scale input.
 
@@ -346,9 +369,9 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 
 - **Show Small:** Uses the lights to show all closest **small-number** intervals within tolerance of a valid note.
 
-- **Clear Invalid:** Disables all intervals that don't have a light showing.
+- **Clear Invalid:** Disables all intervals that don’t have a light showing.
 
-- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note. Lights are split in two, to show the direction to the closest valid note. If the top light is brighter, the valid note's pitch is sharper than this interval, and if the bottom light is brighter, the valid note's pitch is flatter than this interval. If both halves are full brightness, the interval matches the valid note within ±2.5¢.
+- **Interval lights:** Displays if selected interval is valid, with brightness of the light showing how closely the interval matches the note. Lights are split in two, to show the direction to the closest valid note. If the top light is brighter, the valid note’s pitch is sharper than this interval, and if the bottom light is brighter, the valid note’s pitch is flatter than this interval. If both halves are full brightness, the interval matches the valid note within ±2.5¢.
 
 - **Note lights:** Displays enabled notes using separate note lights.
 
@@ -405,7 +428,7 @@ NoteMT
 
 - **V/Oct-In:** Input voltage to preprocess for display. If unconnected, normalized to V/Oct output (polyphonic).
 
-- **Round Notes:** Defines whether Note outputs rounded to integers. When using voltmeters with high precision, note voltages can be displayed as 2.999-something instead of 3. Therefore, I have added in the ability to round notes to integers. **Caution:** Only use this mode when you're sure the Notes/Oct setting is correct. This mode is always disabled on power-up, and it's disabled whenever the Notes/Oct setting is changed.
+- **Round Notes:** Defines whether Note outputs rounded to integers. When using voltmeters with high precision, note voltages can be displayed as 2.999-something instead of 3. Therefore, I have added in the ability to round notes to integers. **Caution:** Only use this mode when you’re sure the Notes/Oct setting is correct. This mode is always disabled on power-up, and it’s disabled whenever the Notes/Oct setting is changed.
 
 - **Octave** and **Note** outputs: Convert V/Oct-In voltage(s) (or knobs if input unconnected) into a pair of voltages, which can be displayed using a pair of voltmeters (polyphonic).
 

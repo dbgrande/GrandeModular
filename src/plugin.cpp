@@ -16,6 +16,7 @@ void init(Plugin* p) {
 	p->addModel(modelMicrotonalNotes);
 	p->addModel(modelNoteMT);
 	p->addModel(modelPolyMergeResplit);
+	p->addModel(modelPolySplit);
 	p->addModel(modelQuant);
 	p->addModel(modelQuantIntervals);
 	p->addModel(modelQuantMT);

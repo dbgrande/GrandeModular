@@ -289,7 +289,6 @@ struct SmallLightBot : TSvgLight<TBase> {
 };
 
 
-
 template <typename TBase>
 struct PetiteLightTop : TSvgLight<TBase> {
 	void drawLight(const widget::Widget::DrawArgs& args) override {
@@ -422,5 +421,90 @@ struct PetiteLightBot : TSvgLight<TBase> {
 
 	PetiteLightBot() {
 		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/PetiteLightBot.svg")));
+	}
+};
+
+
+struct TriangleLEDButton : SvgSwitch {
+	TriangleLEDButton() {
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TriangleLEDButton0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TriangleLEDButton1.svg")));
+		fb->removeChild(shadow);
+		delete shadow;
+	}
+};
+
+template <typename TBase>
+struct TriangleLight : TSvgLight<TBase> {
+	void drawLight(const widget::Widget::DrawArgs& args) override {
+		// Foreground
+		if (this->color.a > 0.0) {
+			nvgBeginPath(args.vg);
+			float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+			nvgMoveTo(args.vg, 2.0 * radius, radius);  // right
+			nvgLineTo(args.vg, radius / 2.0, 1.8660254 * radius);  // bottom left
+			nvgLineTo(args.vg, radius / 2.0, 0.1339745 * radius);  // top left
+			nvgLineTo(args.vg, 2.0 * radius, radius);  // right
+			nvgClosePath(args.vg);
+
+			nvgFillColor(args.vg, this->color);
+			nvgFill(args.vg);
+		}
+	}
+
+	void drawBackground(const widget::Widget::DrawArgs& args) override {
+		nvgBeginPath(args.vg);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		nvgMoveTo(args.vg, 2.0 * radius, radius);  // right
+		nvgLineTo(args.vg, radius / 2.0, 1.8660254 * radius);  // bottom left
+		nvgLineTo(args.vg, radius / 2.0, 0.1339745 * radius);  // top left
+		nvgLineTo(args.vg, 2.0 * radius, radius);  // right
+		nvgClosePath(args.vg);
+
+		// Background
+		if (this->bgColor.a > 0.0) {
+			nvgFillColor(args.vg, this->bgColor);
+			nvgFill(args.vg);
+		}
+
+		// Border
+		this->borderColor = nvgRGB(0x55, 0x5d, 0x50);
+		if (this->borderColor.a > 0.0) {
+			nvgStrokeWidth(args.vg, 0.50);
+			nvgStrokeColor(args.vg, this->borderColor);
+			nvgStroke(args.vg);
+		}
+	}
+	// draw halo with half brightness
+	void drawHalo(const widget::Widget::DrawArgs& args) override {
+		// Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+		if (args.fb)
+			return;
+
+		const float halo = settings::haloBrightness;
+		if (halo == 0.f)
+			return;
+
+		// If light is off, rendering the halo gives no effect.
+		if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f)
+			return;
+
+		math::Vec c = this->box.size.div(2);
+		float radius = std::min(this->box.size.x, this->box.size.y) / 2.0;
+		float oradius = radius + std::min(radius * 4.f, 15.f);
+
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
+
+		NVGcolor icol = color::mult(this->color, halo/2.0);  // half brightness
+		NVGcolor ocol = nvgRGBA(0, 0, 0, 0);
+		NVGpaint paint = nvgRadialGradient(args.vg, c.x, c.y, radius, oradius, icol, ocol);
+		nvgFillPaint(args.vg, paint);
+		nvgFill(args.vg);
+	}
+
+	TriangleLight() {
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/TriangleLightFlat.svg")));
 	}
 };
