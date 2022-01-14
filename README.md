@@ -213,21 +213,19 @@ Useful for combining multiple polyphonic signals, processing them with a single 
 - A red light means that the channel count doesn’t match. Up means the output has too many channels, and down means too few channels.
 
 
-**How to use PolyMergeResplit to combine Tails modules**
+**How to use PolyMergeResplit**
 
-![example_patch_2](images/example_patch_2.png "Example Patch 2")
+![example_patch_3](images/example_patch_3.png "Example Patch 3")
 
-- Multiple **Tails** V/Oct outputs get connected to one set of **PMR** Merge inputs.
+To route multiple polyphonic signals through one polyphonic quantizer:
 
-- Multiple **Tails** Gate outputs get connected to another set of **PMR** Merge inputs. Note they need to be the same number and in the same order.
+- Connect any combination of poly and mono signals to the **PolyMergeResplit** Merge inputs. (If the total number of channels exceeds 16, a red warning light will come on.)
 
-- **PMR** Merge outputs get sent to the V/Oct and Trigger inputs of a polyphonic oscillator.
+- Connect the **PMR** Merge output to the quantizer input.
 
-- Oscillator output gets connected to either **PMR** Resplit input.
+- Connect the quantizer output back to the **PMR** Resplit input.
 
-- **PMR** Resplit outputs match the original number of **Tails** and their widths. They can be sent off to a mixer for individual volume and panning adjustments.
-
-- *(If desired, the **PMR** Gate output could be sent to an ADSR instead.)*
+- Connect the corresponding quantized **PMR** Resplit outputs to wherever they need to go. They will automatically get set to the same channel widths as their inputs. (Blue lights indicate the channel counts match.)
 
 
 ***
