@@ -26,12 +26,12 @@ struct Tails : Module {
 
 	Tails() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(GAIN_PARAM, 0.f, 1.f, 1.f, "Gain", "");
+		configParam(GAIN_PARAM, 0.f, 1.f, 1.f, "VCA gain", "");
 		configParam(CHANNEL_PARAM, 1, 5, 2, "Channels out", "");
 		getParamQuantity(CHANNEL_PARAM)->randomizeEnabled = false;
 		configInput(IN_INPUT, "VCA");
 		configOutput(OUT_OUTPUT, "VCA");
-		configInput(CV_INPUT, "VCA gain");
+		configInput(CV_INPUT, "VCA CV");
 		configInput(VOCT_INPUT, "Mono pitch");
 		configOutput(VOCT_OUTPUT, "Poly pitch");
 		configInput(GATE_INPUT, "Mono gate/trigger");
