@@ -11,6 +11,7 @@ extern Plugin* pluginInstance;
 // Declare each Model, defined in each module source file
 // extern Model* modelMyModule;
 extern Model* modelClip;
+extern Model* modelLFO3;
 extern Model* modelMerge8;
 extern Model* modelMergeSplit4;
 extern Model* modelMicrotonalChords;
@@ -26,3 +27,4 @@ extern Model* modelScale;
 extern Model* modelSplit8;
 extern Model* modelTails;
 extern Model* modelVarSampleDelays;
+extern Model* modelVCA3;

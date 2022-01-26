@@ -1,7 +1,7 @@
 {
   "slug": "GrandeModular",
   "name": "Grande",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "license": "GPL-3.0-or-later",
   "author": "David Grande",
   "authorEmail": "dbgrande246@gmail.com",
@@ -18,6 +18,13 @@
       "description": "Polyphonic hard clipper and visual clip monitor.",
       "manualUrl": "https://github.com/dbgrande/GrandeModular/#clip",
       "tags": ["Limiter", "Visual", "Polyphonic"]
+    },
+    {
+      "slug": "LFO3",
+      "name": "LFO3",
+      "description": "Triple low-frequency bipolar sine oscillator with FM.",
+      "manualUrl": "https://github.com/dbgrande/GrandeModular/#lfo3",
+      "tags": ["Low-frequency oscillator", "Polyphonic"]
     },
     {
       "slug": "Merge8",
@@ -120,7 +127,7 @@
       "name": "Tails",
       "description": "Mono to poly sequential note splitter—helps preserve envelope tails.",
       "manualUrl": "https://github.com/dbgrande/GrandeModular/#tails",
-      "tags": ["Utility", "Polyphonic", "Attenuator", "Voltage-controlled amplifier"]
+      "tags": ["Utility", "Polyphonic", "Voltage-controlled amplifier"]
     },
     {
       "slug": "VarSampleDelays",
@@ -128,6 +135,13 @@
       "description": "Quad independent variable sample-delay buffers.",
       "manualUrl": "https://github.com/dbgrande/GrandeModular/#varsampledelays-vsd",
       "tags": ["Delay", "Polyphonic", "Quad"]
+    },
+    {
+      "slug": "VCA3",
+      "name": "VCA3",
+      "description": "Triple voltage-controlled amplifier.",
+      "manualUrl": "https://github.com/dbgrande/GrandeModular/#vca3",
+      "tags": ["Voltage-controlled amplifier", "Polyphonic"]
     }
   ]
 }
