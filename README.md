@@ -27,6 +27,30 @@ The display shows active channels in blue, while any currently clipping channels
 
 ***
 
+LFO3
+----
+![LFO3](images/LFO3.png "LFO3")
+
+**Triple low-frequency bipolar sine oscillator with FM.**
+
+Provides three independent low-frequency bipolar sine oscillators in a compact package. Useful for creating multiple unrelated modulation sources.
+
+- **Frequency knob:** Adjusts oscillator frequency from 0.0039 Hz (1/256 Hz) to 1024 Hz, with a default of 2 Hz.
+
+- **Output:** Output is a bipolar sine wave (±5V).
+
+- **FM input:** With a DC signal, this provides a V/Oct offset from the **Frequency knob** setting. With an AC signal, this frequency modulates the LFO output. In addition, it defines the number of polyphonic output channels.
+
+- **FM knob:** Attenuverter for **FM input** (range ±100% with a default of 0%).
+
+For modulating signals without built-in attenuators, or to also add an envelope to a modulation signal, consider using my companion **VCA3** module—a triple VCA (see below).
+
+
+*Based on GPL3+ code from the VCV Fundamental LFO.*
+
+
+***
+
 Merge8
 ------
 ![Merge8](images/Merge8.png "Merge8")
@@ -265,9 +289,9 @@ This is particularly useful for irregular tempos, where widely spaced notes have
 
 Also provides a polyphonic VCA, since some mixers don’t support true polyphonic Volume inputs.
 
-- **VCA In and Out:** Polyphonic voltage-controlled attenuator (up to 16 channels).
+- **VCA In and Out:** Polyphonic voltage-controlled amplifier.
 
-- **VCA CV:** Control voltage for VCA attenuation (0-10V, up to 16 channels).
+- **VCA CV:** Control voltage for VCA attenuation (0-10V, also polyphonic).
 
 - **VCA Gain knob:** Sets overall gain for VCA (0-1×).
 
@@ -296,6 +320,25 @@ VarSampleDelays (VSD)
 Provides four independent sample-delay buffers that can be adjusted between one and nine sample delays each (default 5, polyphonic).
 
 - Each buffer is not internally connected to any others. If more than nine sample delays are needed, they can be connected externally.
+
+
+***
+
+VCA3
+----
+![VCA3](images/VCA3.png "VCA3")
+
+**Triple voltage-controlled amplifier.**
+
+Provides three independent polyphonic voltage-controlled amplifiers in a compact package.
+
+- **In and Out:** Polyphonic voltage-controlled amplifier.
+
+- **CV:** Control voltage for VCA attenuation (0-10V, also polyphonic).
+
+- **Gain knob:** Sets overall gain for VCA (0-1×).
+
+Designed to work well with my **LFO3** module—a triple LFO (see above).
 
 
 ***
