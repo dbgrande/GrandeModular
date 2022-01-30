@@ -35,12 +35,15 @@ struct VCA3 : Module {
 		configInput(INA_INPUT, "A");
 		configInput(CVA_INPUT, "CV A");
 		configOutput(OUTA_OUTPUT, "A");
+		configBypass(INA_INPUT, OUTA_OUTPUT);
 		configInput(INB_INPUT, "B");
 		configInput(CVB_INPUT, "CV B");
 		configOutput(OUTB_OUTPUT, "B");
+		configBypass(INB_INPUT, OUTB_OUTPUT);
 		configInput(INC_INPUT, "C");
 		configInput(CVC_INPUT, "CV C");
 		configOutput(OUTC_OUTPUT, "C");
+		configBypass(INC_INPUT, OUTC_OUTPUT);
 	}
 
 	dsp::SchmittTrigger trigger;
