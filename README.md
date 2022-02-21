@@ -51,6 +51,34 @@ For modulating signals without built-in attenuators, or to also add an envelope 
 
 ***
 
+Logic
+----
+![Logic](images/Logic.png "Logic")
+
+**Polyphonic logic gates.**
+
+Provides a two-input **AND**, **OR**, and **XOR** gate, along with a **NOT** gate in a compact package. Voltage range is 0V to 10V, but any input voltage greater than 1V is recognized as a High. Additional modes are enabled when the 2-input gates only have one input connected.
+
+
+**For each two-input gate the following modes apply:**
+
+- **Two mono inputs:** simple logic gate with mono output.
+
+- **One poly and one mono input (either order):** the single mono signal is combined with each channel of the poly signal. The number of output channels is defined by the polyphonic input.
+
+- **Two poly inputs:** the corresponding channels of both inputs are combined. However, any unmatched channels are dropped. The number of output channels is defined by the input with the minimum number of channels.
+
+- **Only A-input connected *(Across all channels mode)*:** The function is applied across all the channels of the A input, reducing the output to a mono result. *(See note below for more info on **XOR.**)*
+
+- **Only B-input connected *(Not gate mode)*:** the B input channels are inverted and sent to the output. The number of output channels is defined by the B input.
+
+**XOR mode button:** Defines algorithm for XOR when using Across all channels mode. Off = odd-parity mode. On = one-hot mode.
+
+The **NOT** gate is a standard polyphonic gate, with each input channel inverted and sent to the output.
+
+
+***
+
 Merge8
 ------
 ![Merge8](images/Merge8.png "Merge8")
@@ -77,6 +105,32 @@ Useful for feeding multiple monophonic signals into my polyphonic quantizers. Ru
 Note however that this combination, with a quantizer and **MergeSplit4,** adds three sample delays to the V/Oct path. My sampledelay modules can be used to match delays on the gate/trigger path (see below).
 
 *Based on GPL3 code from 23Volts Merge4 and Split4, by Rémi Collins, at <https://github.com/23volts/23volts-vcv>. However, I didn’t use any of his artwork.*
+
+
+***
+
+Peak
+----
+![Peak](images/Peak.png "Peak")
+
+**Captures polyphonic min/max peaks.**
+
+Allows capturing the min and max voltage peaks from two different signals. Useful for debugging the source of troublesome pops and clicks.
+
+Red warning lights turn on if any channel has a peak voltage that exceeds the **Threshold knob.** Greater than threshold for max (default +12V) and less than negative threshold for min (default –12V).
+
+Min and Max outputs can be connected to mono/poly voltmeters for display, but this module fully takes advantage of Rack 2’s ability to display voltages in the port tooltips—and it does this without needing output wires connected.
+
+- **A and B In:** Signals to be captured (polyphonic).
+
+- **Max A and B Out:** Maximum voltage seen since last reset (polyphonic).
+
+- **Min A and B Out:** Minimum voltage seen since last reset (polyphonic).
+
+- **Reset A and B:** Separate reset buttons for each.
+
+- **Threshold knob:** Adjusts the voltage to turn on the red warning lights when any polyphonic channel exceed this value (default 12V).
+
 
 
 ***
