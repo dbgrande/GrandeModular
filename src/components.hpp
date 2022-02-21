@@ -120,6 +120,13 @@ struct MediumLightFlat : TSvgLight<TBase> {
 };
 
 template <typename TBase>
+struct SmallLightFlat : TSvgLight<TBase> {
+	SmallLightFlat() {
+		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/SmallLightFlat.svg")));
+	}
+};
+
+template <typename TBase>
 struct TinyStealthLight : TSvgLight<TBase> {
 	TinyStealthLight() {
 		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
