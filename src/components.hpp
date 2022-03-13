@@ -23,12 +23,33 @@ struct BlackButton : SvgSwitch {
 	}
 };
 
-
 struct RectButton : SvgSwitch {
 	RectButton() {
 		momentary = false;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/RectButton0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/RectButton1.svg")));
+		fb->removeChild(shadow);
+		delete shadow;
+	}
+};
+
+struct RectButtonDim : SvgSwitch {
+	RectButtonDim() {
+		momentary = false;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/RectButton0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/RectButton1dim.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/RectButton1.svg")));
+		fb->removeChild(shadow);
+		delete shadow;
+	}
+};
+
+struct SquareButtonDim : SvgSwitch {
+	SquareButtonDim() {
+		momentary = false;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SquareButton0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SquareButton1dim.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SquareButton1.svg")));
 		fb->removeChild(shadow);
 		delete shadow;
 	}

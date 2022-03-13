@@ -11,6 +11,7 @@ void init(Plugin* p) {
 	// p->addModel(modelMyModule);
 	p->addModel(modelClip);
 	p->addModel(modelLFO3);
+	p->addModel(modelLFO4);
 	p->addModel(modelLogic);
 	p->addModel(modelMerge8);
 	p->addModel(modelMergeSplit4);
@@ -20,6 +21,7 @@ void init(Plugin* p) {
 	p->addModel(modelPeak);
 	p->addModel(modelPolyMergeResplit);
 	p->addModel(modelPolySplit);
+	p->addModel(modelPush);
 	p->addModel(modelQuant);
 	p->addModel(modelQuantIntervals);
 	p->addModel(modelQuantMT);
