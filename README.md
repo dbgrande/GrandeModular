@@ -31,7 +31,7 @@ LFO3
 ----
 ![LFO3](images/LFO3.png "LFO3")
 
-**Triple low-frequency bipolar sine oscillator with FM.**
+**Three individual bipolar sine LFOs with separate frequency inputs.**
 
 Provides three independent low-frequency bipolar sine oscillators in a compact package. Useful for creating multiple unrelated modulation sources.
 
@@ -44,6 +44,32 @@ Provides three independent low-frequency bipolar sine oscillators in a compact p
 - **FM knob:** Attenuverter for **FM input** (range ±100% with a default of 0%).
 
 For modulating signals without built-in attenuators, or to also add an envelope to a modulation signal, consider using my companion **VCA3** module—a triple VCA (see below).
+
+
+*Based on GPL3+ code from the VCV Fundamental LFO.*
+
+
+***
+
+LFO4
+----
+![LFO4](images/LFO4.png "LFO4")
+
+**Four ratioed bipolar sine LFOs with common primary frequency input.**
+
+Provides four low-frequency bipolar sine oscillators in a compact package. Useful for creating multiple partially related modulation sources.
+
+- **Frequency knob:** Primary frequency control. Adjusts oscillator frequency from 0.015625 Hz (1/64 Hz) to 256 Hz, with a default of 2 Hz.
+
+- **Frequency CV input:** With a DC signal, this provides a V/Oct offset from the **Frequency knob** setting. With an AC signal, this frequency modulates all the LFO outputs. In addition, it defines the number of polyphonic output channels.
+
+- **Ratio knobs:** Adjusts each separate LFO from 0.0039× (1/256×) to 256×, with a default of 1×. *(Note that too extreme combinations of primary frequency and ratio settings can cause the LFOs to exceed their frequency range.)*
+
+- **Warning lights:** Red warning lights will turn on when the combination of Frequency and Ratio knobs are getting close to each LFO’s frequency limits—approximately 1/1024 Hz to 1024 Hz. *(**Note:** Warning lights disabled when Frequency CV input connected.)*
+
+- **Outputs:** Output is a bipolar sine wave (±5V).
+
+- **Presets:** Several irrational ratios are defined as presets. The A-output is set to 1×, and each subsequent output is further divided by the defined ratio: Golden = 1.618, Silver = 2.414, Bronze = 3.303, Copper = 4.236, Nickel = 5.193.
 
 
 *Based on GPL3+ code from the VCV Fundamental LFO.*
@@ -198,6 +224,21 @@ The channels of the polyphonic input can be routed to up to four polyphonic outp
 - If a fourth split point is selected, since there isn't a fifth output, this serves to truncate the number of channels in the fourth output. (The corresponding **channel lights** are dimmed to indicate when this happens.)
 
 - If additional **split-point buttons** are selected, they are also dimmed to show that they are being ignored.
+
+
+***
+
+Push
+----
+![Push](images/Push.png "Push")
+
+**Polyphonic push-button switches.**
+
+Provides 16 polyphonic channel buttons (0V/10V) in a compact package.
+
+- Triangular buttons on side set how many channel buttons to enable. Only one can be selected at a time. Channel buttons beyond this point are dimmed and won't be output.
+
+- Channel buttons have two modes: normal mode (toggle, default) and radio mode (one-hot). Select between them by using the right-click context menu.
 
 
 ***
@@ -517,7 +558,7 @@ For this quantizer the valid notes are defined directly by number.
 
 - **Notes/Oct:** Defines temperament, from 1 to 34 (default 12).
 
-- **Note buttons:** Buttons between the two blue lights on left enable valid notes. Notes outside this range are ignored.
+- **Note buttons:** Buttons between the two blue lights on left enable valid notes. Notes outside this range are ignored, and are now dimmed **(new)**.
 
 - **Reference lights:** Optional **blue** lights on right that can be set and enabled with the Ref button. Just to give a visual reference scale to help with setting and changing scales. Lights maintain state through power cycles.
 
