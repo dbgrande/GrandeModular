@@ -184,6 +184,16 @@ struct QuantMT : Module {
 			}
 			last_mode = mode;
 
+			//dim buttons above notes per octave
+			for (int i = 0; i < equal_temp; i++) {
+				if (input_scale[i] > 0)
+					params[NOTE_PARAMS + i].setValue(2);  // bright svg
+			}
+			for (int i = equal_temp; i < 34; i++) {
+				if (input_scale[i] > 0)
+					params[NOTE_PARAMS + i].setValue(1);  // dim svg
+			}
+
 			// lights show root and top note
 			for (int i = 0; i < 35; i++)
 				if (i == 0 || i == equal_temp)
@@ -389,7 +399,7 @@ struct QuantMTWidget : ModuleWidget {
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.24, 115.0)), module, QuantMT::TRIGGER_OUTPUT));
 
 		for (int i = 0; i < 34; i++)
-			addParam(createParam<RectButton>(mm2px(Vec(5.2+0.25, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));
+			addParam(createParam<RectButtonDim>(mm2px(Vec(5.2+0.25, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));
 
 		for (int i = 0; i < 35; i++)
 			addChild(createLightCentered<TinyStealthLight<BlueLight>>(mm2px(Vec(4.25, 122.50 + 1.75 - 3.50*i)), module, QuantMT::OCTAVE_LIGHTS + i));
