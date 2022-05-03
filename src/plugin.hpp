@@ -32,3 +32,4 @@ extern Model* modelSplit8;
 extern Model* modelTails;
 extern Model* modelVarSampleDelays;
 extern Model* modelVCA3;
+extern Model* modelVCA4;

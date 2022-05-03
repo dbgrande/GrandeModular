@@ -31,6 +31,7 @@ void init(Plugin* p) {
 	p->addModel(modelTails);
 	p->addModel(modelVarSampleDelays);
 	p->addModel(modelVCA3);
+	p->addModel(modelVCA4);
 
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.

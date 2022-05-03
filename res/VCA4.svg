@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg8" width="10.16mm" height="128.5mm" version="1.1" viewBox="0 0 10.16 128.5" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata5">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(0,-168.5)">
+  <rect id="rect838" x="-5.5511e-17" y="168.5" width="10.16" height="128.5" fill="#bbbbb0"/>
+  <text id="text64" x="2.0529213" y="233.73691" font-family="'PT Sans Narrow'" font-size="2.8222px" font-stretch="condensed" font-weight="bold" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan id="tspan62" x="2.0529213" y="233.73691" stroke-width=".26458"/></text>
+  <g id="text2569" transform="translate(0 -.83024)" stroke-width=".26458" aria-label="GRANDE">
+   <path id="path2571" d="m1.6964 292.53c0.15522 0 0.28222-0.0564 0.35807-0.13405v-0.48684h-0.381v0.12171h0.24518v0.30163c-0.045861 0.0423-0.12524 0.067-0.20814 0.067-0.24694 0-0.38276-0.18168-0.38276-0.47272 0-0.28751 0.14817-0.46567 0.381-0.46567 0.11642 0 0.1905 0.0441 0.24871 0.10407l0.081139-0.0917c-0.067028-0.0723-0.17286-0.14287-0.33338-0.14287-0.30692 0-0.53093 0.22754-0.53093 0.59972 0 0.37747 0.21696 0.59972 0.52211 0.59972z"/>
+   <path id="path2573" d="m2.7 292.51h0.14817v-0.48859h0.20814l0.27869 0.48859h0.16757l-0.29457-0.50447c0.15699-0.0406 0.25929-0.1464 0.25929-0.32632 0-0.24165-0.16933-0.32632-0.40569-0.32632h-0.3616zm0.14817-0.60854v-0.42862h0.19226c0.17992 0 0.27869 0.0547 0.27869 0.20637 0 0.14817-0.098778 0.22225-0.27869 0.22225z"/>
+   <path id="path2575" d="m4.2699 291.86c0.04057-0.12876 0.077611-0.25576 0.11289-0.38982h0.00706c0.037042 0.13406 0.074083 0.26106 0.11642 0.38982l0.054681 0.17463h-0.34573zm-0.35454 0.64558h0.14993l0.11112-0.35101h0.42157l0.10936 0.35101h0.15699l-0.38982-1.1571h-0.16933z"/>
+   <path id="path2577" d="m5.3988 292.51h0.13935v-0.60854c0-0.11994-0.010583-0.24518-0.019403-0.3616h0.00706c0.038806 0.0847 0.081139 0.1711 0.12524 0.24871l0.41275 0.72143h0.15875v-1.1571h-0.13935v0.60325c0 0.11995 0.010583 0.24695 0.019403 0.36689h-0.00706c-0.040569-0.0847-0.081139-0.1711-0.12524-0.24871l-0.41275-0.72143h-0.15875z"/>
+   <path id="path2579" d="m6.9087 292.51h0.29633c0.34925 0 0.53975-0.21519 0.53975-0.58384 0-0.36689-0.1905-0.57327-0.54681-0.57327h-0.28928zm0.14817-0.1217v-0.9137h0.13053c0.26988 0 0.40393 0.16051 0.40393 0.45156 0 0.2928-0.13406 0.46214-0.40393 0.46214z"/>
+   <path id="path2581" d="m8.3657 292.51h0.68439v-0.12523h-0.53622v-0.41981h0.43744v-0.12523h-0.43744v-0.3616h0.51858v-0.12524h-0.66675z"/>
+  </g>
+  <text id="text925" x="7.705914" y="247.28606" font-family="'PT Sans Narrow'" font-size="2.8222px" font-stretch="condensed" font-weight="bold" stroke-width=".26458" text-align="center" text-anchor="middle" style="line-height:1.25" xml:space="preserve"><tspan id="tspan923" x="7.705914" y="247.28606" stroke-width=".26458"/></text>
+  <rect id="rect83" x=".7125" y="179.63" width="8.735" height="25.485" rx="1" ry="1" fill="none" stroke="#555d50" stroke-width=".265"/>
+  <rect id="rect93" x=".58" y="188.88" width="9" height="9" fill="#555d50"/>
+  <rect id="rect890" x=".7125" y="207.38" width="8.735" height="25.485" rx="1" ry="1" fill="none" stroke="#555d50" stroke-width=".265"/>
+  <rect id="rect892" x=".58" y="216.62" width="9" height="9" fill="#555d50"/>
+  <rect id="rect908" x=".7125" y="235.13" width="8.735" height="25.485" rx="1" ry="1" fill="none" stroke="#555d50" stroke-width=".265"/>
+  <rect id="rect910" x=".58" y="244.38" width="9" height="9" fill="#555d50"/>
+  <rect id="rect926" x=".7125" y="262.88" width="8.735" height="25.485" rx="1" ry="1" fill="none" stroke="#555d50" stroke-width=".265"/>
+  <rect id="rect928" x=".58" y="272.12" width="9" height="9" fill="#555d50"/>
+  <g id="g1167" transform="translate(-13.975 -8.455)" stroke-width=".26458">
+   <path id="path8056" d="m23.633 185.02v-0.50377h-0.43462v-2.0151h-0.51365l-1.2644 2.1534v0.36548h1.2199v0.96309h0.5581v-0.96309zm-0.99272-1.2693v0.76553h-0.44944l-0.25188 0.0395 0.19756-0.18767 0.39017-0.66182 0.14817-0.40005h0.01976z" style="font-variant-ligatures:none"/>
+   <path id="path1004" d="m15.726 184.55-0.51365-2.0299h-0.7359l1.0569 3.4819h0.47413l1.047-3.4819h-0.65687l-0.50377 2.025-0.07902 0.59761h-0.01976z" style="font-variant-ligatures:none"/>
+   <path id="path1006" d="m18.332 185.48c-0.13335 0-0.24694-0.0296-0.34078-0.0889-0.30621-0.19261-0.40499-0.62724-0.40499-1.1359 0-0.41981 0.05927-0.73096 0.18274-0.92852 0.11853-0.19755 0.29633-0.29633 0.52352-0.29633 0.21237 0 0.3803 0.0346 0.51858 0.10372l0.12347-0.54822c-0.18274-0.079-0.43462-0.12841-0.71614-0.12841-0.39017 0-0.68157 0.14322-0.88406 0.37535-0.27658 0.31115-0.40005 0.79023-0.40005 1.4175 0 0.33584 0.02963 0.6223 0.09878 0.84949 0.15804 0.55809 0.48895 0.95321 1.1705 0.95321 0.2914 0 0.60748-0.0691 0.77047-0.20744l-0.12347-0.52352c-0.13829 0.0889-0.2914 0.15804-0.51858 0.15804z" style="font-variant-ligatures:none"/>
+   <path id="path1008" d="m20.681 185.2 0.21237 0.78035h0.65194l-1.0075-3.4819h-0.48895l-1.0026 3.4819h0.61736l0.2025-0.78035zm-0.68157-0.51364 0.19262-0.8001 0.08396-0.54822h0.01976l0.07902 0.54328 0.19756 0.80504z" style="font-variant-ligatures:none"/>
+  </g>
+ </g>
+ <g id="layer2" display="none">
+  <circle id="circle85" cx="5.08" cy="15.75" r="4" fill="#0f0" fill-rule="evenodd" stroke-width=".26458"/>
+  <circle id="circle89" cx="5.08" cy="24.875" r="4" fill="#00f" fill-rule="evenodd" stroke-width=".26458"/>
+  <g id="g888">
+   <circle id="circle57" cx="5.08" cy="33" r="3" fill-rule="evenodd" stroke-width=".26458"/>
+   <rect id="rect884" x="4.9475" y="30" width=".265" height="2" fill="#fff" stroke-width=".265"/>
+  </g>
+  <circle id="circle898" cx="5.08" cy="43.5" r="4" fill="#0f0" fill-rule="evenodd" stroke-width=".26458"/>
+  <circle id="circle900" cx="5.08" cy="52.625" r="4" fill="#00f" fill-rule="evenodd" stroke-width=".26458"/>
+  <g id="g906" transform="translate(0 27.75)">
+   <circle id="circle902" cx="5.08" cy="33" r="3" fill-rule="evenodd" stroke-width=".26458"/>
+   <rect id="rect904" x="4.9475" y="30" width=".265" height="2" fill="#fff" stroke-width=".265"/>
+  </g>
+  <circle id="circle916" cx="5.08" cy="71.25" r="4" fill="#0f0" fill-rule="evenodd" stroke-width=".26458"/>
+  <circle id="circle918" cx="5.08" cy="80.375" r="4" fill="#00f" fill-rule="evenodd" stroke-width=".26458"/>
+  <g id="g924" transform="translate(0 55.5)">
+   <circle id="circle920" cx="5.08" cy="33" r="3" fill-rule="evenodd" stroke-width=".26458"/>
+   <rect id="rect922" x="4.9475" y="30" width=".265" height="2" fill="#fff" stroke-width=".265"/>
+  </g>
+  <circle id="circle934" cx="5.08" cy="99" r="4" fill="#0f0" fill-rule="evenodd" stroke-width=".26458"/>
+  <circle id="circle936" cx="5.08" cy="108.13" r="4" fill="#00f" fill-rule="evenodd" stroke-width=".26458"/>
+  <g id="g942" transform="translate(0 83.25)">
+   <circle id="circle938" cx="5.08" cy="33" r="3" fill-rule="evenodd" stroke-width=".26458"/>
+   <rect id="rect940" x="4.9475" y="30" width=".265" height="2" fill="#fff" stroke-width=".265"/>
+  </g>
+ </g>
+</svg>
