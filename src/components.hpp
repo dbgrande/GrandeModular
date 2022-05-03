@@ -149,9 +149,13 @@ struct SmallLightFlat : TSvgLight<TBase> {
 
 template <typename TBase>
 struct TinyStealthLight : TSvgLight<TBase> {
+	void drawBackground(const Widget::DrawArgs& args) override {
+			this->bgColor.a = this->color.a;
+			this->borderColor.a = 0;
+			LightWidget::drawBackground(args);
+		};
+
 	TinyStealthLight() {
-		this->bgColor = nvgRGB(0xbb, 0xbb, 0xb0);
-		this->borderColor = nvgRGB(0xbb, 0xbb, 0xb0);
 		this->setSvg(Svg::load(asset::plugin(pluginInstance, "res/TinyLightFlat.svg")));
 	}
 };

@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="svg8" width="81.28mm" height="128.5mm" version="1.1" viewBox="0 0 81.28 128.5" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <defs id="defs2">
+  <linearGradient id="path243334_1_-7-7" x1="6.7305" x2="6.7305" y1="1.2695" y2="27.078" gradientUnits="userSpaceOnUse">
+   <stop id="stop849-7-7-7" stop-color="#3B3B3B" offset="0"/>
+   <stop id="stop851-1-1" stop-color="#242424" offset="1"/>
+  </linearGradient>
+  <linearGradient id="path5815_2_-1-1-1" x1="6.7285" x2="6.7285" y1="18.232" y2="27.078" gradientUnits="userSpaceOnUse">
+   <stop id="stop859-5-5" stop-color="#3D3B3B" offset=".00559"/>
+   <stop id="stop861-7-9-9" stop-color="#2D2C2C" offset="1"/>
+  </linearGradient>
+  <linearGradient id="path5805_1_-9-9" x1="6.9992" x2="6.9992" y1="1.3328" y2="19.46" gradientUnits="userSpaceOnUse">
+   <stop id="stop4-4-4" stop-color="#3B3B3B" offset="0"/>
+   <stop id="stop6-9-9" stop-color="#242424" offset="1"/>
+  </linearGradient>
+  <linearGradient id="path5815_2_-0-0" x1="6.9992" x2="6.9992" y1="10.613" y2="19.46" gradientUnits="userSpaceOnUse">
+   <stop id="stop16-9-9" stop-color="#3D3B3B" offset=".00559"/>
+   <stop id="stop18-1-1" stop-color="#2D2C2C" offset="1"/>
+  </linearGradient>
+ </defs>
  <metadata id="metadata5">
   <rdf:RDF>
    <cc:Work rdf:about="">
@@ -832,6 +850,8 @@
    <path id="path966-1-0" transform="rotate(90)" d="m63.493-16.538a7.396 7.396 0 0 1 3.1851 3.3404l-6.678 3.1788z" opacity=".994" stop-color="#000000" stroke-width=".1"/>
    <circle id="circle968-7" cx="10" cy="60" r="6.296" opacity=".994" stop-color="#000000" stroke-width=".1"/>
   </g>
+  <rect id="rect2362" x="60.118" y="78.868" width="4.822" height="9.865" rx=".6" ry=".6" fill="#555d50" stroke="#555d50" stroke-linejoin="bevel" stroke-width=".265"/>
+  <rect id="rect2516" x="71.118" y="80.168" width="5.006" height="7.255" rx=".6" ry=".6" fill="#555d50" stroke="#555d50" stroke-linejoin="bevel" stroke-width=".265"/>
  </g>
  <g id="layer4" display="none">
   <circle id="ellipse1816" cx="21.575" cy="10.5" r="1" display="inline" fill="#3d18e5" stroke-width=".37724"/>
@@ -923,8 +943,6 @@
   <circle id="circle13-1" cx="73.5" cy="100" r="4" display="inline" fill="#00f" fill-rule="evenodd" stroke-width=".26458"/>
   <circle id="circle1153-0" cx="62.5" cy="115" r="4" display="inline" fill="#0f0" fill-rule="evenodd" stroke-width=".26458"/>
   <circle id="circle1155-7" cx="73.5" cy="115" r="4" display="inline" fill="#00f" fill-rule="evenodd" stroke-width=".26458"/>
-  <rect id="rect1222-5" x="59.368" y="79.393" width="6.2648" height="9.2132" display="inline" fill="#ff0" opacity=".994" stop-color="#000000" stroke-width=".2"/>
-  <rect id="rect1224-8" x="70.554" y="79.555" width="5.8915" height="8.8895" display="inline" fill="#ff0" opacity=".994" stop-color="#000000" stroke-width=".2"/>
   <g id="g1991" transform="matrix(.15583 0 0 -.15583 14.672 211.76)" display="inline" stroke-width="2.2638">
    <g id="g1989" transform="translate(18.57 56.638)">
     <g id="g1983" transform="matrix(1.28 0 0 1.28 305.74 1190)" stroke-width="2.2638">
@@ -1111,5 +1129,36 @@
   <circle id="circle2813" cx="25.075" cy="113.75" r="1" display="inline" fill="#3d18e5" stroke-width=".37724"/>
   <circle id="circle2815" cx="21.575" cy="112" r="1" display="inline" fill="#3d18e5" stroke-width=".37724"/>
   <circle id="circle2817" cx="21.575" cy="122.5" r="1" display="inline" fill="#3d18e5" stroke-width=".37724"/>
+  <g id="g966" transform="matrix(.33866 0 0 .33867 71.25 80.3)" display="inline" stroke-width=".78125">
+   <path id="path5785-9" d="m0 1.4751c0-0.81043 0.66471-1.4751 1.4751-1.4751h11.05c0.81036 0 1.4751 0.66477 1.4751 1.4751v17.692c0 0.81043-0.66471 1.4741-1.4751 1.4741h-11.05c-0.81037-1e-5 -1.4751-0.66364-1.4751-1.4741z" stroke-width=".78125"/>
+   <g id="g5795-5" opacity=".54" stroke-width=".69054">
+    <g id="g5797-0" stroke-width=".78125">
+     <path id="path5805-4" d="m2.1931 1.3328c-0.48687 0-0.88421 0.39734-0.88421 0.88421v16.357c0 0.48687 0.3974 0.88522 0.88421 0.88522h9.6132c0.48477 0 0.88319-0.39849 0.88319-0.88522v-16.357c0-0.48687-0.39842-0.88421-0.88319-0.88421z" fill="url(#path5805_1_-9-9)" stroke-width=".78125"/>
+    </g>
+   </g>
+   <rect id="rect12" x="1.3099" y="18.584" width=".6829" height=".89523" fill="none" stroke-width=".69054"/>
+   <rect id="rect14" x=".99908" y=".81461" width="12" height="1.7166" opacity=".3" stroke-width=".69054"/>
+   <g id="g27">
+    <path id="path5815_1_" d="m1.3089 10.613h11.381v8.8465h-11.381z" fill="url(#path5815_2_-0-0)" stroke-width=".78125"/>
+    <path id="path5817_1_" d="m1.3089 14.16h11.381v0.87738h-11.381z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5819_1_" d="m1.3089 17.707h11.381v0.87738h-11.381z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5821_1_" d="m1.3089 15.934h11.381v0.87738h-11.381z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5823_1_" d="m1.3089 12.387h11.381v0.87738h-11.381z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5825_1_" d="m1.3089 10.613h11.381v0.87738h-11.381z" fill="#797979" stroke-width=".69054"/>
+   </g>
+  </g>
+  <g id="g945" transform="matrix(.33867 0 0 .33867 60.25 79)" display="inline" stroke-width=".78125">
+   <path id="path243332-2" d="m0 1.418c0-0.78124 0.6406-1.418 1.4179-1.418h10.625c0.77739 0 1.4141 0.63671 1.4141 1.418v25.512c0 0.77735-0.63669 1.418-1.4141 1.418h-10.625c-0.77733 0-1.4179-0.64063-1.4179-1.418z" stroke-width=".78125"/>
+   <path id="path243334-7" d="m11.324 1.2695h-9.1875c-0.48326 0-0.87501 0.39176-0.87501 0.87501v24.059c0 0.48326 0.39176 0.87501 0.87501 0.87501h9.1875c0.48326 0 0.87501-0.39176 0.87501-0.87501v-24.059c0-0.48326-0.39175-0.87501-0.87501-0.87501z" fill="url(#path243334_1_-7-7)" opacity=".54" stroke-width=".69054"/>
+   <rect id="rect857" x=".73033" y=".80507" width="12" height="1.7166" opacity=".3" stroke-width=".69054"/>
+   <g id="g870-22">
+    <path id="path5815_1_-6" d="m1.2578 18.232h10.941v8.8465h-10.941z" fill="url(#path5815_2_-1-1-1)" stroke-width=".78125"/>
+    <path id="path5817_1_-1" d="m1.2578 21.779h10.941v0.87738h-10.941z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5819_1_-0" d="m1.2578 25.325h10.941v0.87738h-10.941z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5821_1_-6" d="m1.2578 23.553h10.941v0.87738h-10.941z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5823_1_-1" d="m1.2578 20.005h10.941v0.87738h-10.941z" fill="#5e5e5e" stroke-width=".69054"/>
+    <path id="path5825_1_-5" d="m1.2578 18.232h10.941v0.87738h-10.941z" fill="#797979" stroke-width=".69054"/>
+   </g>
+  </g>
  </g>
 </svg>

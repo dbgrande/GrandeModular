@@ -660,7 +660,7 @@ struct QuantIntervalsWidget : ModuleWidget {
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(68.00, 63.00)), module, QuantIntervals::SIZE_PARAM));
 
 		addParam(createParam<CKSSThree>(mm2px(Vec(62.5-2.25, 79.00)), module, QuantIntervals::ROUNDING_PARAM));
-		addParam(createParam<CKSS>(mm2px(Vec(73.5-2.25, 80.00)), module, QuantIntervals::EQUI_PARAM));
+		addParam(createParam<CKSS>(mm2px(Vec(73.5-2.25, 80.30)), module, QuantIntervals::EQUI_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(62.50, 100.0)), module, QuantIntervals::CV_IN_INPUT));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(73.50, 100.0)), module, QuantIntervals::CV_OUT_OUTPUT));
