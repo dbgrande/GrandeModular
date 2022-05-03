@@ -34,7 +34,7 @@ struct Push : Module {
 	bool input_values[16];
 	int last_mode[15] = { -1 };
 	int mode[15] = { -1 };
-	bool modestate[15];
+	bool modestate[15] = { false };
 	int split = 15;
 	bool last_one_hot = true;
 	bool one_hot = false;

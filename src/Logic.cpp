@@ -47,7 +47,7 @@ struct Logic : Module {
 
 	int last_mode = -1;
 	int mode = -1;
-	bool modestate[1];
+	bool modestate[1] = { false };
 	const float threshold = 1.f;
 
 	void process(const ProcessArgs &args) override {

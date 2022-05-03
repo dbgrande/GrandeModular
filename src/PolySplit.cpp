@@ -33,7 +33,7 @@ struct PolySplit : Module {
 
 	int last_mode[15] = { -1 };
 	int mode[15] = { -1 };
-	bool modestate[15];
+	bool modestate[15] = { false };
 	int splits[4] = { -1 };
 
 	void process(const ProcessArgs& args) override {
