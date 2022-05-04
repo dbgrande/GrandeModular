@@ -141,10 +141,13 @@ struct Push : Module {
 			param_timer--;  // just decrement timer
 	}
 
-	void onReset() override {  // disable all select buttons, 16 channels selected
+	void onReset() override {
+		// disable all select buttons, 16 channels selected
 		split = 15;
 		for (int c = 0; c < 15; c++)
 			modestate[c] = false;
+		// disable one-hot mode
+		one_hot = false;
 	}
 
 	json_t* dataToJson() override {
