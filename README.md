@@ -63,6 +63,8 @@ Provides four low-frequency bipolar sine oscillators in a compact package. Usefu
 
 - **Frequency CV input:** With a DC signal, this provides a V/Oct offset from the **Frequency knob** setting. With an AC signal, this frequency modulates all the LFO outputs. In addition, it defines the number of polyphonic output channels.
 
+- **Negative CV mode button:** Since there wasn't room for an attenuverter, I've included a small button next to the Frequency CV input to provide the -verter functionality (internally multiplies the CV input by –1). Combined with my **VCA3** or **VCA4** modules, this provides full attenuverter control.
+
 - **Ratio knobs:** Adjusts each separate LFO from 0.0039× (1/256×) to 256×, with a default of 1×. *(Note that too extreme combinations of primary frequency and ratio settings can cause the LFOs to exceed their frequency range.)*
 
 - **Warning lights:** Red warning lights will turn on when the combination of Frequency and Ratio knobs are getting close to each LFO’s frequency limits—approximately 1/1024 Hz to 1024 Hz. *(**Note:** Warning lights disabled when Frequency CV input connected.)*
@@ -71,6 +73,7 @@ Provides four low-frequency bipolar sine oscillators in a compact package. Usefu
 
 - **Presets:** Several irrational ratios are defined as presets. The A-output is set to 1×, and each subsequent output is further divided by the defined ratio: Golden = 1.618, Silver = 2.414, Bronze = 3.303, Copper = 4.236, Nickel = 5.193.
 
+- Also supports **Track and Hold** functionality, where 0V on the Frequency CV input gives normal operation, while 10V freezes the output voltages. The **Negative CV mode** button must be enabled to give –10V internally. However, with the wide frequency range of these LFOs, it's possible that this won't be enough to fully stop the oscillations. In that case, I have included a right-click context menu for an **Extended Hold Range** mode, which additionally multiplies the CV input by 5×.
 
 *Based on GPL3+ code from the VCV Fundamental LFO.*
 
@@ -425,7 +428,7 @@ VCA3
 
 **Triple voltage-controlled amplifier.**
 
-Provides three independent polyphonic voltage-controlled amplifiers in a compact package.
+Provides three independent polyphonic voltage-controlled amplifiers, with individual CV inputs, in a compact package.
 
 - **In and Out:** Polyphonic voltage-controlled amplifier.
 
@@ -433,7 +436,24 @@ Provides three independent polyphonic voltage-controlled amplifiers in a compact
 
 - **Gain knob:** Sets overall gain for VCA (0-1×).
 
-Designed to work well with my **LFO3** module—a triple LFO (see above).
+Work well with my **LFO3** and **LFO4** modules (see above).
+
+
+***
+
+VCA4
+----
+![VCA4](images/VCA4.png "VCA4")
+
+**Quad voltage-controlled amplifier.**
+
+Provides four basic independent polyphonic voltage-controlled amplifiers in a compact package.
+
+- **In and Out:** Polyphonic voltage-controlled amplifier.
+
+- **Gain knob:** Sets overall gain for VCA (0-1×).
+
+Work well with my **LFO3** and **LFO4** modules (see above).
 
 
 ***
