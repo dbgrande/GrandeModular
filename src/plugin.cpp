@@ -10,6 +10,7 @@ void init(Plugin* p) {
 	// Add modules here
 	// p->addModel(modelMyModule);
 	p->addModel(modelClip);
+	p->addModel(modelCompare3);
 	p->addModel(modelLFO3);
 	p->addModel(modelLFO4);
 	p->addModel(modelLogic);

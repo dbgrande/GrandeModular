@@ -11,6 +11,7 @@ extern Plugin* pluginInstance;
 // Declare each Model, defined in each module source file
 // extern Model* modelMyModule;
 extern Model* modelClip;
+extern Model* modelCompare3;
 extern Model* modelLFO3;
 extern Model* modelLFO4;
 extern Model* modelLogic;

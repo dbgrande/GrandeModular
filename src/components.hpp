@@ -174,6 +174,14 @@ struct PetiteStealthLight : TSvgLight<TBase> {
 };
 
 
+template <typename TBase>
+struct TinyLightRect : RectangleLight<TBase> {
+	TinyLightRect() {
+		this->box.size = rack::window::mm2px(math::Vec(1.00, 0.80));
+	}
+};
+
+
 struct SmallLEDButton : SvgSwitch {
 	SmallLEDButton() {
 		momentary = true;
