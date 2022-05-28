@@ -27,6 +27,37 @@ The display shows active channels in blue, while any currently clipping channels
 
 ***
 
+Compare3
+----
+![Compare3](images/Compare3.png "Compare3")
+
+**Three windowed comparators with common input.**
+
+Provides three polyphonic windowed comparators connected to a common input, which will output a gate signal when the input voltage falls within the comparator's Lower and Upper thresholds (B-Out in picture above).
+
+The Lower threshold (displayed as red) recognizes higher voltages and uses a 'Vin ≥ Vlo' comparison by default. The Upper threshold (displayed as blue) recognizes lower voltages and uses a 'Vin < Vup' comparison by default.
+
+It's also possible to disable **Windowing,** and just do Upper or Lower comparisons. The mode button turns red for **Lower threshold up** (A-Out above), and turns blue for **Upper threshold down** (C-Out above).
+
+![Split mode](images/compare_split_mode.png "Split mode")
+
+When the Upper threshold (blue) is set below the Lower threshold (red), this enables **Split mode,** with the Lower range (red) on top extending up towards +∞, while the Upper range (blue) is on the bottom extending down towards –∞.
+
+- **Input:** Common input for all comparators (defines number of polyphonic channels).
+
+- **Upper:** Separate upper threshold down knobs for each comparator (-10V to +10V).
+
+- **Lower:** Separate lower threshold up knobs for each comparator (-10V to +10V).
+
+- **A,B,C Out:** Gate outputs for each comparator (0V to +10V).
+
+- **Window mode:** Separate small buttons that cycle through three modes: **Windowing** (no light), **Lower threshold up** (red light), and **Upper threshold down** (blue light).
+
+- **Close interval toward zero:** Right-click context menu option. Changes comparison tests for negative thresholds. If set, negative Lower thresholds are tested with 'Vin > Vlo' *(removed '='),* while negative Upper thresholds are tested with 'Vin ≤ Vup' *(now includes '=').* Positive thresholds stay the same, so this makes the equality check (closed interval) always on the side closer to zero.
+
+
+***
+
 LFO3
 ----
 ![LFO3](images/LFO3.png "LFO3")
@@ -524,7 +555,6 @@ NoteMT
 QuantIntervals
 --------------
 ![QuantIntervals](images/QuantIntervals.png "QuantIntervals")
-![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
@@ -566,7 +596,6 @@ For this quantizer the valid notes are defined indirectly by pitch intervals.
 QuantMT
 -------
 ![QuantMT](images/QuantMT.png "QuantMT")
-![MergeSplit4](images/MergeSplit4.png "MergeSplit4")
 
 **A 1-TET through 34-TET microtonal quantizer.**
 
