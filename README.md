@@ -33,7 +33,7 @@ Compare3
 
 **Three windowed comparators with common input.**
 
-Provides three polyphonic windowed comparators connected to a common input, which will output a gate signal when the input voltage falls within the comparator's Lower and Upper thresholds (B-Out in picture above).
+Provides three polyphonic windowed comparators connected to a common input, which will output separate gate signals when the input voltage falls within each comparator's Lower and Upper thresholds (B-Out in picture above).
 
 The Lower threshold (displayed as red) recognizes higher voltages and uses a 'Vin ≥ Vlo' comparison by default. The Upper threshold (displayed as blue) recognizes lower voltages and uses a 'Vin < Vup' comparison by default.
 
@@ -391,6 +391,11 @@ Gate pulse lengths are not changed, so there can still only be one active note p
 
 This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there’s only one pitch value per note, chords are not directly supported.
 
+**Notes for 2.6.1 update:**
+- By default **Tails** still latches the V/Oct input, but it now delays the Gate input by five sample delays to give extra time for the correct pitch to be latched in. To get back the original behavior, disable the **Add Delays** context menu option.
+
+- It's now also possible to disable latching of the V/Oct input. When **Don't latch current note** is enabled, **Tails** will pass through the V/Oct input until the next note appears, which is useful for pitch-bends. On the arrival of the next note, the previous note is finally latched, but this should be well into the decay of the previous note's tail. In this case **Add Delays** delays the V/Oct input by five sample delays, to help prevent the new note from being latched into the previous note's channel.
+
 **Without Tails:** Notes and their envelopes get cut off abruptly when a new note appears.
 
 ![without](images/without_tails.png "Without Tails")
@@ -404,7 +409,7 @@ This is particularly useful for irregular tempos, where widely spaced notes have
 
 **Notes Section:**
 
-- **Mono pitch input:** Feed in a monophonic sequence of V/Oct note pitches. Each value is latched on the rising edge of its corresponding gate pulse.
+- **Mono pitch input:** Feed in a monophonic sequence of V/Oct note pitches. Each value is latched on the rising edge of its corresponding gate pulse (unless **Don't latch current note** context option is enabled).
 
 - **Poly pitch output:** Connect to the V/Oct input of a polyphonic oscillator.
 
@@ -413,6 +418,10 @@ This is particularly useful for irregular tempos, where widely spaced notes have
 - **Poly gate/trigger output:** Connect to the Gate or Trigger input of a polyphonic oscillator or envelope generator.
 
 - **Chans knob:** Defines how many polyphonic channels to output, from 1 to 5.
+
+- **Don't latch current note:** Context menu option to allow the current note's V/Oct to pass through, rather than be latched on the Gate input, which is useful for pitch-bends. V/Oct does finally get latched when the next note's Gate arrives, but this should be well into the decay tail of the first note. (Defaults to false.)
+
+- **Add delays:** Context menu option to add five sample delays to either the V/Oct or Gate inputs. In latching mode, the Gate input is delayed to make sure there's time for the V/Oct to arrive before it's latched. In pass-through mode, the V/Oct input is delayed to make sure the previous note is latched to the previous output channel before the new note arrives. (Defaults to true.)
 
 **VCA Section:**
 
@@ -437,6 +446,19 @@ Also provides a polyphonic VCA, since some mixers don’t support true polyphoni
 
 - **Tails:** While this patch is playing, alternate the number of channels between 1 and 5, and listen to the difference.
 
+**Combining multiple Tails modules:**
+
+![example_patch_2](images/example_patch_2.png "Example Patch 2")
+
+My **PolyMergeResplit** module can be used to run the notes of several **Tails** module through one oscillator.
+
+**Note:** If four **Tails** modules are combined, make sure the total number of channels is 16 or less (any combination of channel widths).
+
+- Send the V/Oct outputs from each **Tails** module to the Merge inputs of one **PMR** module, with its Merge output going to the oscillator V/Oct input.
+
+- Send the Gate outputs from each **Tails** module to the Merge inputs of another **PMR** module, with its Merge output going to the oscillator Trigger input (or to the Gate input of a separate ADSR), keeping the same order.
+
+- Either Resplit input can be used to separate the oscillator's output channels back to individual notes, for individual processing or mixing.
 
 ***
 
