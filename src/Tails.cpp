@@ -37,6 +37,9 @@ struct Tails : Module {
 		configInput(GATE_INPUT, "Mono gate/trigger");
 		configOutput(GATE_OUTPUT, "Poly gate/trigger");
 		configBypass(IN_INPUT, OUT_OUTPUT);
+		configBypass(VOCT_INPUT, VOCT_OUTPUT);
+		configBypass(GATE_INPUT, GATE_OUTPUT);
+		onReset();
 	}
 
 	dsp::SchmittTrigger trigger;
@@ -45,6 +48,10 @@ struct Tails : Module {
 	float va[16] = { 0.f };
 	float cv[16] = { 0.f };
 	float voct[5] = { 0.f };
+	float voct_delay[6] = { 0.f };
+	float gate_delay[6] = { 0.f };
+	bool pass_notes = false;
+	bool add_delays = true;
 
 	void process(const ProcessArgs &args) override {
 
@@ -92,13 +99,44 @@ struct Tails : Module {
 		last_channels = channels;
 
 		// sequential gates distributed across selected number of poly channels
-		float gv = inputs[GATE_INPUT].getVoltage();
+
+		// read inputs, keeping delayed versions
+		for (int i = 5; i > 0; i--) {
+			voct_delay[i] = voct_delay[i - 1];
+			gate_delay[i] = gate_delay[i - 1];
+		}
+		voct_delay[0] = inputs[VOCT_INPUT].getVoltage();
+		gate_delay[0] = inputs[GATE_INPUT].getVoltage();
 
 		// rising edge of gate increments output channel
 		// and latches v/oct value to this channel
-		if (trigger.process(rescale(gv, 0.1f, 2.f, 0.f, 1.f))) {
-			chan_ptr = (chan_ptr + 1) % channels;
-			voct[chan_ptr] = inputs[VOCT_INPUT].getVoltage();
+		if (pass_notes == false) {
+			if (add_delays) {  // latch v/oct after gate delay
+				if (trigger.process(rescale(gate_delay[5], 0.1f, 2.f, 0.f, 1.f))) {
+					chan_ptr = (chan_ptr + 1) % channels;
+					voct[chan_ptr] = voct_delay[0];
+				}
+			}
+			else {  // original: latch v/oct no gate delay
+				if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
+					chan_ptr = (chan_ptr + 1) % channels;
+					voct[chan_ptr] = voct_delay[0];
+				}
+			}
+		}
+		else {
+			if (add_delays) {  // pass v/oct with delay
+				if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
+					chan_ptr = (chan_ptr + 1) % channels;
+				}
+				voct[chan_ptr] = voct_delay[5];
+			}
+			else {  // pass v/oct without delay
+				if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
+					chan_ptr = (chan_ptr + 1) % channels;
+				}
+				voct[chan_ptr] = voct_delay[0];
+			}
 		}
 		// All enabled v/oct output channels always output each channel's last latched value.
 		// The current gate output channel outputs 10V while its input remains high,
@@ -112,7 +150,31 @@ struct Tails : Module {
 		}
 		outputs[VOCT_OUTPUT].setChannels(channels);
 		outputs[GATE_OUTPUT].setChannels(channels);
+	}
 
+	void onReset() override {
+		pass_notes = false;
+		add_delays = true;
+	}
+
+	json_t* dataToJson() override {
+		json_t* rootJ = json_object();
+		// pass_notes
+		json_object_set_new(rootJ, "pass_notes", json_boolean(pass_notes));
+		// add_delays
+		json_object_set_new(rootJ, "add_delays", json_boolean(add_delays));
+		return rootJ;
+	}
+
+	void dataFromJson(json_t* rootJ) override {
+		// pass_notes
+		json_t* pass_notesJ = json_object_get(rootJ, "pass_notes");
+		if (pass_notesJ)
+			pass_notes = json_boolean_value(pass_notesJ);
+		// add_delays
+		json_t* add_delaysJ = json_object_get(rootJ, "add_delays");
+		if (add_delaysJ)
+			add_delays = json_boolean_value(add_delaysJ);
 	}
 };
 
@@ -139,6 +201,16 @@ struct TailsWidget : ModuleWidget {
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 104.3)), module, Tails::GATE_OUTPUT));
 
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 115.3)), module, Tails::CHANNEL_PARAM));
+	}
+
+	void appendContextMenu(Menu* menu) override {
+		Tails* module = dynamic_cast<Tails*>(this->module);
+		assert(module);
+
+		menu->addChild(new MenuSeparator);
+
+		menu->addChild(createBoolPtrMenuItem("Don't latch current note", "", &module->pass_notes));
+		menu->addChild(createBoolPtrMenuItem("Add delays", "", &module->add_delays));
 	}
 };
 
