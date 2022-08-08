@@ -12,9 +12,9 @@ Clip
 
 **Polyphonic hard clipper and visual clip monitor.**
 
-Provides two separate polyphonic clippers with displays, which clip to ±5V by default. The clipping voltage is adjustable by knob (up to ±10V), or polyphonic input voltages (up to ±20V).
+Provides two separate polyphonic clippers with displays, which clip to ±5V by default. The clipping voltage is adjustable by knob (up to ±10V), or polyphonic input voltages (up to ±20V). Can also be used to monitor polyphonic logic signals.
 
-The display shows active channels in blue, while any currently clipping channels are shown in red. To use this just as a clip monitor, just attach the inputs and don’t pass through this module.
+The display shows active (low) channels in blue, while any currently clipping (high) channels are shown in red. To use this just as a clip/logic monitor, just attach the inputs and don’t pass through this module.
 
 - **A In and Out:** First signal to be clipped/monitored (polyphonic).
 
@@ -23,6 +23,8 @@ The display shows active channels in blue, while any currently clipping channels
 - **Vclip knob:** Allows adjusting the clipping voltage from 0 to ±10V (default ±5V). Applies to both A and B inputs, and all channels. Note that this is only enabled if the Vclip input port is unconnected.
 
 - **Vclip input:** Alternative for setting clipping voltages. Input voltages (polyphonic) directly define clipping voltage to use for A and B, which are clipped to ±Vclip (per channel). In this case input values can range from 0V to 20V, and negative input values are converted to positive values.
+
+- **Logic Monitoring (New for v2.6.2):** Right-click context menu option. By default the display is optimized to display clipping, which filters out most high-to-low transitions to reduce flashing lights. With **Logic Monitoring** enabled, low-to-high and high-to-low transitions are treated equally, which can work better for monitoring certain logic signals. Set threshold to 5V for 0-10V logic. (**Note:** this doesn't work with bipolar signals.)
 
 
 ***
@@ -190,7 +192,6 @@ Min and Max outputs can be connected to mono/poly voltmeters for display, but th
 - **Reset A and B:** Separate reset buttons for each.
 
 - **Threshold knob:** Adjusts the voltage to turn on the red warning lights when any polyphonic channel exceed this value (default 12V).
-
 
 
 ***
@@ -391,10 +392,10 @@ Gate pulse lengths are not changed, so there can still only be one active note p
 
 This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there’s only one pitch value per note, chords are not directly supported.
 
-**Notes for 2.6.1 update:**
-- By default **Tails** still latches the V/Oct input, but it now delays the Gate input by five sample delays to give extra time for the correct pitch to be latched in. To get back the original behavior, disable the **Add Delays** context menu option.
 
-- It's now also possible to disable latching of the V/Oct input. When **Don't latch current note** is enabled, **Tails** will pass through the V/Oct input until the next note appears, which is useful for pitch-bends. On the arrival of the next note, the previous note is finally latched, but this should be well into the decay of the previous note's tail. In this case **Add Delays** delays the V/Oct input by five sample delays, to help prevent the new note from being latched into the previous note's channel.
+**For v2.6.1+:** By default **Tails** still latches the V/Oct input, but it now delays the Gate input by five sample delays to give extra time for the correct pitch to be latched in. To get back the original behavior, disable the **Add Delays** context menu option.
+
+**For v2.6.1+:** It's now also possible to disable latching of the V/Oct input. When **Don't latch current note** is enabled, **Tails** will pass through the V/Oct input until the next note appears, which is useful for pitch-bends. On the arrival of the next note, the previous note is finally latched, but this should be well into the decay of the previous note's tail. In this case **Add Delays** delays the V/Oct input by five sample delays, to help prevent the new note from being latched into the previous note's channel.
 
 **Without Tails:** Notes and their envelopes get cut off abruptly when a new note appears.
 
@@ -459,6 +460,7 @@ My **PolyMergeResplit** module can be used to run the notes of several **Tails**
 - Send the Gate outputs from each **Tails** module to the Merge inputs of another **PMR** module, with its Merge output going to the oscillator Trigger input (or to the Gate input of a separate ADSR), keeping the same order.
 
 - Either Resplit input can be used to separate the oscillator's output channels back to individual notes, for individual processing or mixing.
+
 
 ***
 
@@ -581,6 +583,8 @@ QuantIntervals
 **A 1-TET through 34-TET microtonal quantizer.**
 
 For this quantizer the valid notes are defined indirectly by pitch intervals.
+
+- **New for v2.6.2:** Small ratios closest to the standard twelve-note chromatic scale have now been highlighted for easier reference.
 
 - Combine with **MergeSplit4** or **PolyMergeResplit** to easily quantize multiple mono or poly signals respectively.
 
