@@ -33,27 +33,31 @@ struct Clip : Module {
 		configInput(VCLIP_INPUT, "Vclip");
 		configBypass(A_INPUT, A_OUTPUT);
 		configBypass(B_INPUT, B_OUTPUT);
+		onReset();
 	}
+
+	enum State { LowIdle, LowTimer, HighIdle, HighTimer };
 
 	const float max_voltage = 20.f;  // max allowed clipping voltage
 	float vclip[16] = { 5.f };
 	int check_lights = 0;
 
 	bool aclip[16] = { false };
+	State astate[16] = { LowIdle };
 	int acount[16] = { 0 };
-	int acountlow[16] = { 0 };
 
 	bool bclip[16] = { false };
+	State bstate[16] = { LowIdle };
 	int bcount[16] = { 0 };
-	int bcountlow[16] = { 0 };
+
+	bool logic_mon = false;
+
 
 	void process(const ProcessArgs &args) override {
-		int light_interval = 10;  // how many audio samples between light updates
-		// minimum length of time to keep clip light on (150 ms)
-		int clip_time = (int)(0.150f * args.sampleRate / light_interval);
-		// minimum length of time to keep clip light off, immediately after clip turns off (75 ms)
-		// if less than clip_time, then clips during low time will be displayed right afterwards
-		int low_time = (int)(0.075f * args.sampleRate / light_interval);
+		// minimum length of time to keep clip light on (100 ms)
+		int high_time = (int)(0.100f * args.sampleRate);
+		// minimum length of time to keep clip light off (100 ms)
+		int low_time = (int)(0.100f * args.sampleRate);
 
 		float vclip_knob = clamp((params[VCLIP_PARAM].getValue()), 0.f, 10.f);
 
@@ -62,13 +66,12 @@ struct Clip : Module {
 		int max_channels = std::max(achannels, bchannels);
 
 		// vclip voltage
-		// nan or infinities on input set max voltage allowed
 		int vchannels = inputs[VCLIP_INPUT].getChannels();
-		if (vchannels > 0) {  // connected
+		if (vchannels > 0) {  // vclip input is connected
 			int c = 0;
 			for ( ; c < vchannels; c++) {
 				vclip[c] = std::abs(inputs[VCLIP_INPUT].getVoltage(c));
-				if (std::isnan(vclip[c]) || vclip[c] > max_voltage)
+				if (vclip[c] > max_voltage)
 					vclip[c] = max_voltage;
 			}
 			for ( ; c < max_channels; c++)
@@ -79,131 +82,192 @@ struct Clip : Module {
 				vclip[c] = vclip_knob;
 		}
 
-		// A input
-		// nan converted to 0, infinities clipped
+		// Process A input
 		for (int c = 0; c < achannels; c++) {
 			float vin = inputs[A_INPUT].getVoltage(c);
 			float vout;
-			if (std::isnan(vin)) {
-				vout = 0.f;
-				acount[c] = clip_time;
-			}
-			else if (vin > vclip[c]) {
+			if (vin > vclip[c]) {
 				vout = vclip[c];
-				acount[c] = clip_time;
+				aclip[c] = true;
 			}
 			else if (vin < -vclip[c]) {
 				vout = -vclip[c];
-				acount[c] = clip_time;
+				aclip[c] = true;
 			}
-			else
+			else {
 				vout = vin;
+				aclip[c] = false;
+			}
 			outputs[A_OUTPUT].setVoltage(vout, c);
 		}
 		outputs[A_OUTPUT].setChannels(achannels);
 
-		// B input
-		// nan converted to 0, infinities clipped
+		// Process B input
 		for (int c = 0; c < bchannels; c++) {
 			float vin = inputs[B_INPUT].getVoltage(c);
 			float vout;
-			if (std::isnan(vin)) {
-				vout = 0.f;
-				bcount[c] = clip_time;
-			}
-			else if (vin > vclip[c]) {
+			if (vin > vclip[c]) {
 				vout = vclip[c];
-				bcount[c] = clip_time;
+				bclip[c] = true;
 			}
 			else if (vin < -vclip[c]) {
 				vout = -vclip[c];
-				bcount[c] = clip_time;
+				bclip[c] = true;
 			}
-			else
+			else {
 				vout = vin;
+				bclip[c] = false;
+			}
 			outputs[B_OUTPUT].setVoltage(vout, c);
 		}
 		outputs[B_OUTPUT].setChannels(bchannels);
 
-		// process lights
-		if (check_lights == 0) {
-			check_lights = light_interval;
+		// Process A states
+		for (int c = 0; c < achannels; c++) {
+			// A states
+			switch(astate[c]) {
 
-			// A lights
-			for (int i = 0; i < 16; i++) {
-				if (i < achannels) {  // active channel a
-					if (acountlow[i] > 0) {  // force blue light
-						lights[A_LIGHTS + 3*i].setBrightness(false);
-						lights[A_LIGHTS + 3*i + 2].setBrightness(true);
-						if (acountlow[i] == 1) {  // force low ending
-							if (acount[i] > 0)  // clipped while low so set to full duration
-								acount[i] = clip_time;
-						}
-						else {
-							acount[i] -= 1;
-						}
-						acountlow[i] -= 1;
+				case LowTimer:
+					if (acount[c] == 0)  // low timed out
+						astate[c] = LowIdle;
+					else
+						--acount[c];  // decrement timer
+					break;
+
+				case LowIdle:
+					if (aclip[c]) {  // clipping true
+						astate[c] = HighTimer;
+						acount[c] = high_time;
 					}
-					else {
-						if (acount[i] > 0) {  // force red light
-							lights[A_LIGHTS + 3*i].setBrightness(true);
-							lights[A_LIGHTS + 3*i + 2].setBrightness(false);
-							if (acount[i] == 1)  // force high ending, start force low instead
-								acountlow[i] = low_time;  // set force low time
-							acount[i] -= 1;
-						}
-						else {  // idle mode, neither counts active
-							lights[A_LIGHTS + 3*i].setBrightness(false);
-							lights[A_LIGHTS + 3*i + 2].setBrightness(true);
-						}
+					break;
+
+				case HighTimer:
+					if (!logic_mon && aclip[c])  // clip mode, need continuous low to go low
+						acount[c] = high_time;  // reset counter each high
+					else if (acount[c] == 0) // high timed out
+						astate[c] = HighIdle;
+					else
+						--acount[c];  // decrement timer
+					break;
+
+				case HighIdle:
+					if (!aclip[c]) {  // clipping false
+						astate[c] = LowTimer;
+						acount[c] = low_time;
+					}
+					break;
+
+				default:
+					break;  // shouldn't get here
+			}
+		}
+
+		// Process B states
+		for (int c = 0; c < bchannels; c++) {
+			// B states
+			switch(bstate[c]) {
+
+				case LowTimer:
+					if (bcount[c] == 0)  // low timed out
+						bstate[c] = LowIdle;
+					else
+						--bcount[c];  // decrement timer
+					break;
+
+				case LowIdle:
+					if (bclip[c]) {  // clipping true
+						bstate[c] = HighTimer;
+						bcount[c] = high_time;
+					}
+					break;
+
+				case HighTimer:
+					if (!logic_mon && bclip[c])  // clip mode, need continuous low to go low
+						bcount[c] = high_time;  // reset counter each high
+					else if (bcount[c] == 0)  // high timed out
+						bstate[c] = HighIdle;
+					else
+						--bcount[c];  // decrement timer
+					break;
+
+				case HighIdle:
+					if (!bclip[c]) {  // clipping false
+						bstate[c] = LowTimer;
+						bcount[c] = low_time;
+					}
+					break;
+
+				default:
+					break;  // shouldn't get here
+			}
+		}
+
+		// Process lights
+		if (check_lights == 0) {
+			check_lights = 10;  // every this number of audio cycles
+
+			for (int c = 0; c < 16; c++) {
+				// A lights
+				if (c < achannels) {  // active A channel
+					if (astate[c] == HighIdle || astate[c] == HighTimer) {
+						// red light
+						lights[A_LIGHTS + 3*c].setBrightness(true);
+						lights[A_LIGHTS + 3*c + 2].setBrightness(false);
+					}
+					else {  // LowIdle or LowTimer
+						// blue light
+						lights[A_LIGHTS + 3*c].setBrightness(false);
+						lights[A_LIGHTS + 3*c + 2].setBrightness(true);
 					}
 				}
-				else {  // inactive channel a
-					lights[A_LIGHTS + 3*i].setBrightness(false);
-					lights[A_LIGHTS + 3*i + 2].setBrightness(false);
-					acount[i] = 0;
-					acountlow[i] = 0;
+				else {  // inactive A channel
+					// light off
+					lights[A_LIGHTS + 3*c].setBrightness(false);
+					lights[A_LIGHTS + 3*c + 2].setBrightness(false);
 				}
 
 				// B lights
-				if (i < bchannels) {  // active channel b
-					if (bcountlow[i] > 0) {  // force blue light
-						lights[B_LIGHTS + 3*i].setBrightness(false);
-						lights[B_LIGHTS + 3*i + 2].setBrightness(true);
-						if (bcountlow[i] == 1) {  // force low ending
-							if (bcount[i] > 0)  // clipped while low so set to full duration
-								bcount[i] = clip_time;
-						}
-						else {
-							bcount[i] -= 1;
-						}
-						bcountlow[i] -= 1;
+				if (c < bchannels) {  // active B channel
+					if (bstate[c] == HighIdle || bstate[c] == HighTimer) {
+						// red light
+						lights[B_LIGHTS + 3*c].setBrightness(true);
+						lights[B_LIGHTS + 3*c + 2].setBrightness(false);
 					}
-					else {
-						if (bcount[i] > 0) {  // force red light
-							lights[B_LIGHTS + 3*i].setBrightness(true);
-							lights[B_LIGHTS + 3*i + 2].setBrightness(false);
-							if (bcount[i] == 1)  // force high ending, start force low instead
-								bcountlow[i] = low_time;  // set force low time
-							bcount[i] -= 1;
-						}
-						else {  // idle mode, neither counts active
-							lights[B_LIGHTS + 3*i].setBrightness(false);
-							lights[B_LIGHTS + 3*i + 2].setBrightness(true);
-						}
+					else {  // LowIdle or LowTimer
+						// blue light
+						lights[B_LIGHTS + 3*c].setBrightness(false);
+						lights[B_LIGHTS + 3*c + 2].setBrightness(true);
 					}
 				}
-				else {  // inactive channel b
-					lights[B_LIGHTS + 3*i].setBrightness(false);
-					lights[B_LIGHTS + 3*i + 2].setBrightness(false);
-					bcount[i] = 0;
-					bcountlow[i] = 0;
+				else {  // inactive B channel
+					// light off
+					lights[B_LIGHTS + 3*c].setBrightness(false);
+					lights[B_LIGHTS + 3*c + 2].setBrightness(false);
 				}
 			}
 		}
 		else {
-			check_lights -= 1;
+			--check_lights;  // decrement counter
 		}
+	}
+
+	void onReset() override {
+		// disable logic monitoring mode
+		logic_mon = false;
+	}
+
+	json_t* dataToJson() override {
+		json_t* rootJ = json_object();
+		// logic_mon
+		json_object_set_new(rootJ, "logic_mon", json_boolean(logic_mon));
+		return rootJ;
+	}
+
+	void dataFromJson(json_t* rootJ) override {
+		// logic_mon
+		json_t* logic_monJ = json_object_get(rootJ, "logic_mon");
+		if (logic_monJ)
+			logic_mon = json_boolean_value(logic_monJ);
 	}
 };
 
@@ -228,6 +292,15 @@ struct ClipWidget : ModuleWidget {
 			addChild(createLightCentered<PetiteLightHalfHalo<RedGreenBlueLight>>(mm2px(Vec(3.40, 16.75 + 2.42*i)), module, Clip::A_LIGHTS + i*3));
 			addChild(createLightCentered<PetiteLightHalfHalo<RedGreenBlueLight>>(mm2px(Vec(6.68, 16.75 + 2.42*i)), module, Clip::B_LIGHTS + i*3));
 		}
+	}
+
+	void appendContextMenu(Menu* menu) override {
+		Clip* module = dynamic_cast<Clip*>(this->module);
+		assert(module);
+
+		menu->addChild(new MenuSeparator);
+
+		menu->addChild(createBoolPtrMenuItem("Logic Monitoring", "", &module->logic_mon));
 	}
 };
 
