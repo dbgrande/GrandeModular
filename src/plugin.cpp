@@ -30,6 +30,7 @@ void init(Plugin* p) {
 	p->addModel(modelScale);
 	p->addModel(modelSplit8);
 	p->addModel(modelTails);
+	p->addModel(modelTails4);
 	p->addModel(modelVarSampleDelays);
 	p->addModel(modelVCA3);
 	p->addModel(modelVCA4);
