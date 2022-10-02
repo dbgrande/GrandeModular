@@ -30,7 +30,7 @@ The display shows active (low) channels in blue, while any currently clipping (h
 ***
 
 Compare3
-----
+--------
 ![Compare3](images/Compare3.png "Compare3")
 
 **Three windowed comparators with common input.**
@@ -114,7 +114,7 @@ Provides four low-frequency bipolar sine oscillators in a compact package. Usefu
 ***
 
 Logic
-----
+-----
 ![Logic](images/Logic.png "Logic")
 
 **Polyphonic logic gates.**
@@ -197,7 +197,7 @@ Min and Max outputs can be connected to mono/poly voltmeters for display, but th
 ***
 
 PolyMergeResplit (PMR)
-----------------
+----------------------
 ![PolyMergeResplit](images/PolyMergeResplit.png "PolyMergeResplit")
 
 **Poly-to-poly Merge and Resplit back to the same channel widths.**
@@ -384,18 +384,13 @@ Tails
 -----
 ![Tails](images/Tails.png "Tails")
 
-**Mono to poly sequential note splitter—helps preserve envelope tails.**
+**Mono-to-poly sequential note splitter—helps preserve envelope tails.**
 
 **Tails** takes a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels.
 
 Gate pulse lengths are not changed, so there can still only be one active note playing at a time. However, by giving each note a separate channel, this allows for each note’s release envelope to continue playing in parallel, giving a much fuller sound.
 
 This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there’s only one pitch value per note, chords are not directly supported.
-
-
-**For v2.6.1+:** By default **Tails** still latches the V/Oct input, but it now delays the Gate input by five sample delays to give extra time for the correct pitch to be latched in. To get back the original behavior, disable the **Add Delays** context menu option.
-
-**For v2.6.1+:** It's now also possible to disable latching of the V/Oct input. When **Don't latch current note** is enabled, **Tails** will pass through the V/Oct input until the next note appears, which is useful for pitch-bends. On the arrival of the next note, the previous note is finally latched, but this should be well into the decay of the previous note's tail. In this case **Add Delays** delays the V/Oct input by five sample delays, to help prevent the new note from being latched into the previous note's channel.
 
 **Without Tails:** Notes and their envelopes get cut off abruptly when a new note appears.
 
@@ -451,6 +446,8 @@ Also provides a polyphonic VCA, since some mixers don’t support true polyphoni
 
 ![example_patch_2](images/example_patch_2.png "Example Patch 2")
 
+**— This example can now be replaced with my Tails4 module below. —**
+
 My **PolyMergeResplit** module can be used to run the notes of several **Tails** module through one oscillator.
 
 **Note:** If four **Tails** modules are combined, make sure the total number of channels is 16 or less (any combination of channel widths).
@@ -464,8 +461,78 @@ My **PolyMergeResplit** module can be used to run the notes of several **Tails**
 
 ***
 
+Tails4
+------
+![Tails4](images/Tails4.png "Tails4")
+
+**Quad mono-to-poly sequential note splitter with common outputs—helps preserve envelope tails.**
+
+Includes four Tails blocks (see **Tails** documentation above), which each take a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels so that each note's tail can continue playing in parallel. All the Pitch channels are merged, and all the Gate channels are merged so that both can be sent to a single polyphonic Oscillator.
+
+Also includes a VCA for use with an envelope generator (e.g., ADSR), and a poly Resplit for separating each set of Oscillator output notes for individual processing. (Based on my **PolyMergeResplit** module.)
+
+
+**Explanation of input modes**
+
+- By default the four Tails4 Pitch (V/Oct) and Gate inputs are monophonic. In mono mode, normalization goes toward lower-numbered inputs. For example, with just input 3 connected, its voltage will also be sent to inputs 1 and 2. (The blue lights for 1, 2, and 3 will all turn on.)
+
+- Polyphonic input mode can be enabled by pressing the small **Poly-merge mode** buttons just above each output. In poly mode, inputs and channels are scanned from input 1 to input 4 and assigned consecutively (ignoring gaps). If there are more than four input channels, the extra ones are ignored and a red light next to the corresponding output turns on. For example, if only one poly signal with three channels is connected to input 4, the channels will be assigned to Tails blocks 1, 2, and 3, and the blue lights next to inputs 1, 2, and 3 will turn on.
+
+
+**Tails Section**
+
+- **Pitch and Gate inputs (1-4 each):** Mono or poly V/Oct and Gate inputs, defined by the mode buttons. (See above for explanation of input modes.)
+
+- **Pitch and Gate poly-merge modes:** Small LED Buttons above the V/Oct and Gate output ports. A blue light indicates they're in poly-merge mode.
+
+- **Input connected lights:** Blue lights next to each input port that indicate which of the four Tails blocks are receiving a corresponding input. Both Pitch and Gate lights need to be on for a Tails block to be active. Depending on the input mode, the lights might not correspond to their adjacent input ports.
+
+- **Pitch (V/Oct) output:** Combined polyphonic output, which should be sent to an oscillator's V/Oct input port.
+
+- **Gate output:** Combined polyphonic output, which should be sent to an oscillator's Trigger input, or an envelope generator's Gate/Trigger input.
+
+- **Channels (Chans):** Knob that defines how many channels each Tails block uses (1-5, default 2). If the total number of channels will exceed 16, the channel value is reduced and a red light next to this knob turns on.
+
+- **Don't latch current note:** Context menu option to allow the current note's V/Oct to pass through, rather than be latched on the Gate input, which is useful for pitch-bends. V/Oct does finally get latched when the next note's Gate arrives, but this should be well into the decay tail of the first note. (Defaults to false.)
+
+- **Add delays:** Context menu option to add five sample delays to either the V/Oct or Gate inputs. In latching mode, the Gate input is delayed to make sure there's time for the V/Oct to arrive before it's latched. In pass-through mode, the V/Oct input is delayed to make sure the previous note is latched to the previous output channel before the new note arrives. (Defaults to true.)
+
+
+**VCA Section**
+
+- **VCA In and Out:** Polyphonic voltage-controlled amplifier.
+
+- **VCA CV:** Control voltage for VCA attenuation (0-10V, also polyphonic).
+
+- **VCA Gain knob:** Sets overall gain for VCA (0-1×).
+
+
+**Resplit Section:**
+
+- **Resplit input:** Polyphonic input that's intended to receive the output from the same Oscillator that's being driven by this module's V/Oct and Gate outputs.
+
+- **Resplit outputs (1-4):** Takes the Oscillator's polyphonic output signal and splits it up into Channels-sized outputs. For example, if there are three active Tails blocks (with both Pitch and Gate inputs connected) and Channels is set to 4, the Oscillator will receive (3 × 4 = 12) control channels, and this block will convert the Oscillator's twelve output channels back to three signals with four channels each.
+
+
+**Example patch:**
+
+![example patch tails4](images/example_patch_tails4.png "Example Patch Tails4")
+
+Here is the example from the **Tails** module documentation above, but this time using all three of **Marble's** Gate and Pitch outputs.
+
+- The three Pitch signals (yellow) are sent to **Tails4's** first three V/Oct inputs.
+
+- The three Gate signals (blue) are sent to **Tails4's** first three Gate inputs.
+
+- The polyphonic VCA Section is used to apply **ADSR's** envelope to **Plait's** output (green and purple wires).
+
+- The Resplit Section is used to take the (3 × 5 = 15) oscillator output channels from the VCA output (purple wire), and split them back into three signals with five channels each (red wires). These can then be sent to separate mixer channels for different processing or panning.
+
+
+***
+
 VarSampleDelays (VSD)
------------------
+---------------------
 ![VarSampleDelays](images/VarSampleDelays.png "VarSampleDelays")
 
 **Quad independent variable sample-delay buffers.**
