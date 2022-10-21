@@ -119,6 +119,8 @@ Logic
 
 **Polyphonic logic gates.**
 
+**New for v2.7.1:** The NOT gate now outputs a logic High (10V) when its input is unconnected. All the 2-input gates still output 0V when both their inputs are unconnected.
+
 Provides a two-input **AND**, **OR**, and **XOR** gate, along with a **NOT** gate in a compact package. Voltage range is 0V to 10V, but any input voltage greater than 1V is recognized as a High. Additional modes are enabled when the 2-input gates only have one input connected.
 
 
@@ -134,9 +136,15 @@ Provides a two-input **AND**, **OR**, and **XOR** gate, along with a **NOT** gat
 
 - **Only B-input connected *(Not gate mode)*:** the B input channels are inverted and sent to the output. The number of output channels is defined by the B input.
 
+- **No inputs connected:** If an output is connected with no inputs connected, a logic Low (0V) will be output.
+
 **XOR mode button:** Defines algorithm for XOR when using Across all channels mode. Off = odd-parity mode. On = one-hot mode.
 
-The **NOT** gate is a standard polyphonic gate, with each input channel inverted and sent to the output.
+**For the NOT gate:**
+
+- **Mono or poly input:** The NOT gate is a standard polyphonic gate, with each input channel logically inverted and sent to the output.
+
+- **Input not connected:** If the output is connected with the input unconnected, a logic High (10V) will be output. **(New for v2.7.1)**
 
 
 ***
@@ -386,9 +394,11 @@ Tails
 
 **Mono-to-poly sequential note splitter—helps preserve envelope tails.**
 
-**Tails** takes a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels.
+**New for v2.7.1:** Context modes have been changed. There is now a new Latch mode with three options to replace the old setup, and delays are now fixed per mode. (See below for details.)
 
-Gate pulse lengths are not changed, so there can still only be one active note playing at a time. However, by giving each note a separate channel, this allows for each note’s release envelope to continue playing in parallel, giving a much fuller sound.
+***—For dealing with polyphonic signals, see my Tails4 module below.***
+
+**Tails** takes a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels. Gate pulse lengths are not changed, so there can still only be one active note playing at a time. However, by giving each note a separate channel, this allows for each note’s release envelope to continue playing in parallel, giving a much fuller sound.
 
 This is particularly useful for irregular tempos, where widely spaced notes have time to play their tails, but closely spaced notes get cut off abruptly. Note however, that since there’s only one pitch value per note, chords are not directly supported.
 
@@ -415,9 +425,15 @@ This is particularly useful for irregular tempos, where widely spaced notes have
 
 - **Chans knob:** Defines how many polyphonic channels to output, from 1 to 5.
 
-- **Don't latch current note:** Context menu option to allow the current note's V/Oct to pass through, rather than be latched on the Gate input, which is useful for pitch-bends. V/Oct does finally get latched when the next note's Gate arrives, but this should be well into the decay tail of the first note. (Defaults to false.)
+- **Latch mode (v2.7.1 update):** Context menu option to select when the current note's V/Oct input will be latched.
 
-- **Add delays:** Context menu option to add five sample delays to either the V/Oct or Gate inputs. In latching mode, the Gate input is delayed to make sure there's time for the V/Oct to arrive before it's latched. In pass-through mode, the V/Oct input is delayed to make sure the previous note is latched to the previous output channel before the new note arrives. (Defaults to true.)
+	- **Gate rise:** The V/Oct input is latched immediately when the current note's Gate goes high. To give time for the new V/Oct input to arrive, the Gate is delayed by five sample delays relative to V/Oct. (This was, and still is the default.)
+
+	- **Gate fall:** The V/Oct input is latched when the current note's Gate goes low. During the time when the Gate is High the V/Oct input is passed through to the output. No extra delays are added. (New for v2.7.1)
+
+	- **Next note:** The V/Oct input isn't latched until the next note's Gate goes High. During this entire time the V/Oct input is passed through to the output. To make sure that the old V/Oct input is still there, V/Oct is delayed by five sample delays relative to the Gate. (This was the old "Don't latch current note" option. Old patches will be automatically updated to this mode.)
+
+![Tails_latch_modes](images/Tails_latch_modes.png "Tails latch modes")
 
 **VCA Section:**
 
@@ -441,6 +457,7 @@ Also provides a polyphonic VCA, since some mixers don’t support true polyphoni
 - **ADSR:** Set fairly short attack and decay times,such as 15ms, while making the release time fairly long, such as 300ms or more.
 
 - **Tails:** While this patch is playing, alternate the number of channels between 1 and 5, and listen to the difference.
+
 
 **Combining multiple Tails modules:**
 
@@ -466,6 +483,8 @@ Tails4
 ![Tails4](images/Tails4.png "Tails4")
 
 **Quad mono-to-poly sequential note splitter with common outputs—helps preserve envelope tails.**
+
+**New for v2.7.1:** Context modes have been changed. There is now a new Latch mode with three options to replace the old setup, and delays are now fixed per mode. (See below for details.)
 
 Includes four Tails blocks (see **Tails** documentation above), which each take a monophonic sequence of notes, as defined by a gate pulse and a V/Oct pitch value, and splits them into multiple polyphonic channels so that each note's tail can continue playing in parallel. All the Pitch channels are merged, and all the Gate channels are merged so that both can be sent to a single polyphonic Oscillator.
 
@@ -493,9 +512,13 @@ Also includes a VCA for use with an envelope generator (e.g., ADSR), and a poly 
 
 - **Channels (Chans):** Knob that defines how many channels each Tails block uses (1-5, default 2). If the total number of channels will exceed 16, the channel value is reduced and a red light next to this knob turns on.
 
-- **Don't latch current note:** Context menu option to allow the current note's V/Oct to pass through, rather than be latched on the Gate input, which is useful for pitch-bends. V/Oct does finally get latched when the next note's Gate arrives, but this should be well into the decay tail of the first note. (Defaults to false.)
+- **Latch mode (v2.7.1 update):** Context menu option to select when the current note's V/Oct input will be latched.
 
-- **Add delays:** Context menu option to add five sample delays to either the V/Oct or Gate inputs. In latching mode, the Gate input is delayed to make sure there's time for the V/Oct to arrive before it's latched. In pass-through mode, the V/Oct input is delayed to make sure the previous note is latched to the previous output channel before the new note arrives. (Defaults to true.)
+	- **Gate rise:** The V/Oct input is latched immediately when the current note's Gate goes high. To give time for the new V/Oct input to arrive, the Gate is delayed by five sample delays relative to V/Oct. (This was, and still is the default.)
+
+	- **Gate fall:** The V/Oct input is latched when the current note's Gate goes low. During the time when the Gate is High the V/Oct input is passed through to the output. No extra delays are added. (New for v2.7.1)
+
+	- **Next note:** The V/Oct input isn't latched until the next note's Gate goes High. During this entire time the V/Oct input is passed through to the output. To make sure that the old V/Oct input is still there, V/Oct is delayed by five sample delays relative to the Gate. (This was the old "Don't latch current note" option. Old patches will be automatically updated to this mode.)
 
 
 **VCA Section**
