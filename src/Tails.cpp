@@ -50,8 +50,7 @@ struct Tails : Module {
 	float voct[5] = { 0.f };
 	float voct_delay[6] = { 0.f };
 	float gate_delay[6] = { 0.f };
-	bool pass_notes = false;
-	bool add_delays = true;
+	int latch_mode = 0;
 
 	void process(const ProcessArgs &args) override {
 
@@ -110,32 +109,24 @@ struct Tails : Module {
 
 		// rising edge of gate increments output channel
 		// and latches v/oct value to this channel
-		if (pass_notes == false) {
-			if (add_delays) {  // latch v/oct after gate delay
-				if (trigger.process(rescale(gate_delay[5], 0.1f, 2.f, 0.f, 1.f))) {
-					chan_ptr = (chan_ptr + 1) % channels;
-					voct[chan_ptr] = voct_delay[0];
-				}
+		if (latch_mode == 2) {  // latch on next note's gate rising
+			if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
+				chan_ptr = (chan_ptr + 1) % channels;
 			}
-			else {  // original: latch v/oct no gate delay
-				if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
-					chan_ptr = (chan_ptr + 1) % channels;
-					voct[chan_ptr] = voct_delay[0];
-				}
-			}
+			// pass v/oct until next note's gate rising
+			voct[chan_ptr] = voct_delay[5];  // v/oct delayed 5 cycles
 		}
-		else {
-			if (add_delays) {  // pass v/oct with delay
-				if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
-					chan_ptr = (chan_ptr + 1) % channels;
-				}
-				voct[chan_ptr] = voct_delay[5];
+		else if (latch_mode == 1) {  // latch on this note's gate falling
+			if (trigger.process(rescale(gate_delay[0], 2.f, 0.1f, 0.f, 1.f))) {
+				chan_ptr = (chan_ptr + 1) % channels;
 			}
-			else {  // pass v/oct without delay
-				if (trigger.process(rescale(gate_delay[0], 0.1f, 2.f, 0.f, 1.f))) {
-					chan_ptr = (chan_ptr + 1) % channels;
-				}
+			if (! trigger.isHigh())  // trigger inverted, pass v/oct until this note's gate goes low
 				voct[chan_ptr] = voct_delay[0];
+		}
+		else {  // latch_mode == 0 or any other value, latch on this note's gate rising
+			if (trigger.process(rescale(gate_delay[5], 0.1f, 2.f, 0.f, 1.f))) {  // gate delayed 5 cycles
+				chan_ptr = (chan_ptr + 1) % channels;
+				voct[chan_ptr] = voct_delay[0];  // v/oct latched immediately
 			}
 		}
 		// All enabled v/oct output channels always output each channel's last latched value.
@@ -143,8 +134,12 @@ struct Tails : Module {
 		// then it outputs 0V, along with all the other gate output channels.
 		for (int c = 0; c < channels; c++) {
 			outputs[VOCT_OUTPUT].setVoltage(voct[c], c);
-			if (c == chan_ptr)
-				outputs[GATE_OUTPUT].setVoltage((trigger.isHigh() ? 10.f : 0.f), c);
+			if (c == chan_ptr) {
+				if (latch_mode == 1)  // trigger on fall
+					outputs[GATE_OUTPUT].setVoltage((trigger.isHigh() ? 0.f : 10.f), c);
+				else  // trigger on rise
+					outputs[GATE_OUTPUT].setVoltage((trigger.isHigh() ? 10.f : 0.f), c);
+			}
 			else
 				outputs[GATE_OUTPUT].setVoltage(0.f, c);
 		}
@@ -153,28 +148,25 @@ struct Tails : Module {
 	}
 
 	void onReset() override {
-		pass_notes = false;
-		add_delays = true;
+		latch_mode = 0;
 	}
 
 	json_t* dataToJson() override {
 		json_t* rootJ = json_object();
-		// pass_notes
-		json_object_set_new(rootJ, "pass_notes", json_boolean(pass_notes));
-		// add_delays
-		json_object_set_new(rootJ, "add_delays", json_boolean(add_delays));
+		// latch_mode
+		json_object_set_new(rootJ, "latch_mode", json_integer(latch_mode));
 		return rootJ;
 	}
 
 	void dataFromJson(json_t* rootJ) override {
-		// pass_notes
+		// latch_mode
+		json_t* latch_modeJ = json_object_get(rootJ, "latch_mode");
+		if (latch_modeJ)
+			latch_mode = json_integer_value(latch_modeJ);
+		// Legacy pass_notes support (if pass_notes was true, convert to latch_mode 2)
 		json_t* pass_notesJ = json_object_get(rootJ, "pass_notes");
-		if (pass_notesJ)
-			pass_notes = json_boolean_value(pass_notesJ);
-		// add_delays
-		json_t* add_delaysJ = json_object_get(rootJ, "add_delays");
-		if (add_delaysJ)
-			add_delays = json_boolean_value(add_delaysJ);
+		if (pass_notesJ && json_boolean_value(pass_notesJ))
+			latch_mode = 2;
 	}
 };
 
@@ -209,8 +201,7 @@ struct TailsWidget : ModuleWidget {
 
 		menu->addChild(new MenuSeparator);
 
-		menu->addChild(createBoolPtrMenuItem("Don't latch current note", "", &module->pass_notes));
-		menu->addChild(createBoolPtrMenuItem("Add delays", "", &module->add_delays));
+		menu->addChild(createIndexPtrSubmenuItem("Latch mode", {"Gate rise", "Gate fall", "Next note"}, &module->latch_mode));
 	}
 };
 

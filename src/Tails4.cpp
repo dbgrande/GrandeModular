@@ -78,8 +78,7 @@ struct Tails4 : Module {
 
 	bool voct_mode = false;
 	bool gate_mode = false;
-	bool pass_notes = false;
-	bool add_delays = true;
+	int latch_mode = 0;
 
 	int last_vmode_in = -1;
 	int last_gmode_in = -1;
@@ -262,35 +261,27 @@ struct Tails4 : Module {
 			}
 			voct_delay[t][0] = voct_vin[t];
 			gate_delay[t][0] = gate_vin[t];
-	
+
 			// rising edge of gate increments output channel
 			// and latches v/oct value to this channel
-			if (pass_notes == false) {
-				if (add_delays) {  // latch v/oct after gate delay
-					if (trigger[t].process(rescale(gate_delay[t][5], 0.1f, 2.f, 0.f, 1.f))) {
-						chan_ptr[t] = (chan_ptr[t] + 1) % channels;
-						voct[t][chan_ptr[t]] = voct_delay[t][0];
-					}
+			if (latch_mode == 2) {  // latch on next note's gate rising
+				if (trigger[t].process(rescale(gate_delay[t][0], 0.1f, 2.f, 0.f, 1.f))) {
+					chan_ptr[t] = (chan_ptr[t] + 1) % channels;
 				}
-				else {  // original: latch v/oct no gate delay
-					if (trigger[t].process(rescale(gate_delay[t][0], 0.1f, 2.f, 0.f, 1.f))) {
-						chan_ptr[t] = (chan_ptr[t] + 1) % channels;
-						voct[t][chan_ptr[t]] = voct_delay[t][0];
-					}
-				}
+				// pass v/oct until next note's gate rising
+				voct[t][chan_ptr[t]] = voct_delay[t][5];  // v/oct delayed 5 cycles
 			}
-			else {
-				if (add_delays) {  // pass v/oct with delay
-					if (trigger[t].process(rescale(gate_delay[t][0], 0.1f, 2.f, 0.f, 1.f))) {
-						chan_ptr[t] = (chan_ptr[t] + 1) % channels;
-					}
-					voct[t][chan_ptr[t]] = voct_delay[t][5];
+			else if (latch_mode == 1) {  // latch on this note's gate falling
+				if (trigger[t].process(rescale(gate_delay[t][0], 2.f, 0.1f, 0.f, 1.f))) {
+					chan_ptr[t] = (chan_ptr[t] + 1) % channels;
 				}
-				else {  // pass v/oct without delay
-					if (trigger[t].process(rescale(gate_delay[t][0], 0.1f, 2.f, 0.f, 1.f))) {
-						chan_ptr[t] = (chan_ptr[t] + 1) % channels;
-					}
+				if (! trigger[t].isHigh())  // trigger inverted, pass v/oct until this note's gate goes low
 					voct[t][chan_ptr[t]] = voct_delay[t][0];
+			}
+			else {  // latch_mode == 0 or any other value, latch on this note's gate rising
+				if (trigger[t].process(rescale(gate_delay[t][5], 0.1f, 2.f, 0.f, 1.f))) {  // gate delayed 5 cycles
+					chan_ptr[t] = (chan_ptr[t] + 1) % channels;
+					voct[t][chan_ptr[t]] = voct_delay[t][0];  // v/oct latched immediately
 				}
 			}
 		}
@@ -300,8 +291,12 @@ struct Tails4 : Module {
 		for (int t = 0; t < tails_count; t++) {
 			for (int c = 0; c < channels; c++) {
 				outputs[VOCT_OUTPUT].setVoltage(voct[t][c], t * channels + c);
-				if (c == chan_ptr[t])
-					outputs[GATE_OUTPUT].setVoltage((trigger[t].isHigh() ? 10.f : 0.f), t * channels + c);
+				if (c == chan_ptr[t]) {
+					if (latch_mode == 1)  // trigger on fall (trigger is inverted)
+						outputs[GATE_OUTPUT].setVoltage((trigger[t].isHigh() ? 0.f : 10.f), t * channels + c);
+					else  // trigger on rise
+						outputs[GATE_OUTPUT].setVoltage((trigger[t].isHigh() ? 10.f : 0.f), t * channels + c);
+				}
 				else
 					outputs[GATE_OUTPUT].setVoltage(0.f, t * channels + c);
 			}
@@ -393,8 +388,7 @@ struct Tails4 : Module {
 	void onReset() override {
 		voct_mode = false;
 		gate_mode = false;
-		pass_notes = false;
-		add_delays = true;
+		latch_mode = 0;
 	}
 
 	json_t* dataToJson() override {
@@ -403,10 +397,8 @@ struct Tails4 : Module {
 		json_object_set_new(rootJ, "voct_mode", json_boolean(voct_mode));
 		// gate_mode
 		json_object_set_new(rootJ, "gate_mode", json_boolean(gate_mode));
-		// pass_notes
-		json_object_set_new(rootJ, "pass_notes", json_boolean(pass_notes));
-		// add_delays
-		json_object_set_new(rootJ, "add_delays", json_boolean(add_delays));
+		// latch_mode
+		json_object_set_new(rootJ, "latch_mode", json_integer(latch_mode));
 		return rootJ;
 	}
 
@@ -419,14 +411,14 @@ struct Tails4 : Module {
 		json_t* gate_modeJ = json_object_get(rootJ, "gate_mode");
 		if (gate_modeJ)
 			gate_mode = json_boolean_value(gate_modeJ);
-		// pass_notes
+		// latch_mode
+		json_t* latch_modeJ = json_object_get(rootJ, "latch_mode");
+		if (latch_modeJ)
+			latch_mode = json_integer_value(latch_modeJ);
+		// Legacy pass_notes support (if pass_notes was true, convert to latch_mode 2)
 		json_t* pass_notesJ = json_object_get(rootJ, "pass_notes");
-		if (pass_notesJ)
-			pass_notes = json_boolean_value(pass_notesJ);
-		// add_delays
-		json_t* add_delaysJ = json_object_get(rootJ, "add_delays");
-		if (add_delaysJ)
-			add_delays = json_boolean_value(add_delaysJ);
+		if (pass_notesJ && json_boolean_value(pass_notesJ))
+			latch_mode = 2;
 	}
 };
 
@@ -489,8 +481,7 @@ struct Tails4Widget : ModuleWidget {
 
 		menu->addChild(new MenuSeparator);
 
-		menu->addChild(createBoolPtrMenuItem("Don't latch current note", "", &module->pass_notes));
-		menu->addChild(createBoolPtrMenuItem("Add delays", "", &module->add_delays));
+		menu->addChild(createIndexPtrSubmenuItem("Latch mode", {"Gate rise", "Gate fall", "Next note"}, &module->latch_mode));
 	}
 };
 
