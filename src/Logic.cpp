@@ -112,9 +112,9 @@ struct Logic : Module {
 			}
 			outputs[AND_OUTPUT].setChannels(achans);
 		}
-		else {  // no inputs connected
+		else {  // no inputs connected -- output logic Low
 			outputs[AND_OUTPUT].setVoltage(0);
-			outputs[AND_OUTPUT].setChannels(0);
+			outputs[AND_OUTPUT].setChannels(1);
 		}
 
 		// OR Gate
@@ -166,9 +166,9 @@ struct Logic : Module {
 			}
 			outputs[OR_OUTPUT].setChannels(ochans);
 		}
-		else {  // no inputs connected
+		else {  // no inputs connected -- output logic Low
 			outputs[OR_OUTPUT].setVoltage(0);
-			outputs[OR_OUTPUT].setChannels(0);
+			outputs[OR_OUTPUT].setChannels(1);
 		}
 
 		// XOR Gate
@@ -224,18 +224,24 @@ struct Logic : Module {
 			}
 			outputs[XOR_OUTPUT].setChannels(xchans);
 		}
-		else {  // no inputs connected
+		else {  // no inputs connected -- output logic Low
 			outputs[XOR_OUTPUT].setVoltage(0);
-			outputs[XOR_OUTPUT].setChannels(0);
+			outputs[XOR_OUTPUT].setChannels(1);
 		}
 
 		// NOT Gate
-		int nchans = inputs[NOT_INPUT].getChannels();
-		for (int c = 0; c < nchans; c++) {
-			bool out = inputs[NOT_INPUT].getVoltage(c) > threshold;
-			outputs[NOT_OUTPUT].setVoltage((out ? 0.f : 10.f), c);
+		if (inputs[NOT_INPUT].isConnected()) {  // input connected
+			int nchans = inputs[NOT_INPUT].getChannels();
+			for (int c = 0; c < nchans; c++) {
+				bool out = inputs[NOT_INPUT].getVoltage(c) > threshold;
+				outputs[NOT_OUTPUT].setVoltage((out ? 0.f : 10.f), c);
+			}
+			outputs[NOT_OUTPUT].setChannels(nchans);
 		}
-		outputs[NOT_OUTPUT].setChannels(nchans);
+		else {  // input not connected -- output logic High
+			outputs[NOT_OUTPUT].setVoltage(10.f);
+			outputs[NOT_OUTPUT].setChannels(1);
+		}
 	}
 
 	void onReset() override {
