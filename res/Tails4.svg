@@ -12,7 +12,7 @@
   <rect id="rect838" x="-5.5511e-17" y="168.5" width="20.32" height="128.5" fill="#bbbbb0"/>
   <text id="text64" x="2.0529213" y="233.73691" font-family="'PT Sans Narrow'" font-size="2.8222px" font-stretch="condensed" font-weight="bold" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan id="tspan62" x="2.0529213" y="233.73691" stroke-width=".26458"/></text>
   <text id="text925" x="7.705914" y="247.28606" font-family="'PT Sans Narrow'" font-size="2.8222px" font-stretch="condensed" font-weight="bold" stroke-width=".26458" text-align="center" text-anchor="middle" style="line-height:1.25" xml:space="preserve"><tspan id="tspan923" x="7.705914" y="247.28606" stroke-width=".26458"/></text>
-  <rect id="rect902" x=".72658" y="179.65" width="18.867" height="53.207" rx=".99678" ry="1.2277" fill="none" stroke="#555d50" stroke-width=".293"/>
+  <rect id="rect902" x=".72658" y="179.65" width="18.867" height="53.207" rx="1" ry="1" fill="none" stroke="#555d50" stroke-width=".293"/>
   <rect id="rect913" x="10.84" y="247.5" width="8.8" height="40.9" rx="1" ry="1" fill="#555d50" stroke-width=".26458"/>
   <rect id="rect1023" x="10.74" y="247.5" width="9" height="2" fill="#555d50"/>
   <rect id="rect1021" x="10.872" y="235.13" width="8.7354" height="53.235" rx="1" ry="1" fill="none" stroke="#555d50" stroke-width=".26458"/>
