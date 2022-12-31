@@ -107,13 +107,13 @@ struct VCA4 : Module {
 		if (channelsd_in > 16)
 			channelsd_in = 16;  // Deal with broken polymerge
 
-		for (int c = 0 ; c < channelsc_in; c++)
+		for (int c = 0 ; c < channelsd_in; c++)
 			vad[c] = inputs[IND_INPUT].getVoltage(c);
 
-		for (int c = 0; c < channelsc_in; c++)
+		for (int c = 0; c < channelsd_in; c++)
 			outputs[OUTD_OUTPUT].setVoltage(vad[c] * gaind, c);
 
-		outputs[OUTD_OUTPUT].setChannels(channelsc_in);
+		outputs[OUTD_OUTPUT].setChannels(channelsd_in);
 	}
 };
 
