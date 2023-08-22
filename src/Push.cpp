@@ -32,12 +32,13 @@ struct Push : Module {
 
 	int param_timer = 0;
 	bool input_values[16];
-	int last_mode[15] = { -1 };
-	int mode[15] = { -1 };
 	bool modestate[15] = { false };
 	int split = 15;
 	bool last_one_hot = true;
 	bool one_hot = false;
+	int last_select = -1;
+	int push_time = -1;
+	bool long_press = false;
 
 	void process(const ProcessArgs &args) override {
 		if (param_timer == 0) {
@@ -61,39 +62,45 @@ struct Push : Module {
 			// update last values
 			last_one_hot = one_hot;
 
-			// Update the triangular LED buttons, need one-hot
-			bool just_switched = false;
-			bool switched_on = false;
-			// scan select buttons for one that has just been pressed
-			for (int c = 0; c < 15; c++) {
-				mode[c] = params[SELECT_PARAMS + c].getValue() > 0;
-				if (mode[c] == 1) {  // i-th select button pressed
-					if (last_mode[c] == 0) {  // just pressed
-						modestate[c] = !modestate[c];
-						just_switched = true;
-						switched_on = modestate[c];  // this switch just toggled
-						split = c;
-						last_mode[c] = 1;
+			// Update the triangular LED select buttons, need one-hot
+			// Require long-press of one second to toggle, so don't accidentally change
+			if (last_select == -1) {  // no select buttons pressed
+				for (int c = 0; c < 15; c++) {  // check if any button pressed
+					if (params[SELECT_PARAMS + c].getValue() > 0) {  // select button just pressed
+						last_select = c;  // last_select set to button that was selected
+						push_time = 0;
+						long_press = false;
 						break;
 					}
 				}
-				else  // not pressed
-					last_mode[c] = 0;
 			}
-			// was one found?
-			if (just_switched) {
-				if (switched_on) {
-					for (int i = 0; i < split; i++)  // turn off any previous switchpoints
-						modestate[i] = false;
-					for (int i = split + 1; i < 15; i++)  // turn off any following switchpoints
-						modestate[i] = false;
+			else {  // select button previously pressed
+				if (params[SELECT_PARAMS + last_select].getValue() > 0) {  // select button still pressed
+					push_time += param_timer;
+					if (!long_press && push_time > args.sampleRate) {  // just hit 1 second long press
+						modestate[last_select] = !modestate[last_select];  // toggle select state
+						if (modestate[last_select] == true) {  // just turned on
+							split = last_select;
+							for (int i = 0; i < split; i++)  // turn off any previous switchpoints
+								modestate[i] = false;
+							for (int i = split + 1; i < 15; i++)  // turn off any following switchpoints
+								modestate[i] = false;
+						}
+						else {  // just turned off
+							for (int i = 0; i < 15; i++)  // turn off all switchpoints
+								modestate[i] = false;
+							split = 15;
+						}
+						long_press = true;
+					}
 				}
-				else {  // switched off
-					for (int i = 0; i < 15; i++)  // turn off all switchpoints
-						modestate[i] = false;
-					split = 15;
+				else {  // select button released
+					last_select = -1;
+					push_time = -1;
+					long_press = false;
 				}
 			}
+
 			// update select button lights
 			for (int i = 0; i < 15; i++)
 				lights[SELECT_LIGHTS + i].setBrightness(modestate[i]);
