@@ -6,9 +6,15 @@ By David Grande
 
 ***
 
+**New for v2.8.0:** Dark panels for all my modules are now supported using Rack 2.4's "Use dark panels if available" View option. See example image for **Clip** below, the others are similar.
+
+
+***
+
 Clip
 ----
 ![Clip](images/Clip.png "Clip")
+![Clip-dark](images/Clip-dark.png "Clip-dark")
 
 **Polyphonic hard clipper and visual clip monitor.**
 
@@ -279,7 +285,9 @@ Push
 
 Provides 16 polyphonic channel buttons (0V/10V) in a compact package.
 
-- Triangular buttons on side set how many channel buttons to enable. Only one can be selected at a time. Channel buttons beyond this point are dimmed and won't be output.
+- Triangular select buttons on side set how many channel buttons to enable. Only one can be selected at a time. Channel buttons beyond this point are dimmed and won't be output.
+
+- **New for v2.8.0:** Triangular buttons require a 1-sec long press to toggle.
 
 - Channel buttons have two modes: normal mode (toggle, default) and radio mode (one-hot). Select between them by using the right-click context menu.
 
