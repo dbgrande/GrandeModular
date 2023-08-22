@@ -100,17 +100,20 @@ struct Merge8ChannelsItem : MenuItem {
 struct Merge8Widget : ModuleWidget {
 	Merge8Widget(Merge8* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Merge8.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Merge8.svg"),
+			asset::plugin(pluginInstance, "res/Merge8-dark.svg")
+		));
 
 		{
 			for(int i = 0; i < 8; i++) {
-				addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 19.50 + 11.25 * i)), module, Merge8::INPUTS_A + i));
+				addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 19.50 + 11.25 * i)), module, Merge8::INPUTS_A + i));
 			}
-			addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 114.50)) , module, Merge8::POLY_OUT_A));
+			addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 114.50)) , module, Merge8::POLY_OUT_A));
 		}
 		
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
 
 	void appendContextMenu(Menu* menu) override {

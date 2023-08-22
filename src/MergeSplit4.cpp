@@ -108,22 +108,25 @@ struct MergeSplit4ChannelsItem : MenuItem {
 struct MergeSplit4Widget : ModuleWidget {
 	MergeSplit4Widget(MergeSplit4* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/MergeSplit4.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/MergeSplit4.svg"),
+			asset::plugin(pluginInstance, "res/MergeSplit4-dark.svg")
+		));
 
 		{
 			for(int i = 0; i < 4; i++) {
-				addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 17.00 + 10.00 * i)), module, MergeSplit4::INPUTS_A + i));
+				addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 17.00 + 10.00 * i)), module, MergeSplit4::INPUTS_A + i));
 			}
-			addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 59.25)) , module, MergeSplit4::POLY_OUT_A));
+			addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 59.25)) , module, MergeSplit4::POLY_OUT_A));
 
-			addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 74.25)), module, MergeSplit4::POLY_IN_B));
+			addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 74.25)), module, MergeSplit4::POLY_IN_B));
 			for(int i = 0; i < 4; i++) {
-				addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 85.00 + 10.00 * i)), module, MergeSplit4::OUTPUTS_B + i));
+				addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 85.00 + 10.00 * i)), module, MergeSplit4::OUTPUTS_B + i));
 			}
 		}
 		
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
 
 	void appendContextMenu(Menu* menu) override {

@@ -5,7 +5,7 @@
    viewBox="0 0 5 5.0000001"
    version="1.1"
    id="svg8"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
    sodipodi:docname="SquareButton1dim.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,7 +25,7 @@
          offset="0"
          id="stop4217" />
       <stop
-         style="stop-color:#252525;stop-opacity:1"
+         style="stop-color:#333333;stop-opacity:1;"
          offset="1"
          id="stop4219" />
     </linearGradient>
@@ -92,20 +92,22 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="18.190884"
-     inkscape:cx="12.726154"
-     inkscape:cy="11.296867"
+     inkscape:cx="12.698668"
+     inkscape:cy="11.324353"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1335"
-     inkscape:window-height="810"
-     inkscape:window-x="1744"
-     inkscape:window-y="225"
+     inkscape:window-width="1499"
+     inkscape:window-height="1216"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0"
      inkscape:snap-bbox="true"
-     inkscape:snap-bbox-edge-midpoints="true" />
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata5">
     <rdf:RDF>

@@ -118,7 +118,10 @@ struct PolySplit : Module {
 struct PolySplitWidget : ModuleWidget {
 	PolySplitWidget(PolySplit* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/PolySplit.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/PolySplit.svg"),
+			asset::plugin(pluginInstance, "res/PolySplit-dark.svg")
+		));
 
 		for (int i = 0; i < 15; i++) {
 			addChild(createLightCentered<TriangleLight<RedLight>>(mm2px(Vec(2.25, 14.45968 + 3.32718 * i)), module, PolySplit::SELECT_LIGHTS + i));
@@ -128,13 +131,13 @@ struct PolySplitWidget : ModuleWidget {
 			addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(8.25, 12.79609 + 3.32718 * i)), module, PolySplit::CHANNEL_LIGHTS + i));
 		}
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 74.25)), module, PolySplit::POLY_IN));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 74.25)), module, PolySplit::POLY_IN));
 		for (int i = 0; i < 4; i++) {
-			addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 85.00 + 10.00 * i)), module, PolySplit::POLY_OUTS + i));
+			addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 85.00 + 10.00 * i)), module, PolySplit::POLY_OUTS + i));
 		}
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
 };
 

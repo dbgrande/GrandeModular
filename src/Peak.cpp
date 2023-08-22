@@ -139,25 +139,28 @@ float lowest_b[16] = { INFINITY };
 struct PeakWidget : ModuleWidget {
 	PeakWidget(Peak* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Peak.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Peak.svg"),
+			asset::plugin(pluginInstance, "res/Peak-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 18.50)), module, Peak::A_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 18.50)), module, Peak::A_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 30.50)), module, Peak::MAXA_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 41.50)), module, Peak::MINA_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 30.50)), module, Peak::MAXA_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 41.50)), module, Peak::MINA_OUTPUT));
 
 		addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(8.00, 25.25)), module, Peak::MAXA_LIGHT));
 		addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(8.00, 36.25)), module, Peak::MINA_LIGHT));
 
 		addParam(createParam<TL1105>(mm2px(Vec(5.08-2.709, 53.00-2.709)), module, Peak::RESETA_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 67.00)), module, Peak::B_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 67.00)), module, Peak::B_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 79.00)), module, Peak::MAXB_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 90.00)), module, Peak::MINB_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 79.00)), module, Peak::MAXB_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 90.00)), module, Peak::MINB_OUTPUT));
 
 		addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(8.00, 73.75)), module, Peak::MAXB_LIGHT));
 		addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(8.00, 84.75)), module, Peak::MINB_LIGHT));

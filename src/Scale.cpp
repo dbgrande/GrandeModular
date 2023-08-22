@@ -82,12 +82,15 @@ struct Scale : Module {
 struct ScaleWidget : ModuleWidget {
 	ScaleWidget(Scale* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Scale.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Scale.svg"),
+			asset::plugin(pluginInstance, "res/Scale-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 19.20)), module, Scale::SCALE_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 19.20)), module, Scale::SCALE_OUTPUT));
 
 		addParam(createParam<WhiteButton>(mm2px(Vec(1.58, 25.0)), module, Scale::NOTE11_PARAM));
 		addParam(createParam<BlackButton>(mm2px(Vec(1.58, 33.0)), module, Scale::NOTE10_PARAM));

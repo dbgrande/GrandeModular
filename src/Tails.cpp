@@ -173,24 +173,27 @@ struct Tails : Module {
 struct TailsWidget : ModuleWidget {
 	TailsWidget(Tails* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Tails.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Tails.svg"),
+			asset::plugin(pluginInstance, "res/Tails-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 21.6)), module, Tails::IN_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 33.4)), module, Tails::OUT_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 21.6)), module, Tails::IN_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 33.4)), module, Tails::OUT_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 45.2)), module, Tails::CV_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 45.2)), module, Tails::CV_INPUT));
 
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 56.2)), module, Tails::GAIN_PARAM));
 
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 73.5)), module, Tails::VOCT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 82.9)), module, Tails::VOCT_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 73.5)), module, Tails::VOCT_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 82.9)), module, Tails::VOCT_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 94.8)), module, Tails::GATE_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 104.3)), module, Tails::GATE_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 94.8)), module, Tails::GATE_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 104.3)), module, Tails::GATE_OUTPUT));
 
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 115.3)), module, Tails::CHANNEL_PARAM));
 	}

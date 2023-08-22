@@ -127,27 +127,28 @@ struct SampleDelays : Module {
 struct SampleDelaysWidget : ModuleWidget {
 	SampleDelaysWidget(SampleDelays* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/SampleDelays.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/SampleDelays.svg"),
+			asset::plugin(pluginInstance, "res/SampleDelays-dark.svg")
+		));
 
-		//addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		//addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 17.25)), module, SampleDelays::A_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 17.25)), module, SampleDelays::A_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 29.75)), module, SampleDelays::A1_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 40.25)), module, SampleDelays::A2_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 29.75)), module, SampleDelays::A1_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 40.25)), module, SampleDelays::A2_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 54.25)), module, SampleDelays::B_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 54.25)), module, SampleDelays::B_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 66.75)), module, SampleDelays::B1_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 77.25)), module, SampleDelays::B2_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 66.75)), module, SampleDelays::B1_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 77.25)), module, SampleDelays::B2_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 91.25)), module, SampleDelays::C_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 91.25)), module, SampleDelays::C_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 103.75)), module, SampleDelays::C1_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 114.25)), module, SampleDelays::C2_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 103.75)), module, SampleDelays::C1_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 114.25)), module, SampleDelays::C2_OUTPUT));
 	}
 };
 

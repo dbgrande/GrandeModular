@@ -161,24 +161,27 @@ struct LFO3 : Module {
 struct LFO3Widget : ModuleWidget {
 	LFO3Widget(LFO3* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LFO3.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/LFO3.svg"),
+			asset::plugin(pluginInstance, "res/LFO3-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 18.00)), module, LFO3::FREQA_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 26.25)), module, LFO3::SINA_OUTPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 35.00)), module, LFO3::FMA_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 26.25)), module, LFO3::SINA_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 35.00)), module, LFO3::FMA_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 42.50)), module, LFO3::FMA_PARAM));
 
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 55.00)), module, LFO3::FREQB_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 63.25)), module, LFO3::SINB_OUTPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 72.00)), module, LFO3::FMB_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 63.25)), module, LFO3::SINB_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 72.00)), module, LFO3::FMB_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 79.50)), module, LFO3::FMB_PARAM));
 
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 92.00)), module, LFO3::FREQC_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 100.25)), module, LFO3::SINC_OUTPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 109.00)), module, LFO3::FMC_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 100.25)), module, LFO3::SINC_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 109.00)), module, LFO3::FMC_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 116.50)), module, LFO3::FMC_PARAM));
 	}
 };

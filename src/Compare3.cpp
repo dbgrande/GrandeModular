@@ -544,18 +544,21 @@ struct Compare3 : Module {
 struct Compare3Widget : ModuleWidget {
 	Compare3Widget(Compare3* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Compare3.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Compare3.svg"),
+			asset::plugin(pluginInstance, "res/Compare3-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		// Common Input
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 18.25)), module, Compare3::COMMON_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 18.25)), module, Compare3::COMMON_INPUT));
 
 		// A
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.96, 32.00)), module, Compare3::UPPER_A_PARAM));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.96, 40.80)), module, Compare3::LOWER_A_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 51.25)), module, Compare3::OUTA_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 51.25)), module, Compare3::OUTA_OUTPUT));
 		for (int i = 0; i < 21; i++) {
 			addChild(createLightCentered<TinyLightRect<RedGreenBlueLight>>(mm2px(Vec(1.58, 47.00 - 1.00*i)), module, Compare3::A_LIGHTS + i*3));
 		}
@@ -565,7 +568,7 @@ struct Compare3Widget : ModuleWidget {
 		// B
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.96, 64.00)), module, Compare3::UPPER_B_PARAM));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.96, 72.80)), module, Compare3::LOWER_B_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 83.25)), module, Compare3::OUTB_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 83.25)), module, Compare3::OUTB_OUTPUT));
 		for (int i = 0; i < 21; i++) {
 			addChild(createLightCentered<TinyLightRect<RedGreenBlueLight>>(mm2px(Vec(1.58, 79.00 - 1.00*i)), module, Compare3::B_LIGHTS + i*3));
 		}
@@ -575,7 +578,7 @@ struct Compare3Widget : ModuleWidget {
 		// C
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.96, 96.00)), module, Compare3::UPPER_C_PARAM));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.96, 104.80)), module, Compare3::LOWER_C_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 115.25)), module, Compare3::OUTC_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 115.25)), module, Compare3::OUTC_OUTPUT));
 		for (int i = 0; i < 21; i++) {
 			addChild(createLightCentered<TinyLightRect<RedGreenBlueLight>>(mm2px(Vec(1.58, 111.00 - 1.00*i)), module, Compare3::C_LIGHTS + i*3));
 		}

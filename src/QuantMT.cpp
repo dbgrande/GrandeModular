@@ -373,10 +373,13 @@ struct QuantMT : Module {
 struct QuantMTWidget : ModuleWidget {
 	QuantMTWidget(QuantMT* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/QuantMT.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/QuantMT.svg"),
+			asset::plugin(pluginInstance, "res/QuantMT-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(22.24, 39.50)), module, QuantMT::SIZE_PARAM));
 
@@ -387,16 +390,16 @@ struct QuantMTWidget : ModuleWidget {
 		addParam(createParam<TL1105>(mm2px(Vec(26.0-2.709, 23.5-2.709+2.5)), module, QuantMT::REF_PARAM));
 		addChild(createLightCentered<MediumLightFlat<BlueLight>>(mm2px(Vec(25.9, 25.86)), module, QuantMT::REF_ON_LIGHT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 54.5)), module, QuantMT::ROOT_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(22.24, 54.5)), module, QuantMT::ROOT_INPUT));
 
 		addParam(createParam<CKSSThree>(mm2px(Vec(16.25, 65.5)), module, QuantMT::ROUNDING_PARAM));
 		addParam(createParam<CKSS>(mm2px(Vec(23.75, 66.8)), module, QuantMT::EQUI_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(22.24, 85.0)), module, QuantMT::CV_IN_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(22.24, 85.0)), module, QuantMT::CV_IN_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.24, 100.0)), module, QuantMT::CV_OUT_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(22.24, 100.0)), module, QuantMT::CV_OUT_OUTPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.24, 115.0)), module, QuantMT::TRIGGER_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(22.24, 115.0)), module, QuantMT::TRIGGER_OUTPUT));
 
 		for (int i = 0; i < 34; i++)
 			addParam(createParam<RectButtonDim>(mm2px(Vec(5.2+0.25, 122.50 - 1.6 - 3.50*i)), module, QuantMT::NOTE_PARAMS + i));

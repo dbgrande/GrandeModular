@@ -194,10 +194,13 @@ struct Push : Module {
 struct PushWidget : ModuleWidget {
 	PushWidget(Push* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Push.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Push.svg"),
+			asset::plugin(pluginInstance, "res/Push-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		for (int i = 0; i < 16; i++) {
 			addParam(createParam<SquareButtonDim>(mm2px(Vec(6.40 - 2.5, 15.0 - 2.5 + 5.9*i)), module, Push::BUTTON_PARAMS + i));
@@ -208,7 +211,7 @@ struct PushWidget : ModuleWidget {
 			addParam(createParam<TriangleLEDButton>(mm2px(Vec(2.25 - 1.65, 17.95 - 1.65 + 5.9 * i)), module, Push::SELECT_PARAMS + i));
 		}
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 115.00)), module, Push::POLY_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 115.00)), module, Push::POLY_OUTPUT));
 	}
 
 	void appendContextMenu(Menu* menu) override {

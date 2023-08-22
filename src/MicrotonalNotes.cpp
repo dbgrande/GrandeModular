@@ -64,22 +64,25 @@ struct MicrotonalNotes : Module {
 struct MicrotonalNotesWidget : ModuleWidget {
 	MicrotonalNotesWidget(MicrotonalNotes* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/MicrotonalNotes.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/MicrotonalNotes.svg"),
+			asset::plugin(pluginInstance, "res/MicrotonalNotes-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		for (int i = 0; i < 8; i++) {
 			addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(7.62, 19.50 + i*11.25)), module, MicrotonalNotes::OCTAVE_PARAMS + i));
 			addParam(createParamCentered<RoundSmallRotarySwitch>(mm2px(Vec(18.32, 19.50 + i*11.25)), module, MicrotonalNotes::PITCH_PARAMS + i));
-			addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(29.87, 19.50 + i*11.25)), module, MicrotonalNotes::NOTE_OUTPUTS + i));
+			addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(29.87, 19.50 + i*11.25)), module, MicrotonalNotes::NOTE_OUTPUTS + i));
 			addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(35.85, 19.50 + i*11.25)), module, MicrotonalNotes::CHANNEL_LIGHTS + i));
 		}
 		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(8.15, 114.50)), module, MicrotonalNotes::SIZE_PARAM));
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(21.50, 114.50)), module, MicrotonalNotes::CHANNEL_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(32.02, 114.50)), module, MicrotonalNotes::POLY_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(32.02, 114.50)), module, MicrotonalNotes::POLY_OUTPUT));
 	}
 };
 

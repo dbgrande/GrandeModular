@@ -119,23 +119,26 @@ struct PolyMergeResplit : Module {
 struct PolyMergeResplitWidget : ModuleWidget {
 	PolyMergeResplitWidget(PolyMergeResplit* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/PolyMergeResplit.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/PolyMergeResplit.svg"),
+			asset::plugin(pluginInstance, "res/PolyMergeResplit-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		// Merge //
 		for (int i = 0; i < 4; i++) {
-			addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 17.00 + 10*i)), module, PolyMergeResplit::M_INPUTS + i));
+			addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 17.00 + 10*i)), module, PolyMergeResplit::M_INPUTS + i));
 		}
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 59.25)), module, PolyMergeResplit::M_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 59.25)), module, PolyMergeResplit::M_OUTPUT));
 		// light
 		addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(8.40, 55.00)), module, PolyMergeResplit::M_OVER_LIGHT));
 
 		// Resplit //
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 74.25)), module, PolyMergeResplit::R_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 74.25)), module, PolyMergeResplit::R_INPUT));
 		for (int i =  0; i < 4; i++) {
-			addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 85.00 + 10*i)), module, PolyMergeResplit::R_OUTPUTS + i));
+			addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 85.00 + 10*i)), module, PolyMergeResplit::R_OUTPUTS + i));
 			// lights
 			addChild(createLightCentered<PetiteLightTop<RedGreenBlueLight>>(mm2px(Vec(8.40, 81.00 + 10*i)), module, PolyMergeResplit::R_TOP_LIGHTS + i*3));
 			addChild(createLightCentered<PetiteLightBot<RedGreenBlueLight>>(mm2px(Vec(8.40, 81.00 + 10*i)), module, PolyMergeResplit::R_BOT_LIGHTS + i*3));

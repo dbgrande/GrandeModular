@@ -92,12 +92,15 @@ struct MicrotonalChords : Module {
 struct MicrotonalChordsWidget : ModuleWidget {
 	MicrotonalChordsWidget(MicrotonalChords* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/MicrotonalChords.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/MicrotonalChords.svg"),
+			asset::plugin(pluginInstance, "res/MicrotonalChords-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		for (int i = 0; i < 4; i++) {
 			addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(8.25, 51.00 - i*11.25)), module, MicrotonalChords::OCTAVEA_PARAMS + i));
@@ -118,8 +121,8 @@ struct MicrotonalChordsWidget : ModuleWidget {
 		addChild(createLightCentered<TinyLight<BlueLight>>(mm2px(Vec(32.44, 61.00)), module, MicrotonalChords::SELECT_LIGHTS + 3));
 
 		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(11.00, 114.50)), module, MicrotonalChords::SIZE_PARAM));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(26.00, 114.50)), module, MicrotonalChords::SELECT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(46.13, 114.50)), module, MicrotonalChords::POLY_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(26.00, 114.50)), module, MicrotonalChords::SELECT_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(46.13, 114.50)), module, MicrotonalChords::POLY_OUTPUT));
 	}
 };
 

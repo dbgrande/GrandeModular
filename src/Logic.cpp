@@ -280,27 +280,30 @@ struct Logic : Module {
 struct LogicWidget : ModuleWidget {
 	LogicWidget(Logic* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Logic.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Logic.svg"),
+			asset::plugin(pluginInstance, "res/Logic-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 17.9)), module, Logic::AND_A_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 26.1)), module, Logic::AND_B_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 34.5)), module, Logic::AND_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 17.9)), module, Logic::AND_A_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 26.1)), module, Logic::AND_B_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 34.5)), module, Logic::AND_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 47.7)), module, Logic::OR_A_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 55.9)), module, Logic::OR_B_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 64.3)), module, Logic::OR_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 47.7)), module, Logic::OR_A_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 55.9)), module, Logic::OR_B_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 64.3)), module, Logic::OR_OUTPUT));
 
 		addChild(createLightCentered<SmallLightFlat<BlueLight>>(mm2px(Vec(7.68, 72.50)), module, Logic::XOR_MODE_LIGHT));
 		addParam(createParam<SmallLEDButton>(mm2px(Vec(7.68-1.5, 72.50-1.5)), module, Logic::XOR_MODE_PARAM));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 77.5)), module, Logic::XOR_A_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 85.7)), module, Logic::XOR_B_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 94.1)), module, Logic::XOR_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 77.5)), module, Logic::XOR_A_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 85.7)), module, Logic::XOR_B_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 94.1)), module, Logic::XOR_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 107.3)), module, Logic::NOT_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 115.7)), module, Logic::NOT_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 107.3)), module, Logic::NOT_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 115.7)), module, Logic::NOT_OUTPUT));
 	}
 };
 

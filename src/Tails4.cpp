@@ -425,18 +425,21 @@ struct Tails4 : Module {
 struct Tails4Widget : ModuleWidget {
 	Tails4Widget(Tails4* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Tails4.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Tails4.svg"),
+			asset::plugin(pluginInstance, "res/Tails4-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		// Tails IOs
 		for (int i = 0; i < 4; i++) {
-			addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.444, 18.75 + 9.25*i)), module, Tails4::VOCT_INPUTS + i));
-			addInput(createInputCentered<PJ301MPort>(mm2px(Vec(14.877, 18.75 + 9.25*i)), module, Tails4::GATE_INPUTS + i));
+			addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.444, 18.75 + 9.25*i)), module, Tails4::VOCT_INPUTS + i));
+			addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(14.877, 18.75 + 9.25*i)), module, Tails4::GATE_INPUTS + i));
 		}
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.444, 59.75)), module, Tails4::VOCT_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(14.877, 59.75)), module, Tails4::GATE_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.444, 59.75)), module, Tails4::VOCT_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(14.877, 59.75)), module, Tails4::GATE_OUTPUT));
 
 		// Tails IO lights
 		for (int i =  0; i < 4; i++) {
@@ -458,17 +461,17 @@ struct Tails4Widget : ModuleWidget {
 		addChild(createLightCentered<PetiteLight<RedLight>>(mm2px(Vec(8.40, 68.80)), module, Tails4::CHANNEL_OVER_LIGHT));
 
 		// VCA
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 86.0)), module, Tails4::VCA_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 97.0)), module, Tails4::VCA_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 86.0)), module, Tails4::VCA_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 97.0)), module, Tails4::VCA_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 108.60)), module, Tails4::VCA_CV_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 108.60)), module, Tails4::VCA_CV_INPUT));
 
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 116.26)), module, Tails4::VCA_GAIN_PARAM));
 		
 		// Resplit //
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.24, 74.25)), module, Tails4::RESPLIT_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(15.24, 74.25)), module, Tails4::RESPLIT_INPUT));
 		for (int i =  0; i < 4; i++) {
-			addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.24, 85.00 + 10*i)), module, Tails4::RESPLIT_OUTPUTS + i));
+			addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(15.24, 85.00 + 10*i)), module, Tails4::RESPLIT_OUTPUTS + i));
 			// lights
 			addChild(createLightCentered<PetiteLightTop<RedGreenBlueLight>>(mm2px(Vec(18.56, 81.00 + 10*i)), module, Tails4::RESPLIT_TOP_LIGHTS + i*3));
 			addChild(createLightCentered<PetiteLightBot<RedGreenBlueLight>>(mm2px(Vec(18.56, 81.00 + 10*i)), module, Tails4::RESPLIT_BOT_LIGHTS + i*3));

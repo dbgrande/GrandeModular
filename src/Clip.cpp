@@ -274,18 +274,21 @@ struct Clip : Module {
 struct ClipWidget : ModuleWidget {
 	ClipWidget(Clip* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Clip.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Clip.svg"),
+			asset::plugin(pluginInstance, "res/Clip-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 65.00)), module, Clip::A_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 74.50)), module, Clip::A_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 65.00)), module, Clip::A_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 74.50)), module, Clip::A_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 86.25)), module, Clip::B_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 95.75)), module, Clip::B_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 86.25)), module, Clip::B_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 95.75)), module, Clip::B_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 107.50)), module, Clip::VCLIP_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 107.50)), module, Clip::VCLIP_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 115.75)), module, Clip::VCLIP_PARAM));
 
 		for (int i = 0; i < 16; i++) {

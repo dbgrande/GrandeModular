@@ -115,24 +115,27 @@ struct NoteMT : Module {
 struct NoteMTWidget : ModuleWidget {
 	NoteMTWidget(NoteMT* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NoteMT.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/NoteMT.svg"),
+			asset::plugin(pluginInstance, "res/NoteMT-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundBlackRotarySwitch>(mm2px(Vec(12.70, 23.00)), module, NoteMT::OCTAVE_PARAM));
 
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(12.70, 42.00)), module, NoteMT::PITCH_PARAM));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(12.70, 61.00)), module, NoteMT::VOCT_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(12.70, 61.00)), module, NoteMT::VOCT_OUTPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(6.35, 77.00)), module, NoteMT::VOCT_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(6.35, 77.00)), module, NoteMT::VOCT_INPUT));
 		addParam(createParam<TL1105>(mm2px(Vec(19.05-2.709, 77.90-2.709)), module, NoteMT::INT_PARAM));
 		addChild(createLightCentered<MediumLightFlat<BlueLight>>(mm2px(Vec(18.95, 77.80)), module, NoteMT::INT_LIGHT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(6.35, 93.00)), module, NoteMT::OCTAVE_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(6.35, 93.00)), module, NoteMT::OCTAVE_OUTPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(19.05, 93.00)), module, NoteMT::NOTE_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(19.05, 93.00)), module, NoteMT::NOTE_OUTPUT));
 
 		addParam(createParamCentered<RoundLargeRotarySwitch>(mm2px(Vec(12.70, 111.00)), module, NoteMT::SIZE_PARAM));
 	}

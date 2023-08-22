@@ -41,17 +41,20 @@ struct Split8 : Module {
 struct Split8Widget : ModuleWidget {
 	Split8Widget(Split8* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Split8.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Split8.svg"),
+			asset::plugin(pluginInstance, "res/Split8-dark.svg")
+		));
 
 		{
-			addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 19.50)), module, Split8::POLY_IN_B));
+			addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 19.50)), module, Split8::POLY_IN_B));
 			for(int i = 0; i < 8; i++) {
-				addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 35.75 + 11.25 * i)), module, Split8::OUTPUTS_B + i));
+				addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 35.75 + 11.25 * i)), module, Split8::OUTPUTS_B + i));
 			}
 		}
 		
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
 };
 

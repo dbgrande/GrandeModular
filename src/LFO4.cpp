@@ -247,31 +247,34 @@ struct LFO4 : Module {
 struct LFO4Widget : ModuleWidget {
 	LFO4Widget(LFO4* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LFO4.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/LFO4.svg"),
+			asset::plugin(pluginInstance, "res/LFO4-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(5.08, 18.25)), module, LFO4::FM_PARAM));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 27.00)), module, LFO4::FM_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 27.00)), module, LFO4::FM_INPUT));
 		addChild(createLightCentered<SmallLightFlat<BlueLight>>(mm2px(Vec(8.00, 22.625)), module, LFO4::NEG_MODE_LIGHT));
 		addParam(createParam<SmallLEDButton>(mm2px(Vec(8.00-1.5, 22.625-1.5)), module, LFO4::NEG_MODE_PARAM));
 
 		addChild(createLightCentered<PetiteStealthLight<RedLight>>(mm2px(Vec(8.20, 38.00)), module, LFO4::A_LIGHT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 40.80)), module, LFO4::FREQA_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 49.30)), module, LFO4::SINA_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 49.30)), module, LFO4::SINA_OUTPUT));
 
 		addChild(createLightCentered<PetiteStealthLight<RedLight>>(mm2px(Vec(8.20, 60.00)), module, LFO4::B_LIGHT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 62.80)), module, LFO4::FREQB_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 71.30)), module, LFO4::SINB_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 71.30)), module, LFO4::SINB_OUTPUT));
 
 		addChild(createLightCentered<PetiteStealthLight<RedLight>>(mm2px(Vec(8.20, 82.00)), module, LFO4::C_LIGHT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 84.80)), module, LFO4::FREQC_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 93.30)), module, LFO4::SINC_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 93.30)), module, LFO4::SINC_OUTPUT));
 
 		addChild(createLightCentered<PetiteStealthLight<RedLight>>(mm2px(Vec(8.20, 104.00)), module, LFO4::D_LIGHT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 106.80)), module, LFO4::FREQD_PARAM));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 115.30)), module, LFO4::SIND_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 115.30)), module, LFO4::SIND_OUTPUT));
 	}
 
 	void appendContextMenu(Menu* menu) override {

@@ -268,24 +268,27 @@ struct Quant : Module {
 struct QuantWidget : ModuleWidget {
 	QuantWidget(Quant* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Quant.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/Quant.svg"),
+			asset::plugin(pluginInstance, "res/Quant-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(14.45, 23.0)), module, Quant::SCALE_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(14.45, 23.0)), module, Quant::SCALE_INPUT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(14.45, 38.0)), module, Quant::ROOT_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(14.45, 38.0)), module, Quant::ROOT_INPUT));
 
 		addParam(createParam<CKSSThree>(mm2px(Vec(12.20, 49.0)), module, Quant::ROUNDING_PARAM));
 
 		addParam(createParam<CKSS>(mm2px(Vec(12.10, 67.0)), module, Quant::EQUI_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(14.45, 85.0)), module, Quant::CV_IN_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(14.45, 85.0)), module, Quant::CV_IN_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(14.45, 100.0)), module, Quant::CV_OUT_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(14.45, 100.0)), module, Quant::CV_OUT_OUTPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(14.45, 115.0)), module, Quant::TRIGGER_OUTPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(14.45, 115.0)), module, Quant::TRIGGER_OUTPUT));
 
 		addParam(createParam<WhiteButton>(mm2px(Vec(1.58, 25.0)), module, Quant::NOTE11_PARAM));
 		addParam(createParam<BlackButton>(mm2px(Vec(1.58, 33.0)), module, Quant::NOTE10_PARAM));

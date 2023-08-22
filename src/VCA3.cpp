@@ -148,25 +148,28 @@ struct VCA3 : Module {
 struct VCA3Widget : ModuleWidget {
 	VCA3Widget(VCA3* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/VCA3.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/VCA3.svg"),
+			asset::plugin(pluginInstance, "res/VCA3-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(0, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 17.50)), module, VCA3::INA_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 26.25)), module, VCA3::OUTA_OUTPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 35.00)), module, VCA3::CVA_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 17.50)), module, VCA3::INA_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 26.25)), module, VCA3::OUTA_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 35.00)), module, VCA3::CVA_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 42.50)), module, VCA3::GAINA_PARAM));
 
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 54.50)), module, VCA3::INB_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 63.25)), module, VCA3::OUTB_OUTPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 72.00)), module, VCA3::CVB_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 54.50)), module, VCA3::INB_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 63.25)), module, VCA3::OUTB_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 72.00)), module, VCA3::CVB_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 79.50)), module, VCA3::GAINB_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 91.50)), module, VCA3::INC_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 100.25)), module, VCA3::OUTC_OUTPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 109.00)), module, VCA3::CVC_INPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 91.50)), module, VCA3::INC_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 100.25)), module, VCA3::OUTC_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 109.00)), module, VCA3::CVC_INPUT));
 		addParam(createParamCentered<Trimpot>(mm2px(Vec(5.08, 116.50)), module, VCA3::GAINC_PARAM));
 	}
 };

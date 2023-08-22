@@ -174,25 +174,28 @@ struct VarSampleDelays : Module {
 struct VarSampleDelaysWidget : ModuleWidget {
 	VarSampleDelaysWidget(VarSampleDelays* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/VarSampleDelays.svg")));
+		setPanel(createPanel(
+			asset::plugin(pluginInstance, "res/VarSampleDelays.svg"),
+			asset::plugin(pluginInstance, "res/VarSampleDelays-dark.svg")
+		));
 
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 15.75)), module, VarSampleDelays::A_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 24.875)), module, VarSampleDelays::A_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 15.75)), module, VarSampleDelays::A_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 24.875)), module, VarSampleDelays::A_OUTPUT));
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 33.0)), module, VarSampleDelays::A_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 43.5)), module, VarSampleDelays::B_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 52.625)), module, VarSampleDelays::B_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 43.5)), module, VarSampleDelays::B_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 52.625)), module, VarSampleDelays::B_OUTPUT));
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 60.75)), module, VarSampleDelays::B_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 71.25)), module, VarSampleDelays::C_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 80.375)), module, VarSampleDelays::C_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 71.25)), module, VarSampleDelays::C_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 80.375)), module, VarSampleDelays::C_OUTPUT));
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 88.5)), module, VarSampleDelays::C_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.08, 99.0)), module, VarSampleDelays::D_INPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(5.08, 108.125)), module, VarSampleDelays::D_OUTPUT));
+		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 99.0)), module, VarSampleDelays::D_INPUT));
+		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(5.08, 108.125)), module, VarSampleDelays::D_OUTPUT));
 		addParam(createParamCentered<RoundTinyRotarySwitch>(mm2px(Vec(5.08, 116.25)), module, VarSampleDelays::D_PARAM));
 	}
 };

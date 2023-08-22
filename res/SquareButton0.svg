@@ -7,7 +7,7 @@
   </linearGradient>
   <linearGradient id="linearGradient4223" x1="5.1137" x2="5.108" y1="-3.7637" y2="-1.1139" gradientTransform="matrix(.71429 0 0 1.5625 -1.2026 5.8308)" gradientUnits="userSpaceOnUse">
    <stop id="stop4217" stop-color="#999" offset="0"/>
-   <stop id="stop4219" stop-color="#252525" offset="1"/>
+   <stop id="stop4219" stop-color="#333" offset="1"/>
   </linearGradient>
  </defs>
  <metadata id="metadata5">
